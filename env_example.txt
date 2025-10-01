@@ -1,0 +1,13 @@
+# Database Configuration
+DB_USER=your_database_username
+DB_PASS=your_database_password
+DB_HOST=your_database_host
+DB_PORT=3306
+DB_NAME=your_database_name
+
+# Dashboard Configuration
+DASHBOARD_PORT=8501
+DASHBOARD_HOST=0.0.0.0
+
+# Bot Configuration
+BOT_USER_IDS=10111491,10211493,10411491,10711491,11011491

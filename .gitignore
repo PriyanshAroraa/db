@@ -1,0 +1,30 @@
+# Environment files
+.env
+env.txt
+
+# Generated data files
+bot_data.json
+last_updated.txt
+backup_bot_data_*.json
+
+# Generated reports
+bot_performance_report_*.txt
+report_results.txt
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
