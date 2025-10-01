@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Performance Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        /* Streamlit-like styling */
+        .main {
+            padding: 1rem 1rem 10rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stApp {
+            background-color: white;
+        }
+        
+        .stContainer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .stHeader {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem 0;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-radius: 0.5rem;
+        }
+        
+        .stHeader h1 {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: 600;
+        }
+        
+        .stHeader p {
+            margin: 0.5rem 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .stMetric {
+            background-color: white;
+            border: 1px solid #e6e9ef;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        
+        .stMetric > div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stMetric > div > div:first-child {
+            color: #262730;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stMetric > div > div:last-child {
+            color: #262730;
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stMetric > div > div:last-child + div {
+            color: #808495;
+            font-size: 0.875rem;
+        }
+        
+        .stColumns {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stColumn {
+            flex: 1;
+        }
+        
+        .stPlotlyChart {
+            background-color: white;
+            border: 1px solid #e6e9ef;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stSubheader {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #262730;
+            margin-bottom: 1rem;
+        }
+        
+        .stDataFrame {
+            background-color: white;
+            border: 1px solid #e6e9ef;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stDataFrame table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .stDataFrame th {
+            background-color: #f8f9fa;
+            color: #262730;
+            font-weight: 600;
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e6e9ef;
+        }
+        
+        .stDataFrame td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #f0f2f6;
+            color: #262730;
+        }
+        
+        .stDataFrame tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .stSuccess {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .stError {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .stInfo {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid #bee5eb;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #808495;
+        }
+        
+        .stSidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: #f0f2f6;
+            padding: 1rem;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        .stSidebar .stSelectbox {
+            margin-bottom: 1rem;
+        }
+        
+        .stSidebar label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #262730;
+            font-weight: 600;
+        }
+        
+        .stSidebar select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #e6e9ef;
+            border-radius: 0.25rem;
+            background-color: white;
+        }
+        
+        .stButton {
+            background-color: #ff4b4b;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        
+        .stButton:hover {
+            background-color: #ff3333;
+        }
+        
+        .main.with-sidebar {
+            margin-left: 320px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .stSidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+            
+            .main.with-sidebar {
+                margin-left: 0;
+            }
+            
+            .stColumns {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="stSidebar">
+        <h3>Dashboard Controls</h3>
+        
+        <div class="stSelectbox">
+            <label for="dataSource">Data Source</label>
+            <select id="dataSource" onchange="loadData()">
+                <option value="local">Local JSON Files</option>
+                <option value="api">Live API (if available)</option>
+            </select>
+        </div>
+        
+        <button class="stButton" onclick="loadData()">🔄 Refresh Data</button>
+        
+        <div class="stInfo">
+            <strong>Last Updated:</strong><br>
+            <span id="lastUpdated">Loading...</span>
+        </div>
+        
+        <div class="stSelectbox">
+            <label for="timeRange">Time Range</label>
+            <select id="timeRange" onchange="filterData()">
+                <option value="all">All Time</option>
+                <option value="7d">Last 7 Days</option>
+                <option value="30d">Last 30 Days</option>
+                <option value="90d">Last 90 Days</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main with-sidebar">
+        <div class="stContainer">
+            <!-- Header -->
+            <div class="stHeader">
+                <h1>🤖 Bot Performance Dashboard</h1>
+                <p>Real-time trading bot analytics and performance metrics</p>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading" class="loading">
+                <div class="stSubheader">Loading dashboard data...</div>
+                <p>Fetching latest performance metrics...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error" class="stError hidden">
+                <div class="stSubheader">Error Loading Data</div>
+                <p id="errorMessage"></p>
+                <button class="stButton" onclick="loadData()">🔄 Retry</button>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div id="dashboard" class="hidden">
+                <!-- Success Message -->
+                <div class="stSuccess">
+                    ✅ Dashboard loaded successfully! Data source: <span id="dataSourceInfo">Local JSON</span>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="stSubheader">📊 Key Performance Metrics</div>
+                <div class="stColumns">
+                    <div class="stColumn">
+                        <div class="stMetric">
+                            <div>
+                                <div>Total Net P&L</div>
+                                <div id="totalPnl">0.00</div>
+                                <div>IGGT</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stColumn">
+                        <div class="stMetric">
+                            <div>
+                                <div>Reserve Balance</div>
+                                <div id="reserveBalance">0.00</div>
+                                <div>IGGT</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stColumn">
+                        <div class="stMetric">
+                            <div>
+                                <div>In-Play Balance</div>
+                                <div id="inPlayBalance">0.00</div>
+                                <div>IGGT</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stColumn">
+                        <div class="stMetric">
+                            <div>
+                                <div>Total Races</div>
+                                <div id="totalRaces">0</div>
+                                <div>races</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Individual Bot Performance -->
+                <div class="stSubheader">🤖 Individual Bot Performance</div>
+                <div id="botTable" class="stDataFrame">
+                    <!-- Bot table will be populated here -->
+                </div>
+
+                <!-- Daily P&L Chart -->
+                <div class="stSubheader">📈 Daily P&L Trend</div>
+                <div class="stPlotlyChart">
+                    <div id="dailyChart"></div>
+                </div>
+
+                <!-- Weekly P&L Chart -->
+                <div class="stSubheader">📊 Weekly P&L Summary</div>
+                <div class="stPlotlyChart">
+                    <div id="weeklyChart"></div>
+                </div>
+
+                <!-- Raw Data Tables -->
+                <div class="stSubheader">📋 Raw Data</div>
+                <div class="stColumns">
+                    <div class="stColumn">
+                        <div class="stSubheader">Daily P&L Data</div>
+                        <div id="dailyTable" class="stDataFrame">
+                            <!-- Daily table will be populated here -->
+                        </div>
+                    </div>
+                    <div class="stColumn">
+                        <div class="stSubheader">Weekly P&L Data</div>
+                        <div id="weeklyTable" class="stDataFrame">
+                            <!-- Weekly table will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentData = null;
+        let filteredData = null;
+
+        // Load data from local JSON files or API
+        async function loadData() {
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const dashboard = document.getElementById('dashboard');
+            const dataSource = document.getElementById('dataSource').value;
+            
+            loading.classList.remove('hidden');
+            error.classList.add('hidden');
+            dashboard.classList.add('hidden');
+
+            try {
+                let data;
+                
+                if (dataSource === 'api') {
+                    // Try to load from API
+                    const response = await fetch('/api/dashboard');
+                    if (response.ok) {
+                        data = await response.json();
+                        document.getElementById('dataSourceInfo').textContent = 'Live API';
+                    } else {
+                        throw new Error('API not available');
+                    }
+                } else {
+                    // Load from local JSON files
+                    data = await loadLocalData();
+                    document.getElementById('dataSourceInfo').textContent = 'Local JSON Files';
+                }
+                
+                currentData = data;
+                filteredData = data;
+                displayDashboard(data);
+                
+                // Update last updated time
+                document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+                
+            } catch (err) {
+                console.error('Error:', err);
+                document.getElementById('errorMessage').textContent = err.message;
+                loading.classList.add('hidden');
+                error.classList.remove('hidden');
+            }
+        }
+
+        // Load data from local JSON files
+        async function loadLocalData() {
+            try {
+                // Try to load bot_data.json
+                const response = await fetch('bot_data.json');
+                if (response.ok) {
+                    return await response.json();
+                } else {
+                    throw new Error('bot_data.json not found');
+                }
+            } catch (err) {
+                // Fallback to sample data
+                return {
+                    Total_PnL: [
+                        { user_id: 10111491, total_pnl_IGGT: 1250.50 },
+                        { user_id: 10211493, total_pnl_IGGT: 890.25 },
+                        { user_id: 10411491, total_pnl_IGGT: 2100.75 },
+                        { user_id: 10711491, total_pnl_IGGT: 675.30 },
+                        { user_id: 11011491, total_pnl_IGGT: 1430.60 }
+                    ],
+                    Reserve_Balance: [
+                        { user_id: 10111491, reserve_balance_IGGT: 500.00 },
+                        { user_id: 10211493, reserve_balance_IGGT: 350.00 },
+                        { user_id: 10411491, reserve_balance_IGGT: 800.00 },
+                        { user_id: 10711491, reserve_balance_IGGT: 200.00 },
+                        { user_id: 11011491, reserve_balance_IGGT: 600.00 }
+                    ],
+                    In_Play_Balance: [
+                        { user_id: 10111491, in_play_balance_IGGT: 150.00 },
+                        { user_id: 10211493, in_play_balance_IGGT: 75.00 },
+                        { user_id: 10411491, in_play_balance_IGGT: 200.00 },
+                        { user_id: 10711491, in_play_balance_IGGT: 50.00 },
+                        { user_id: 11011491, in_play_balance_IGGT: 100.00 }
+                    ],
+                    Races_Entered: [
+                        { user_id: 10111491, races_entered: 1250 },
+                        { user_id: 10211493, races_entered: 890 },
+                        { user_id: 10411491, races_entered: 2100 },
+                        { user_id: 10711491, races_entered: 675 },
+                        { user_id: 11011491, races_entered: 1430 }
+                    ],
+                    Daily_PnL: [],
+                    Weekly_PnL: []
+                };
+            }
+        }
+
+        function displayDashboard(data) {
+            const loading = document.getElementById('loading');
+            const dashboard = document.getElementById('dashboard');
+            
+            loading.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+
+            // Display metrics
+            displayMetrics(data);
+            
+            // Display bot table
+            displayBotTable(data);
+            
+            // Display charts
+            displayCharts(data);
+            
+            // Display data tables
+            displayDataTables(data);
+        }
+
+        function displayMetrics(data) {
+            // Calculate totals
+            const totalPnL = data.Total_PnL?.reduce((sum, item) => sum + (item.total_pnl_IGGT || 0), 0) || 0;
+            const totalReserve = data.Reserve_Balance?.reduce((sum, item) => sum + (item.reserve_balance_IGGT || 0), 0) || 0;
+            const totalInPlay = data.In_Play_Balance?.reduce((sum, item) => sum + (item.in_play_balance_IGGT || 0), 0) || 0;
+            const totalRaces = data.Races_Entered?.reduce((sum, item) => sum + (item.races_entered || 0), 0) || 0;
+
+            document.getElementById('totalPnl').textContent = totalPnL.toFixed(2);
+            document.getElementById('reserveBalance').textContent = totalReserve.toFixed(2);
+            document.getElementById('inPlayBalance').textContent = totalInPlay.toFixed(2);
+            document.getElementById('totalRaces').textContent = totalRaces.toLocaleString();
+        }
+
+        function displayBotTable(data) {
+            const tableContainer = document.getElementById('botTable');
+            
+            // Create bot summary data
+            const botData = {};
+            
+            // Merge all bot data
+            [...(data.Total_PnL || []), ...(data.Reserve_Balance || []), ...(data.In_Play_Balance || []), ...(data.Races_Entered || [])].forEach(item => {
+                if (!botData[item.user_id]) {
+                    botData[item.user_id] = { user_id: item.user_id };
+                }
+                Object.assign(botData[item.user_id], item);
+            });
+            
+            const bots = Object.values(botData);
+            
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bot ID</th>
+                            <th>Total P&L</th>
+                            <th>Reserve Balance</th>
+                            <th>In-Play Balance</th>
+                            <th>Races Entered</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            bots.forEach(bot => {
+                tableHTML += `
+                    <tr>
+                        <td>${bot.user_id}</td>
+                        <td>${(bot.total_pnl_IGGT || 0).toFixed(2)} IGGT</td>
+                        <td>${(bot.reserve_balance_IGGT || 0).toFixed(2)} IGGT</td>
+                        <td>${(bot.in_play_balance_IGGT || 0).toFixed(2)} IGGT</td>
+                        <td>${(bot.races_entered || 0).toLocaleString()}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            tableContainer.innerHTML = tableHTML;
+        }
+
+        function displayCharts(data) {
+            // Daily P&L Chart
+            if (data.Daily_PnL && data.Daily_PnL.length > 0) {
+                const dailyData = data.Daily_PnL;
+                const traces = {};
+                
+                dailyData.forEach(item => {
+                    if (!traces[item.user_id]) {
+                        traces[item.user_id] = {
+                            x: [],
+                            y: [],
+                            name: `Bot ${item.user_id}`,
+                            type: 'scatter',
+                            mode: 'lines+markers'
+                        };
+                    }
+                    traces[item.user_id].x.push(item.date);
+                    traces[item.user_id].y.push(item.daily_pnl_IGGT);
+                });
+
+                Plotly.newPlot('dailyChart', Object.values(traces), {
+                    title: 'Daily P&L Performance by Bot',
+                    xaxis: { title: 'Date' },
+                    yaxis: { title: 'P&L (IGGT)' },
+                    margin: { t: 40, r: 40, b: 40, l: 40 }
+                });
+            } else {
+                document.getElementById('dailyChart').innerHTML = '<p>No daily data available</p>';
+            }
+
+            // Weekly P&L Chart
+            if (data.Weekly_PnL && data.Weekly_PnL.length > 0) {
+                const weeklyData = data.Weekly_PnL;
+                const traces = {};
+                
+                weeklyData.forEach(item => {
+                    if (!traces[item.user_id]) {
+                        traces[item.user_id] = {
+                            x: [],
+                            y: [],
+                            name: `Bot ${item.user_id}`,
+                            type: 'bar'
+                        };
+                    }
+                    traces[item.user_id].x.push(`Week ${item.week}`);
+                    traces[item.user_id].y.push(item.weekly_pnl_IGGT);
+                });
+
+                Plotly.newPlot('weeklyChart', Object.values(traces), {
+                    title: 'Weekly P&L Summary',
+                    xaxis: { title: 'Week' },
+                    yaxis: { title: 'P&L (IGGT)' },
+                    barmode: 'group',
+                    margin: { t: 40, r: 40, b: 40, l: 40 }
+                });
+            } else {
+                document.getElementById('weeklyChart').innerHTML = '<p>No weekly data available</p>';
+            }
+        }
+
+        function displayDataTables(data) {
+            // Daily table
+            if (data.Daily_PnL && data.Daily_PnL.length > 0) {
+                let tableHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Bot ID</th>
+                                <th>Date</th>
+                                <th>Daily P&L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                data.Daily_PnL.forEach(item => {
+                    tableHTML += `
+                        <tr>
+                            <td>${item.user_id}</td>
+                            <td>${item.date}</td>
+                            <td>${item.daily_pnl_IGGT.toFixed(2)} IGGT</td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += `
+                        </tbody>
+                    </table>
+                `;
+                
+                document.getElementById('dailyTable').innerHTML = tableHTML;
+            } else {
+                document.getElementById('dailyTable').innerHTML = '<p>No daily data available</p>';
+            }
+
+            // Weekly table
+            if (data.Weekly_PnL && data.Weekly_PnL.length > 0) {
+                let tableHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Bot ID</th>
+                                <th>Week</th>
+                                <th>Weekly P&L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                data.Weekly_PnL.forEach(item => {
+                    tableHTML += `
+                        <tr>
+                            <td>${item.user_id}</td>
+                            <td>Week ${item.week}</td>
+                            <td>${item.weekly_pnl_IGGT.toFixed(2)} IGGT</td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += `
+                        </tbody>
+                    </table>
+                `;
+                
+                document.getElementById('weeklyTable').innerHTML = tableHTML;
+            } else {
+                document.getElementById('weeklyTable').innerHTML = '<p>No weekly data available</p>';
+            }
+        }
+
+        function filterData() {
+            // This function can be expanded to filter data by time range
+            // For now, just reload the data
+            loadData();
+        }
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadData);
+        
+        // Auto-refresh every 5 minutes
+        setInterval(loadData, 5 * 60 * 1000);
+    </script>
+</body>
+</html>
