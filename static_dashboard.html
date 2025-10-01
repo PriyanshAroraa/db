@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bot Performance Dashboard</title>
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-3.1.0.min.js" charset="utf-8"></script>
     <style>
         /* Streamlit-like styling */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+        }
+        
         .main {
             padding: 1rem 1rem 10rem;
             max-width: 1200px;
@@ -46,12 +54,30 @@
         }
         
         .stMetric {
-            background-color: white;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             border: 1px solid #e6e9ef;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
             margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stMetric:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stMetric::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
         }
         
         .stMetric > div {
@@ -62,20 +88,28 @@
         
         .stMetric > div > div:first-child {
             color: #262730;
-            font-size: 0.875rem;
-            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .stMetric > div > div:last-child {
             color: #262730;
-            font-size: 2.25rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .stMetric > div > div:last-child + div {
             color: #808495;
             font-size: 0.875rem;
+            font-weight: 500;
         }
         
         .stColumns {
@@ -89,28 +123,52 @@
         }
         
         .stPlotlyChart {
-            background-color: white;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             border: 1px solid #e6e9ef;
-            border-radius: 0.5rem;
-            padding: 1rem;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stPlotlyChart:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1);
         }
         
         .stSubheader {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: #262730;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        .stSubheader::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            border-radius: 2px;
         }
         
         .stDataFrame {
-            background-color: white;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             border: 1px solid #e6e9ef;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             overflow: hidden;
             margin-bottom: 2rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stDataFrame:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1);
         }
         
         .stDataFrame table {
@@ -119,22 +177,28 @@
         }
         
         .stDataFrame th {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: #262730;
-            font-weight: 600;
-            padding: 0.75rem;
+            font-weight: 700;
+            padding: 1rem 0.75rem;
             text-align: left;
-            border-bottom: 1px solid #e6e9ef;
+            border-bottom: 2px solid #dee2e6;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
         }
         
         .stDataFrame td {
-            padding: 0.75rem;
+            padding: 1rem 0.75rem;
             border-bottom: 1px solid #f0f2f6;
             color: #262730;
+            font-weight: 500;
         }
         
         .stDataFrame tr:hover {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transform: scale(1.01);
+            transition: all 0.2s ease;
         }
         
         .stSuccess {
@@ -317,16 +381,6 @@
 
             <!-- Dashboard Content -->
             <div id="dashboardContent" class="hidden">
-                <!-- Success Message -->
-                <div class="stSuccess">
-                    ✅ Dashboard loaded successfully! Data source: <span id="dataSourceInfo">Local JSON</span>
-                </div>
-                
-                <!-- Debug Info -->
-                <div class="stInfo">
-                    <strong>Debug Info:</strong><br>
-                    <span id="debugInfo">Loading...</span>
-                </div>
 
                 <!-- Key Metrics -->
                 <div class="stSubheader">📊 Key Performance Metrics</div>
@@ -401,6 +455,17 @@
                         <div id="weeklyTable" class="stDataFrame">
                             <!-- Weekly table will be populated here -->
                         </div>
+                    </div>
+                </div>
+
+                <!-- Export Section -->
+                <div class="stSubheader">📥 Export Data</div>
+                <div class="stColumns">
+                    <div class="stColumn">
+                        <button class="stButton" onclick="exportData('csv')">📊 Download CSV Report</button>
+                    </div>
+                    <div class="stColumn">
+                        <button class="stButton" onclick="exportData('json')">📄 Download JSON Data</button>
                     </div>
                 </div>
             </div>
@@ -607,15 +672,6 @@
             loading.classList.add('hidden');
             dashboardContent.classList.remove('hidden');
 
-            // Show debug info
-            const debugInfo = document.getElementById('debugInfo');
-            debugInfo.innerHTML = `
-                Data loaded: ${data ? 'Yes' : 'No'}<br>
-                Total P&L records: ${data?.Total_PnL?.length || 0}<br>
-                Daily P&L records: ${data?.Daily_PnL?.length || 0}<br>
-                Weekly P&L records: ${data?.Weekly_PnL?.length || 0}<br>
-                Authentication: ${isAuthenticated ? 'Yes' : 'No'}
-            `;
 
             console.log('About to display metrics...');
             // Display metrics
@@ -720,10 +776,24 @@
                 });
 
                 Plotly.newPlot('dailyChart', Object.values(traces), {
-                    title: 'Daily P&L Performance by Bot',
-                    xaxis: { title: 'Date' },
-                    yaxis: { title: 'P&L (IGGT)' },
-                    margin: { t: 40, r: 40, b: 40, l: 40 }
+                    title: {
+                        text: 'Daily P&L Performance by Bot',
+                        font: { size: 18, color: '#262730' }
+                    },
+                    xaxis: { 
+                        title: { text: 'Date', font: { size: 14, color: '#262730' } },
+                        gridcolor: '#f0f2f6',
+                        showgrid: true
+                    },
+                    yaxis: { 
+                        title: { text: 'P&L (IGGT)', font: { size: 14, color: '#262730' } },
+                        gridcolor: '#f0f2f6',
+                        showgrid: true
+                    },
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    margin: { t: 60, r: 40, b: 60, l: 60 },
+                    font: { family: 'Inter, sans-serif', color: '#262730' }
                 });
             } else {
                 document.getElementById('dailyChart').innerHTML = '<p>No daily data available</p>';
@@ -748,11 +818,25 @@
                 });
 
                 Plotly.newPlot('weeklyChart', Object.values(traces), {
-                    title: 'Weekly P&L Summary',
-                    xaxis: { title: 'Week' },
-                    yaxis: { title: 'P&L (IGGT)' },
+                    title: {
+                        text: 'Weekly P&L Summary',
+                        font: { size: 18, color: '#262730' }
+                    },
+                    xaxis: { 
+                        title: { text: 'Week', font: { size: 14, color: '#262730' } },
+                        gridcolor: '#f0f2f6',
+                        showgrid: true
+                    },
+                    yaxis: { 
+                        title: { text: 'P&L (IGGT)', font: { size: 14, color: '#262730' } },
+                        gridcolor: '#f0f2f6',
+                        showgrid: true
+                    },
                     barmode: 'group',
-                    margin: { t: 40, r: 40, b: 40, l: 40 }
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    margin: { t: 60, r: 40, b: 60, l: 60 },
+                    font: { family: 'Inter, sans-serif', color: '#262730' }
                 });
             } else {
                 document.getElementById('weeklyChart').innerHTML = '<p>No weekly data available</p>';
@@ -833,6 +917,49 @@
             // This function can be expanded to filter data by time range
             // For now, just reload the data
             loadData();
+        }
+
+        function exportData(format) {
+            if (!currentData) {
+                alert('No data available to export');
+                return;
+            }
+
+            const timestamp = new Date().toISOString().split('T')[0].replace(/-/g, '');
+            
+            if (format === 'csv') {
+                // Create CSV from bot summary data
+                let csvContent = 'Bot ID,Total P&L,Reserve Balance,In-Play Balance,Races Entered\n';
+                
+                const botData = {};
+                [...(currentData.Total_PnL || []), ...(currentData.Reserve_Balance || []), ...(currentData.In_Play_Balance || []), ...(currentData.Races_Entered || [])].forEach(item => {
+                    if (!botData[item.user_id]) {
+                        botData[item.user_id] = { user_id: item.user_id };
+                    }
+                    Object.assign(botData[item.user_id], item);
+                });
+                
+                Object.values(botData).forEach(bot => {
+                    csvContent += `${bot.user_id},${bot.total_pnl_IGGT || 0},${bot.reserve_balance_IGGT || 0},${bot.in_play_balance_IGGT || 0},${bot.races_entered || 0}\n`;
+                });
+                
+                downloadFile(csvContent, `bot_performance_${timestamp}.csv`, 'text/csv');
+            } else if (format === 'json') {
+                const jsonContent = JSON.stringify(currentData, null, 2);
+                downloadFile(jsonContent, `bot_data_${timestamp}.json`, 'application/json');
+            }
+        }
+
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         // Check authentication when page loads
