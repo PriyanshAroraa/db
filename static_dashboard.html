@@ -780,16 +780,16 @@
                     <tbody>
             `;
             
-            // Calculate P&L per race for efficiency
+            // Calculate performance rating based on Total P&L (matching Streamlit logic)
             bots.forEach(bot => {
-                const pnlPerRace = bot.races_entered > 0 ? (bot.total_pnl_IGGT || 0) / bot.races_entered : 0;
+                const totalPnl = bot.total_pnl_IGGT || 0;
                 let rating = '';
                 let ratingClass = '';
                 
-                if (pnlPerRace > 25) {
+                if (totalPnl > 3000) {
                     rating = '🟢 Excellent';
                     ratingClass = 'color: #28a745;';
-                } else if (pnlPerRace > 15) {
+                } else if (totalPnl > 2000) {
                     rating = '🟡 Good';
                     ratingClass = 'color: #ffc107;';
                 } else {
@@ -977,8 +977,8 @@
             if (metricsContainer) {
                 let metricsHTML = '';
                 efficiencyData.forEach(bot => {
-                    const rating = bot.pnlPerRace > 25 ? '🟢 Excellent' : 
-                                  bot.pnlPerRace > 15 ? '🟡 Good' : '🔴 Needs Attention';
+                    const rating = bot.pnl > 3000 ? '🟢 Excellent' : 
+                                  bot.pnl > 2000 ? '🟡 Good' : '🔴 Needs Attention';
                     metricsHTML += `
                         <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.1); border-radius: 0.25rem;">
                             <strong>${bot.name}:</strong> ${bot.pnlPerRace.toFixed(2)} IGGT/race<br>
