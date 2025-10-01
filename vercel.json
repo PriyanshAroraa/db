@@ -4,9 +4,17 @@
     {
       "src": "static_dashboard.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "bot_data.json",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/bot_data.json",
+      "dest": "/bot_data.json"
+    },
     {
       "src": "/",
       "dest": "/static_dashboard.html"
