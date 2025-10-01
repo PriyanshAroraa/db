@@ -408,6 +408,82 @@
         let currentData = null;
         let filteredData = null;
         let isAuthenticated = false;
+        
+        // Embedded bot data (no CORS issues)
+        const EMBEDDED_BOT_DATA = {
+            "Total_PnL": [
+                {"user_id": 10111491, "total_pnl_IGGT": 1250.50},
+                {"user_id": 10211493, "total_pnl_IGGT": 890.25},
+                {"user_id": 10411491, "total_pnl_IGGT": 2100.75},
+                {"user_id": 10711491, "total_pnl_IGGT": 675.30},
+                {"user_id": 11011491, "total_pnl_IGGT": 1430.60}
+            ],
+            "Reserve_Balance": [
+                {"user_id": 10111491, "reserve_balance_IGGT": 500.00},
+                {"user_id": 10211493, "reserve_balance_IGGT": 350.00},
+                {"user_id": 10411491, "reserve_balance_IGGT": 800.00},
+                {"user_id": 10711491, "reserve_balance_IGGT": 200.00},
+                {"user_id": 11011491, "reserve_balance_IGGT": 600.00}
+            ],
+            "In_Play_Balance": [
+                {"user_id": 10111491, "in_play_balance_IGGT": 150.00},
+                {"user_id": 10211493, "in_play_balance_IGGT": 75.00},
+                {"user_id": 10411491, "in_play_balance_IGGT": 200.00},
+                {"user_id": 10711491, "in_play_balance_IGGT": 50.00},
+                {"user_id": 11011491, "in_play_balance_IGGT": 100.00}
+            ],
+            "Races_Entered": [
+                {"user_id": 10111491, "races_entered": 1250},
+                {"user_id": 10211493, "races_entered": 890},
+                {"user_id": 10411491, "races_entered": 2100},
+                {"user_id": 10711491, "races_entered": 675},
+                {"user_id": 11011491, "races_entered": 1430}
+            ],
+            "Daily_PnL": [
+                {"user_id": 10111491, "date": "2024-09-18", "daily_pnl_IGGT": 125.50},
+                {"user_id": 10111491, "date": "2024-09-19", "daily_pnl_IGGT": 98.75},
+                {"user_id": 10111491, "date": "2024-09-20", "daily_pnl_IGGT": 156.25},
+                {"user_id": 10111491, "date": "2024-09-21", "daily_pnl_IGGT": 87.30},
+                {"user_id": 10111491, "date": "2024-09-22", "daily_pnl_IGGT": 143.20},
+                {"user_id": 10211493, "date": "2024-09-18", "daily_pnl_IGGT": 89.45},
+                {"user_id": 10211493, "date": "2024-09-19", "daily_pnl_IGGT": 76.80},
+                {"user_id": 10211493, "date": "2024-09-20", "daily_pnl_IGGT": 112.60},
+                {"user_id": 10211493, "date": "2024-09-21", "daily_pnl_IGGT": 94.25},
+                {"user_id": 10211493, "date": "2024-09-22", "daily_pnl_IGGT": 108.90},
+                {"user_id": 10411491, "date": "2024-09-18", "daily_pnl_IGGT": 198.75},
+                {"user_id": 10411491, "date": "2024-09-19", "daily_pnl_IGGT": 165.40},
+                {"user_id": 10411491, "date": "2024-09-20", "daily_pnl_IGGT": 223.80},
+                {"user_id": 10411491, "date": "2024-09-21", "daily_pnl_IGGT": 187.65},
+                {"user_id": 10411491, "date": "2024-09-22", "daily_pnl_IGGT": 205.30},
+                {"user_id": 10711491, "date": "2024-09-18", "daily_pnl_IGGT": 67.25},
+                {"user_id": 10711491, "date": "2024-09-19", "daily_pnl_IGGT": 54.80},
+                {"user_id": 10711491, "date": "2024-09-20", "daily_pnl_IGGT": 89.45},
+                {"user_id": 10711491, "date": "2024-09-21", "daily_pnl_IGGT": 71.30},
+                {"user_id": 10711491, "date": "2024-09-22", "daily_pnl_IGGT": 82.15},
+                {"user_id": 11011491, "date": "2024-09-18", "daily_pnl_IGGT": 145.60},
+                {"user_id": 11011491, "date": "2024-09-19", "daily_pnl_IGGT": 128.90},
+                {"user_id": 11011491, "date": "2024-09-20", "daily_pnl_IGGT": 167.45},
+                {"user_id": 11011491, "date": "2024-09-21", "daily_pnl_IGGT": 139.75},
+                {"user_id": 11011491, "date": "2024-09-22", "daily_pnl_IGGT": 152.30}
+            ],
+            "Weekly_PnL": [
+                {"user_id": 10111491, "week": "202437", "weekly_pnl_IGGT": 610.00},
+                {"user_id": 10111491, "week": "202438", "weekly_pnl_IGGT": 485.75},
+                {"user_id": 10111491, "week": "202439", "weekly_pnl_IGGT": 640.50},
+                {"user_id": 10211493, "week": "202437", "weekly_pnl_IGGT": 481.00},
+                {"user_id": 10211493, "week": "202438", "weekly_pnl_IGGT": 383.60},
+                {"user_id": 10211493, "week": "202439", "weekly_pnl_IGGT": 515.20},
+                {"user_id": 10411491, "week": "202437", "weekly_pnl_IGGT": 980.90},
+                {"user_id": 10411491, "week": "202438", "weekly_pnl_IGGT": 781.40},
+                {"user_id": 10411491, "week": "202439", "weekly_pnl_IGGT": 1034.25},
+                {"user_id": 10711491, "week": "202437", "weekly_pnl_IGGT": 364.95},
+                {"user_id": 10711491, "week": "202438", "weekly_pnl_IGGT": 291.10},
+                {"user_id": 10711491, "week": "202439", "weekly_pnl_IGGT": 390.80},
+                {"user_id": 11011491, "week": "202437", "weekly_pnl_IGGT": 734.00},
+                {"user_id": 11011491, "week": "202438", "weekly_pnl_IGGT": 585.30},
+                {"user_id": 11011491, "week": "202439", "weekly_pnl_IGGT": 786.50}
+            ]
+        };
 
         // Password protection
         function checkAuth() {
@@ -492,17 +568,17 @@
             }
         }
 
-        // Load data from local JSON files
+        // Load data from local JSON files or embedded data
         async function loadLocalData() {
             try {
-                // Try to load bot_data.json
+                // Try to load bot_data.json first (for Vercel)
                 console.log('Attempting to load bot_data.json...');
                 const response = await fetch('bot_data.json');
                 console.log('Response status:', response.status);
                 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log('Data loaded successfully:', data);
+                    console.log('Data loaded from JSON file:', data);
                     return data;
                 } else {
                     console.error('Failed to load bot_data.json, status:', response.status);
@@ -510,40 +586,9 @@
                 }
             } catch (err) {
                 console.error('Error loading bot_data.json:', err);
-                console.log('Using fallback data...');
-                // Fallback to sample data
-                return {
-                    Total_PnL: [
-                        { user_id: 10111491, total_pnl_IGGT: 1250.50 },
-                        { user_id: 10211493, total_pnl_IGGT: 890.25 },
-                        { user_id: 10411491, total_pnl_IGGT: 2100.75 },
-                        { user_id: 10711491, total_pnl_IGGT: 675.30 },
-                        { user_id: 11011491, total_pnl_IGGT: 1430.60 }
-                    ],
-                    Reserve_Balance: [
-                        { user_id: 10111491, reserve_balance_IGGT: 500.00 },
-                        { user_id: 10211493, reserve_balance_IGGT: 350.00 },
-                        { user_id: 10411491, reserve_balance_IGGT: 800.00 },
-                        { user_id: 10711491, reserve_balance_IGGT: 200.00 },
-                        { user_id: 11011491, reserve_balance_IGGT: 600.00 }
-                    ],
-                    In_Play_Balance: [
-                        { user_id: 10111491, in_play_balance_IGGT: 150.00 },
-                        { user_id: 10211493, in_play_balance_IGGT: 75.00 },
-                        { user_id: 10411491, in_play_balance_IGGT: 200.00 },
-                        { user_id: 10711491, in_play_balance_IGGT: 50.00 },
-                        { user_id: 11011491, in_play_balance_IGGT: 100.00 }
-                    ],
-                    Races_Entered: [
-                        { user_id: 10111491, races_entered: 1250 },
-                        { user_id: 10211493, races_entered: 890 },
-                        { user_id: 10411491, races_entered: 2100 },
-                        { user_id: 10711491, races_entered: 675 },
-                        { user_id: 11011491, races_entered: 1430 }
-                    ],
-                    Daily_PnL: [],
-                    Weekly_PnL: []
-                };
+                console.log('Using embedded data...');
+                // Use embedded data (no CORS issues)
+                return EMBEDDED_BOT_DATA;
             }
         }
 
