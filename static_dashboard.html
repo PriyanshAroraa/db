@@ -611,14 +611,12 @@
                     const response = await fetch('/api/dashboard');
                     if (response.ok) {
                         data = await response.json();
-                        document.getElementById('dataSourceInfo').textContent = 'Live API';
                     } else {
                         throw new Error('API not available');
                     }
                 } else {
                     // Load from local JSON files
                     data = await loadLocalData();
-                    document.getElementById('dataSourceInfo').textContent = 'Local JSON Files';
                 }
                 
                 currentData = data;
@@ -699,14 +697,21 @@
             const totalInPlay = data.In_Play_Balance?.reduce((sum, item) => sum + (item.in_play_balance_IGGT || 0), 0) || 0;
             const totalRaces = data.Races_Entered?.reduce((sum, item) => sum + (item.races_entered || 0), 0) || 0;
 
-            document.getElementById('totalPnl').textContent = totalPnL.toFixed(2);
-            document.getElementById('reserveBalance').textContent = totalReserve.toFixed(2);
-            document.getElementById('inPlayBalance').textContent = totalInPlay.toFixed(2);
-            document.getElementById('totalRaces').textContent = totalRaces.toLocaleString();
+            // Safely update elements if they exist
+            const totalPnlEl = document.getElementById('totalPnl');
+            const reserveBalanceEl = document.getElementById('reserveBalance');
+            const inPlayBalanceEl = document.getElementById('inPlayBalance');
+            const totalRacesEl = document.getElementById('totalRaces');
+
+            if (totalPnlEl) totalPnlEl.textContent = totalPnL.toFixed(2);
+            if (reserveBalanceEl) reserveBalanceEl.textContent = totalReserve.toFixed(2);
+            if (inPlayBalanceEl) inPlayBalanceEl.textContent = totalInPlay.toFixed(2);
+            if (totalRacesEl) totalRacesEl.textContent = totalRaces.toLocaleString();
         }
 
         function displayBotTable(data) {
             const tableContainer = document.getElementById('botTable');
+            if (!tableContainer) return;
             
             // Create bot summary data
             const botData = {};
