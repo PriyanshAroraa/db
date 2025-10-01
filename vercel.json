@@ -2,30 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/dashboard.py",
-      "use": "@vercel/python"
-    },
-    {
       "src": "static_dashboard.html",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
       "src": "/",
       "dest": "/static_dashboard.html"
     }
-  ],
-  "env": {
-    "DB_USER": "customer_services",
-    "DB_PASS": "BbZ3mlu^lm*rNX>3",
-    "DB_HOST": "mysql-analytics-warehouse.cqiyzuvvkkfc.us-east-1.rds.amazonaws.com",
-    "DB_PORT": "3306",
-    "DB_NAME": "analytics_db",
-    "BOT_USER_IDS": "10111491,10211493,10411491,10711491,11011491"
-  }
+  ]
 }
