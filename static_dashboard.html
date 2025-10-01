@@ -441,6 +441,24 @@
                     <div id="weeklyChart"></div>
                 </div>
 
+                <!-- Performance Efficiency Analysis -->
+                <div class="stSubheader">📈 Performance Efficiency</div>
+                <div class="stColumns">
+                    <div class="stColumn">
+                        <div class="stPlotlyChart">
+                            <div id="efficiencyChart"></div>
+                        </div>
+                    </div>
+                    <div class="stColumn">
+                        <div class="stInfo" style="margin-top: 1rem;">
+                            <h4 style="margin-top: 0;">Efficiency Metrics</h4>
+                            <div id="efficiencyMetrics">
+                                <!-- Efficiency metrics will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Raw Data Tables -->
                 <div class="stSubheader">📋 Raw Data</div>
                 <div class="stColumns">
@@ -683,6 +701,10 @@
             // Display charts
             displayCharts(data);
             
+            console.log('About to display efficiency analysis...');
+            // Display efficiency analysis
+            displayEfficiencyAnalysis(data);
+            
             console.log('About to display data tables...');
             // Display data tables
             displayDataTables(data);
@@ -696,6 +718,13 @@
             const totalReserve = data.Reserve_Balance?.reduce((sum, item) => sum + (item.reserve_balance_IGGT || 0), 0) || 0;
             const totalInPlay = data.In_Play_Balance?.reduce((sum, item) => sum + (item.in_play_balance_IGGT || 0), 0) || 0;
             const totalRaces = data.Races_Entered?.reduce((sum, item) => sum + (item.races_entered || 0), 0) || 0;
+            
+            // Calculate averages
+            const botCount = data.Total_PnL?.length || 1;
+            const avgPnL = totalPnL / botCount;
+            const avgReserve = totalReserve / botCount;
+            const avgInPlay = totalInPlay / botCount;
+            const avgRaces = totalRaces / botCount;
 
             // Safely update elements if they exist
             const totalPnlEl = document.getElementById('totalPnl');
@@ -703,10 +732,10 @@
             const inPlayBalanceEl = document.getElementById('inPlayBalance');
             const totalRacesEl = document.getElementById('totalRaces');
 
-            if (totalPnlEl) totalPnlEl.textContent = totalPnL.toFixed(2);
-            if (reserveBalanceEl) reserveBalanceEl.textContent = totalReserve.toFixed(2);
-            if (inPlayBalanceEl) inPlayBalanceEl.textContent = totalInPlay.toFixed(2);
-            if (totalRacesEl) totalRacesEl.textContent = totalRaces.toLocaleString();
+            if (totalPnlEl) totalPnlEl.innerHTML = `${totalPnL.toLocaleString()} <small style="color: #808495; font-size: 0.7em;">↑ ${avgPnL.toLocaleString()} avg</small>`;
+            if (reserveBalanceEl) reserveBalanceEl.innerHTML = `${totalReserve.toLocaleString()} <small style="color: #808495; font-size: 0.7em;">↑ ${avgReserve.toLocaleString()} avg</small>`;
+            if (inPlayBalanceEl) inPlayBalanceEl.innerHTML = `${totalInPlay.toLocaleString()} <small style="color: #808495; font-size: 0.7em;">↑ ${avgInPlay.toLocaleString()} avg</small>`;
+            if (totalRacesEl) totalRacesEl.innerHTML = `${totalRaces.toLocaleString()} <small style="color: #808495; font-size: 0.7em;">↑ ${avgRaces.toLocaleString()} avg per bot</small>`;
         }
 
         function displayBotTable(data) {
@@ -726,28 +755,57 @@
             
             const bots = Object.values(botData);
             
+            // Bot names mapping
+            const botNames = {
+                10111491: "Alba",
+                10211493: "Eirean", 
+                10411491: "Kernow",
+                10711491: "Cymru",
+                11011491: "Albion"
+            };
+
             let tableHTML = `
                 <table>
                     <thead>
                         <tr>
-                            <th>Bot ID</th>
-                            <th>Total P&L</th>
-                            <th>Reserve Balance</th>
-                            <th>In-Play Balance</th>
-                            <th>Races Entered</th>
+                            <th>Bot Name</th>
+                            <th>User ID</th>
+                            <th>Total P&L (IGGT)</th>
+                            <th>Reserve Balance (IGGT)</th>
+                            <th>In-Play Balance (IGGT)</th>
+                            <th>Total Races</th>
+                            <th>Performance Rating</th>
                         </tr>
                     </thead>
                     <tbody>
             `;
             
+            // Calculate P&L per race for efficiency
             bots.forEach(bot => {
+                const pnlPerRace = bot.races_entered > 0 ? (bot.total_pnl_IGGT || 0) / bot.races_entered : 0;
+                let rating = '';
+                let ratingClass = '';
+                
+                if (pnlPerRace > 25) {
+                    rating = '🟢 Excellent';
+                    ratingClass = 'color: #28a745;';
+                } else if (pnlPerRace > 15) {
+                    rating = '🟡 Good';
+                    ratingClass = 'color: #ffc107;';
+                } else {
+                    rating = '🔴 Needs Attention';
+                    ratingClass = 'color: #dc3545;';
+                }
+                
                 tableHTML += `
                     <tr>
-                        <td>${bot.user_id}</td>
-                        <td>${(bot.total_pnl_IGGT || 0).toFixed(2)} IGGT</td>
-                        <td>${(bot.reserve_balance_IGGT || 0).toFixed(2)} IGGT</td>
-                        <td>${(bot.in_play_balance_IGGT || 0).toFixed(2)} IGGT</td>
+                        <td><strong>${botNames[bot.user_id] || 'Unknown'}</strong></td>
+                        <td>${bot.user_id.toLocaleString()}</td>
+                        <td>${(bot.total_pnl_IGGT || 0).toLocaleString()}</td>
+                        <td>${(bot.reserve_balance_IGGT || 0).toLocaleString()}</td>
+                        <td>${(bot.in_play_balance_IGGT || 0).toLocaleString()}</td>
                         <td>${(bot.races_entered || 0).toLocaleString()}</td>
+                        <td style="${ratingClass}"><strong>${rating}</strong></td>
                     </tr>
                 `;
             });
@@ -845,6 +903,90 @@
                 });
             } else {
                 document.getElementById('weeklyChart').innerHTML = '<p>No weekly data available</p>';
+            }
+        }
+
+        function displayEfficiencyAnalysis(data) {
+            // Bot names mapping
+            const botNames = {
+                10111491: "Alba",
+                10211493: "Eirean", 
+                10411491: "Kernow",
+                10711491: "Cymru",
+                11011491: "Albion"
+            };
+
+            // Create efficiency data
+            const botData = {};
+            [...(data.Total_PnL || []), ...(data.Races_Entered || [])].forEach(item => {
+                if (!botData[item.user_id]) {
+                    botData[item.user_id] = { user_id: item.user_id };
+                }
+                Object.assign(botData[item.user_id], item);
+            });
+
+            const efficiencyData = Object.values(botData).map(bot => ({
+                name: botNames[bot.user_id] || 'Unknown',
+                races: bot.races_entered || 0,
+                pnl: bot.total_pnl_IGGT || 0,
+                pnlPerRace: bot.races_entered > 0 ? (bot.total_pnl_IGGT || 0) / bot.races_entered : 0
+            }));
+
+            // Create bubble chart
+            const trace = {
+                x: efficiencyData.map(d => d.races),
+                y: efficiencyData.map(d => d.pnl),
+                mode: 'markers',
+                type: 'scatter',
+                text: efficiencyData.map(d => `${d.name}<br>Races: ${d.races}<br>P&L: ${d.pnl.toLocaleString()}<br>P&L/Race: ${d.pnlPerRace.toFixed(2)}`),
+                hovertemplate: '%{text}<extra></extra>',
+                marker: {
+                    size: efficiencyData.map(d => Math.max(20, d.pnlPerRace * 2)),
+                    color: efficiencyData.map(d => d.pnl),
+                    colorscale: 'RdYlGn',
+                    showscale: true,
+                    colorbar: {
+                        title: 'Total P&L (IGGT)'
+                    }
+                }
+            };
+
+            Plotly.newPlot('efficiencyChart', [trace], {
+                title: {
+                    text: 'P&L vs Races (Bubble Size = P&L per Race)',
+                    font: { size: 16, color: '#262730' }
+                },
+                xaxis: { 
+                    title: { text: 'Total Races', font: { size: 14, color: '#262730' } },
+                    gridcolor: '#f0f2f6',
+                    showgrid: true
+                },
+                yaxis: { 
+                    title: { text: 'Total P&L (IGGT)', font: { size: 14, color: '#262730' } },
+                    gridcolor: '#f0f2f6',
+                    showgrid: true
+                },
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                margin: { t: 50, r: 50, b: 50, l: 50 },
+                font: { family: 'Inter, sans-serif', color: '#262730' }
+            });
+
+            // Display efficiency metrics
+            const metricsContainer = document.getElementById('efficiencyMetrics');
+            if (metricsContainer) {
+                let metricsHTML = '';
+                efficiencyData.forEach(bot => {
+                    const rating = bot.pnlPerRace > 25 ? '🟢 Excellent' : 
+                                  bot.pnlPerRace > 15 ? '🟡 Good' : '🔴 Needs Attention';
+                    metricsHTML += `
+                        <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.1); border-radius: 0.25rem;">
+                            <strong>${bot.name}:</strong> ${bot.pnlPerRace.toFixed(2)} IGGT/race<br>
+                            <small style="color: #666;">${rating}</small>
+                        </div>
+                    `;
+                });
+                metricsContainer.innerHTML = metricsHTML;
             }
         }
 
