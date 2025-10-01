@@ -490,8 +490,8 @@
             const password = localStorage.getItem('dashboard_password');
             if (password === '!nvinciblegg') {
                 isAuthenticated = true;
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
                 loadData();
                 return;
             }
@@ -499,8 +499,8 @@
         }
 
         function showLoginScreen() {
-            document.getElementById('loginScreen').style.display = 'block';
-            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
         }
 
         function authenticate() {
@@ -508,8 +508,8 @@
             if (password === '!nvinciblegg') {
                 localStorage.setItem('dashboard_password', password);
                 isAuthenticated = true;
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
                 loadData();
             } else {
                 alert('Invalid password!');
@@ -593,8 +593,13 @@
         }
 
         function displayDashboard(data) {
+            console.log('displayDashboard called with data:', data);
+            
             const loading = document.getElementById('loading');
             const dashboard = document.getElementById('dashboard');
+            
+            console.log('Loading element:', loading);
+            console.log('Dashboard element:', dashboard);
             
             loading.classList.add('hidden');
             dashboard.classList.remove('hidden');
@@ -605,20 +610,27 @@
                 Data loaded: ${data ? 'Yes' : 'No'}<br>
                 Total P&L records: ${data?.Total_PnL?.length || 0}<br>
                 Daily P&L records: ${data?.Daily_PnL?.length || 0}<br>
-                Weekly P&L records: ${data?.Weekly_PnL?.length || 0}
+                Weekly P&L records: ${data?.Weekly_PnL?.length || 0}<br>
+                Authentication: ${isAuthenticated ? 'Yes' : 'No'}
             `;
 
+            console.log('About to display metrics...');
             // Display metrics
             displayMetrics(data);
             
+            console.log('About to display bot table...');
             // Display bot table
             displayBotTable(data);
             
+            console.log('About to display charts...');
             // Display charts
             displayCharts(data);
             
+            console.log('About to display data tables...');
             // Display data tables
             displayDataTables(data);
+            
+            console.log('displayDashboard completed');
         }
 
         function displayMetrics(data) {
