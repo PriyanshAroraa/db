@@ -281,11 +281,13 @@
             </div>
             
             <div style="max-width: 400px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 0.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                <div style="margin-bottom: 1rem;">
-                    <label for="password" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password:</label>
-                    <input type="password" id="password" style="width: 100%; padding: 0.75rem; border: 1px solid #e6e9ef; border-radius: 0.25rem; font-size: 1rem;" placeholder="Enter password" onkeypress="if(event.key==='Enter') authenticate()">
-                </div>
-                <button onclick="authenticate()" style="width: 100%; padding: 0.75rem; background: #ff4b4b; color: white; border: none; border-radius: 0.25rem; font-size: 1rem; cursor: pointer; font-weight: 600;">🔓 Access Dashboard</button>
+                <form onsubmit="event.preventDefault(); authenticate();">
+                    <div style="margin-bottom: 1rem;">
+                        <label for="password" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password:</label>
+                        <input type="password" id="password" style="width: 100%; padding: 0.75rem; border: 1px solid #e6e9ef; border-radius: 0.25rem; font-size: 1rem;" placeholder="Enter password" onkeypress="if(event.key==='Enter') authenticate()">
+                    </div>
+                    <button type="submit" style="width: 100%; padding: 0.75rem; background: #ff4b4b; color: white; border: none; border-radius: 0.25rem; font-size: 1rem; cursor: pointer; font-weight: 600;">🔓 Access Dashboard</button>
+                </form>
             </div>
         </div>
     </div>
@@ -314,7 +316,7 @@
             </div>
 
             <!-- Dashboard Content -->
-            <div id="dashboard" class="hidden">
+            <div id="dashboardContent" class="hidden">
                 <!-- Success Message -->
                 <div class="stSuccess">
                     ✅ Dashboard loaded successfully! Data source: <span id="dataSourceInfo">Local JSON</span>
@@ -529,12 +531,12 @@
             if (!isAuthenticated) return;
             const loading = document.getElementById('loading');
             const error = document.getElementById('error');
-            const dashboard = document.getElementById('dashboard');
+            const dashboardContent = document.getElementById('dashboardContent');
             const dataSource = document.getElementById('dataSource').value;
             
             loading.classList.remove('hidden');
             error.classList.add('hidden');
-            dashboard.classList.add('hidden');
+            dashboardContent.classList.add('hidden');
 
             try {
                 let data;
@@ -597,13 +599,13 @@
             console.log('displayDashboard called with data:', data);
             
             const loading = document.getElementById('loading');
-            const dashboard = document.getElementById('dashboard');
+            const dashboardContent = document.getElementById('dashboardContent');
             
             console.log('Loading element:', loading);
-            console.log('Dashboard element:', dashboard);
+            console.log('Dashboard content element:', dashboardContent);
             
             loading.classList.add('hidden');
-            dashboard.classList.remove('hidden');
+            dashboardContent.classList.remove('hidden');
 
             // Show debug info
             const debugInfo = document.getElementById('debugInfo');
