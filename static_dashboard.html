@@ -271,13 +271,32 @@
         </div>
     </div>
 
+    <!-- Login Screen -->
+    <div id="loginScreen" class="main">
+        <div class="stContainer">
+            <div class="stHeader">
+                <h1>🔒 Bot Performance Dashboard</h1>
+                <p>Please enter the password to access the dashboard</p>
+            </div>
+            
+            <div style="max-width: 400px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 0.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div style="margin-bottom: 1rem;">
+                    <label for="password" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password:</label>
+                    <input type="password" id="password" style="width: 100%; padding: 0.75rem; border: 1px solid #e6e9ef; border-radius: 0.25rem; font-size: 1rem;" placeholder="Enter password" onkeypress="if(event.key==='Enter') authenticate()">
+                </div>
+                <button onclick="authenticate()" style="width: 100%; padding: 0.75rem; background: #ff4b4b; color: white; border: none; border-radius: 0.25rem; font-size: 1rem; cursor: pointer; font-weight: 600;">🔓 Access Dashboard</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <div class="main with-sidebar">
+    <div id="dashboard" class="main with-sidebar">
         <div class="stContainer">
             <!-- Header -->
             <div class="stHeader">
                 <h1>🤖 Bot Performance Dashboard</h1>
                 <p>Real-time trading bot analytics and performance metrics</p>
+                <button onclick="logout()" style="position: absolute; top: 1rem; right: 1rem; padding: 0.5rem 1rem; background: #666; color: white; border: none; border-radius: 0.25rem; cursor: pointer;">🚪 Logout</button>
             </div>
 
             <!-- Loading State -->
@@ -382,9 +401,49 @@
     <script>
         let currentData = null;
         let filteredData = null;
+        let isAuthenticated = false;
+
+        // Password protection
+        function checkAuth() {
+            const password = localStorage.getItem('dashboard_password');
+            if (password === '!nvinciblegg') {
+                isAuthenticated = true;
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                loadData();
+                return;
+            }
+            showLoginScreen();
+        }
+
+        function showLoginScreen() {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        function authenticate() {
+            const password = document.getElementById('password').value;
+            if (password === '!nvinciblegg') {
+                localStorage.setItem('dashboard_password', password);
+                isAuthenticated = true;
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                loadData();
+            } else {
+                alert('Invalid password!');
+                document.getElementById('password').value = '';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('dashboard_password');
+            isAuthenticated = false;
+            showLoginScreen();
+        }
 
         // Load data from local JSON files or API
         async function loadData() {
+            if (!isAuthenticated) return;
             const loading = document.getElementById('loading');
             const error = document.getElementById('error');
             const dashboard = document.getElementById('dashboard');
@@ -693,8 +752,8 @@
             loadData();
         }
 
-        // Load data when page loads
-        document.addEventListener('DOMContentLoaded', loadData);
+        // Check authentication when page loads
+        document.addEventListener('DOMContentLoaded', checkAuth);
         
         // Auto-refresh every 5 minutes
         setInterval(loadData, 5 * 60 * 1000);
