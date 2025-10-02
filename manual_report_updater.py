@@ -47,24 +47,24 @@ def fetch_bot_data():
         engine = create_engine(DATABASE_URL)
         
         queries = {
-            'total_pnl': f"""
+            'Total_PnL': f"""
                 SELECT
                     user_id,
                     SUM(amount) / 1000000 AS total_pnl_IGGT
                 FROM player_token_transaction
                 WHERE user_id IN ({TARGET_USER_IDS})
+                    AND ctx_type = 1
                     AND FROM_UNIXTIME(created_at) >= '2025-09-18'
                 GROUP BY user_id
             """,
-            'reserve_balance': f"""
+            'Reserve_Balance': f"""
                 SELECT
                     user_id,
-                    SUM(amount) / 1000000 AS reserve_balance_IGGT
+                    amount / 1000000 AS reserve_balance_IGGT
                 FROM player_token_account
                 WHERE user_id IN ({TARGET_USER_IDS})
-                GROUP BY user_id
             """,
-            'in_play_balance': f"""
+            'In_Play_Balance': f"""
                 SELECT
                     t.user_id,
                     SUM(ABS(t.amount)) / 1000000 AS in_play_balance_IGGT
@@ -74,9 +74,10 @@ def fetch_bot_data():
                     AND t.amount < 0
                     AND t.ctx_type = 1
                     AND r.event_id IS NULL
+                    AND FROM_UNIXTIME(t.created_at) >= DATE_SUB(NOW(), INTERVAL 1 DAY)
                 GROUP BY t.user_id
             """,
-            'races_entered': f"""
+            'Races_Entered': f"""
                 SELECT
                     user_id,
                     COUNT(*) AS races_entered
@@ -84,7 +85,7 @@ def fetch_bot_data():
                 WHERE user_id IN ({TARGET_USER_IDS})
                 GROUP BY user_id
             """,
-            'daily_pnl': f"""
+            'Daily_PnL': f"""
                 SELECT
                     user_id,
                     DATE(FROM_UNIXTIME(created_at)) AS date,
@@ -96,7 +97,7 @@ def fetch_bot_data():
                 GROUP BY user_id, date
                 ORDER BY user_id, date
             """,
-            'weekly_pnl': f"""
+            'Weekly_PnL': f"""
                 SELECT
                     user_id,
                     YEARWEEK(FROM_UNIXTIME(created_at), 1) AS week,
@@ -116,6 +117,11 @@ def fetch_bot_data():
                 df = pd.read_sql(query, engine)
                 data[key] = df.to_dict('records')
                 print(f"SUCCESS {key}: {len(df)} records")
+                
+                # Debug: Show sample data for key queries
+                if key in ['Total_PnL', 'Reserve_Balance', 'In_Play_Balance'] and len(data[key]) > 0:
+                    print(f"   Sample data: {data[key][0]}")
+                    
             except Exception as e:
                 print(f"ERROR {key}: Error - {e}")
                 data[key] = []

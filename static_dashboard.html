@@ -780,22 +780,23 @@
                     <tbody>
             `;
             
-            // Calculate performance rating based on Total P&L (matching Streamlit logic)
-            bots.forEach(bot => {
-                const totalPnl = bot.total_pnl_IGGT || 0;
-                let rating = '';
-                let ratingClass = '';
-                
-                if (totalPnl > 3000) {
-                    rating = '🟢 Excellent';
-                    ratingClass = 'color: #28a745;';
-                } else if (totalPnl > 2000) {
-                    rating = '🟡 Good';
-                    ratingClass = 'color: #ffc107;';
-                } else {
-                    rating = '🔴 Needs Attention';
-                    ratingClass = 'color: #dc3545;';
-                }
+             // Calculate performance rating based on Total P&L (negative values = losses)
+             bots.forEach(bot => {
+                 const totalPnl = bot.total_pnl_IGGT || 0;
+                 let rating = '';
+                 let ratingClass = '';
+                 
+                 // For negative P&L values (losses), closer to 0 is better
+                 if (totalPnl > -2000) {
+                     rating = '🟢 Good Performance';
+                     ratingClass = 'color: #28a745;';
+                 } else if (totalPnl > -4000) {
+                     rating = '🟡 Moderate Losses';
+                     ratingClass = 'color: #ffc107;';
+                 } else {
+                     rating = '🔴 High Losses';
+                     ratingClass = 'color: #dc3545;';
+                 }
                 
                 tableHTML += `
                     <tr>
@@ -972,22 +973,23 @@
                 font: { family: 'Inter, sans-serif', color: '#262730' }
             });
 
-            // Display efficiency metrics
-            const metricsContainer = document.getElementById('efficiencyMetrics');
-            if (metricsContainer) {
-                let metricsHTML = '';
-                efficiencyData.forEach(bot => {
-                    const rating = bot.pnl > 3000 ? '🟢 Excellent' : 
-                                  bot.pnl > 2000 ? '🟡 Good' : '🔴 Needs Attention';
-                    metricsHTML += `
-                        <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.1); border-radius: 0.25rem;">
-                            <strong>${bot.name}:</strong> ${bot.pnlPerRace.toFixed(2)} IGGT/race<br>
-                            <small style="color: #666;">${rating}</small>
-                        </div>
-                    `;
-                });
-                metricsContainer.innerHTML = metricsHTML;
-            }
+             // Display efficiency metrics
+             const metricsContainer = document.getElementById('efficiencyMetrics');
+             if (metricsContainer) {
+                 let metricsHTML = '';
+                 efficiencyData.forEach(bot => {
+                     // For negative P&L, closer to 0 is better
+                     const rating = bot.pnl > -2000 ? '🟢 Good Performance' : 
+                                   bot.pnl > -4000 ? '🟡 Moderate Losses' : '🔴 High Losses';
+                     metricsHTML += `
+                         <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.1); border-radius: 0.25rem;">
+                             <strong>${bot.name}:</strong> ${bot.pnlPerRace.toFixed(2)} IGGT/race<br>
+                             <small style="color: #666;">${rating}</small>
+                         </div>
+                     `;
+                 });
+                 metricsContainer.innerHTML = metricsHTML;
+             }
         }
 
         function displayDataTables(data) {
