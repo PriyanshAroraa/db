@@ -4,13 +4,24 @@ A comprehensive dashboard for monitoring trading bot performance with automated 
 
 ## 📋 Features
 
+### Bot-Level Analytics
 - **📊 Real-time Metrics**: Total P&L, races entered, balances
 - **📈 Interactive Charts**: Performance comparison, trends, efficiency analysis
 - **💰 Balance Analysis**: Reserve vs in-play balance tracking
 - **📅 Time Series**: Daily and weekly performance trends
+
+### 🐴 Horse-Level Analytics (NEW!)
+- **Individual Horse Performance**: 54 horses tracked across 5 bots
+- **Distance Specialization**: Sprint/Mile/Marathon performance breakdown
+- **Surface Analysis**: Dirt vs Turf preferences per horse
+- **Race Entry Tracking**: 861+ complete race records with details
+- **Optimization Insights**: Identify which horses should race where
+
+### System Features
 - **📥 Export Functionality**: CSV reports and data downloads
 - **🔄 Manual Updates**: Run updates locally to avoid IP restrictions
 - **☁️ Vercel Deployment**: Host on Vercel with static files
+- **📄 Complete Documentation**: Horse data schema and optimization guides
 
 ## 🚀 Quick Start
 
@@ -48,19 +59,20 @@ streamlit run dashboard.py
 
 ```
 bot-dashboard/
-├── 📊 dashboard.py              # Live dashboard (connects to DB)
-├── 📊 static_dashboard.py       # Static dashboard (reads JSON files)
-├── 🔄 manual_report_updater.py  # Manual data updater
-├── 📄 daily_report_generator.py # Generate text reports
-├── 🔧 setup.py                  # Setup script
-├── 📝 README.md                 # This file
-├── 🌐 index.html                # Vercel static dashboard
-├── 🔌 api/bot-data.py           # Vercel API endpoint
-├── ⚙️ vercel.json               # Vercel configuration
-├── 📋 requirements.txt          # Python dependencies
-├── 🔐 env.txt                   # Your environment file
-├── 📋 env_example.txt           # Environment template
-└── 📊 bot_data.json             # Generated data file
+├── 📊 dashboard.py                      # Live dashboard (connects to DB)
+├── 📊 static_dashboard.py               # Static dashboard (reads JSON files)
+├── 🔄 manual_report_updater.py          # Manual data updater (NOW WITH HORSE-LEVEL DATA!)
+├── 📄 daily_report_generator.py         # Generate text reports
+├── 🔧 setup.py                          # Setup script
+├── 📝 README.md                         # This file
+├── 🐴 HORSE_DATA_DOCUMENTATION.md       # Horse data schema & query guide
+├── 📄 COMPLETE_HORSE_DATA_SUMMARY.txt   # Complete analysis summary
+├── 🌐 static_dashboard.html             # Vercel static dashboard
+├── ⚙️ vercel.json                       # Vercel configuration
+├── 📋 requirements.txt                  # Python dependencies
+├── 🔐 env.txt                           # Your environment file
+├── 📋 env_example.txt                   # Environment template
+└── 📊 bot_data.json                     # Generated data file (with horse-level data!)
 ```
 
 ## 🔧 Configuration
@@ -250,6 +262,66 @@ curl https://your-project.vercel.app/api/bot-data
 
 ---
 
+## 🐴 Horse-Level Analytics (NEW!)
+
+### Granular Performance Tracking
+
+The system now provides **horse-level optimization data** as requested by Jonathan:
+
+**Available Data:**
+- **273 Distance Performance Records** - Each horse's performance at every distance (5f-10f)
+- **247 Surface Performance Records** - Dirt vs Turf analysis per horse
+- **861 Complete Race Records** - Full race history with distance, surface, position, rating
+- **54 Horses Tracked** - Across all 5 bots
+- **Distance Specialization** - Identify Sprinters, Milers, Marathoners
+- **Surface Preferences** - Dirt vs Turf performance comparison
+
+### Example Insights
+
+**Tayport (Alba's Horse):**
+- Specialization: **Sprinter**
+- Best at: 1000m (5f) - 4.75 avg position
+- Worst at: 1600m (8f Mile) - 8.00 avg position
+- Issue: 0 wins despite good positioning → competition too tough
+
+**Donegal (Eirean's Star):**
+- Specialization: **Sprint Specialist**
+- Win Rate: 21.7% (5 wins in 23 races)
+- 1200m: 22% win rate
+- 1600m: 40% win rate
+- Status: **Optimal race selection**
+
+### Documentation
+
+📄 **HORSE_DATA_DOCUMENTATION.md** - Complete guide:
+- Database schema for horse data
+- How to query distance/surface performance
+- Table relationships (snapshot → entrant → event)
+- SQL examples for optimization queries
+
+📄 **COMPLETE_HORSE_DATA_SUMMARY.txt** - Analysis summary:
+- All horses analyzed
+- Distance specializations
+- Surface preferences
+- Optimization recommendations
+
+### Optimization Capabilities
+
+This enables Jonathan's optimization vision:
+- ✅ Horse-level performance tracking
+- ✅ Distance specialization (Sprint/Mile/Marathon)
+- ✅ Surface preference analysis (Dirt/Turf)
+- ✅ Race selection optimization
+- ✅ Identify mismatches (wrong distance/competition)
+- ✅ Stable composition analysis
+- ✅ Multivariate performance factors
+
+**Status: READY for genetic algorithm optimization and break-even strategy!**
+
+---
+
 **🎉 Your bot performance monitoring system is ready!**
 
 For questions or issues, check the troubleshooting section or review the code comments.
+
+**For horse-level optimization, see `HORSE_DATA_DOCUMENTATION.md`**

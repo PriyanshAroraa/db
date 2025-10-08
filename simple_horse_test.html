@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Horse Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Simple Horse Data Test</h1>
+    <div id="status"></div>
+    <div id="horseTable"></div>
+    
+    <script>
+        async function loadAndDisplayData() {
+            try {
+                console.log('Loading data...');
+                document.getElementById('status').innerHTML = '<p>Loading data...</p>';
+                
+                const response = await fetch('bot_data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Data loaded successfully:', data);
+                
+                // Check if horse data exists
+                if (!data.Horse_Performance || data.Horse_Performance.length === 0) {
+                    document.getElementById('status').innerHTML = '<p class="error">No horse performance data found</p>';
+                    return;
+                }
+                
+                document.getElementById('status').innerHTML = `<p class="success">✅ Data loaded successfully! Found ${data.Horse_Performance.length} horse records</p>`;
+                
+                // Display horse table
+                const horses = data.Horse_Performance.sort((a, b) => b.wins - a.wins).slice(0, 10);
+                const botNames = {
+                    10111491: 'Alba', 
+                    10211493: 'Eirean', 
+                    10411491: 'Kernow', 
+                    10711491: 'Cymru', 
+                    11011491: 'Albion'
+                };
+                
+                let tableHTML = `
+                    <h2>Top 10 Horses by Wins</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Horse Name</th>
+                                <th>Bot</th>
+                                <th>Races</th>
+                                <th>Wins</th>
+                                <th>Win %</th>
+                                <th>Avg Position</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                horses.forEach(horse => {
+                    const winRate = ((horse.wins / horse.total_races) * 100).toFixed(1);
+                    tableHTML += `
+                        <tr>
+                            <td><strong>${horse.horse_name}</strong></td>
+                            <td>${botNames[horse.user_id] || horse.user_id}</td>
+                            <td>${horse.total_races}</td>
+                            <td>${horse.wins}</td>
+                            <td>${winRate}%</td>
+                            <td>${horse.avg_finish_position.toFixed(2)}</td>
+                            <td>${horse.avg_rating.toFixed(1)}</td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += '</tbody></table>';
+                document.getElementById('horseTable').innerHTML = tableHTML;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('status').innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Load data when page loads
+        loadAndDisplayData();
+    </script>
+</body>
+</html>

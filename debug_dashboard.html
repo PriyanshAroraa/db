@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Debug Dashboard</h1>
+    <div id="debugInfo"></div>
+    <div id="horseTable"></div>
+    
+    <script>
+        // Load and debug the data
+        fetch('bot_data.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data loaded:', data);
+                
+                // Debug info
+                document.getElementById('debugInfo').innerHTML = `
+                    <h2>Debug Info</h2>
+                    <p>Total_PnL records: ${data.Total_PnL ? data.Total_PnL.length : 0}</p>
+                    <p>Horse_Performance records: ${data.Horse_Performance ? data.Horse_Performance.length : 0}</p>
+                    <p>All_Horses_Distance_Performance records: ${data.All_Horses_Distance_Performance ? data.All_Horses_Distance_Performance.length : 0}</p>
+                    <p>All_Horses_Surface_Performance records: ${data.All_Horses_Surface_Performance ? data.All_Horses_Surface_Performance.length : 0}</p>
+                `;
+                
+                // Show first few horse records
+                if (data.Horse_Performance && data.Horse_Performance.length > 0) {
+                    let horseHTML = '<h2>Horse Performance Data (First 5)</h2><table border="1"><tr><th>Horse Name</th><th>Bot</th><th>Races</th><th>Wins</th></tr>';
+                    data.Horse_Performance.slice(0, 5).forEach(horse => {
+                        horseHTML += `<tr><td>${horse.horse_name}</td><td>${horse.user_id}</td><td>${horse.total_races}</td><td>${horse.wins}</td></tr>`;
+                    });
+                    horseHTML += '</table>';
+                    document.getElementById('horseTable').innerHTML = horseHTML;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading data:', error);
+                document.getElementById('debugInfo').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            });
+    </script>
+</body>
+</html>

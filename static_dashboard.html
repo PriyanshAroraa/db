@@ -476,6 +476,61 @@
                     </div>
                 </div>
 
+                <!-- HORSE-LEVEL ANALYTICS (NEW!) -->
+                <div class="stSubheader">🐴 Horse-Level Performance</div>
+                
+                <div class="stInfo">
+                    <strong>Granular Analytics:</strong> Individual horse tracking with distance & surface specialization
+                </div>
+                
+                <!-- Horse Performance Table -->
+                <div class="stSubheader">Top Performing Horses</div>
+                <div id="horsePerformanceTable" class="stDataFrame">
+                    <!-- Horse performance table will be populated here -->
+                </div>
+                
+                <!-- Distance Specialization -->
+                <div class="stSubheader">📏 Distance Specialization Analysis</div>
+                <div class="stPlotlyChart">
+                    <div id="distanceSpecializationChart"></div>
+                </div>
+                
+                <!-- Surface Performance -->
+                <div class="stSubheader">🏟️ Surface Performance (Dirt vs Turf)</div>
+                <div class="stPlotlyChart">
+                    <div id="surfacePerformanceChart"></div>
+                </div>
+                
+                <!-- Individual Horse Selector -->
+                <div class="stSubheader">🔍 Individual Horse Details</div>
+                <div class="stColumns">
+                    <div class="stColumn">
+                        <label for="horseSelect">Select Horse:</label>
+                        <select id="horseSelect" onchange="displayHorseDetails()" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;">
+                            <option value="">-- Select a horse --</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="horseDetailsContainer" class="hidden">
+                    <div class="stColumns">
+                        <div class="stColumn">
+                            <div class="stPlotlyChart">
+                                <div id="horseDistanceChart"></div>
+                            </div>
+                        </div>
+                        <div class="stColumn">
+                            <div class="stPlotlyChart">
+                                <div id="horseSurfaceChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="horseStatsTable" class="stDataFrame">
+                        <!-- Individual horse stats table -->
+                    </div>
+                </div>
+
                 <!-- Export Section -->
                 <div class="stSubheader">📥 Export Data</div>
                 <div class="stColumns">
@@ -484,6 +539,9 @@
                     </div>
                     <div class="stColumn">
                         <button class="stButton" onclick="exportData('json')">📄 Download JSON Data</button>
+                    </div>
+                    <div class="stColumn">
+                        <button class="stButton" onclick="exportData('horse_csv')">🐴 Download Horse Data CSV</button>
                     </div>
                 </div>
             </div>
@@ -708,6 +766,13 @@
             console.log('About to display data tables...');
             // Display data tables
             displayDataTables(data);
+            
+            console.log('About to display horse-level data...');
+            // Display horse-level analytics
+            displayHorsePerformance(data);
+            displayDistanceSpecialization(data);
+            displaySurfacePerformance(data);
+            populateHorseSelector(data);
             
             console.log('displayDashboard completed');
         }
@@ -1068,6 +1133,296 @@
             loadData();
         }
 
+        // ========================================
+        // HORSE-LEVEL DISPLAY FUNCTIONS (NEW!)
+        // ========================================
+        
+        function displayHorsePerformance(data) {
+            console.log('displayHorsePerformance called with data:', data);
+            const container = document.getElementById('horsePerformanceTable');
+            console.log('Container found:', container);
+            console.log('Horse_Performance data:', data.Horse_Performance);
+            if (!container || !data.Horse_Performance) {
+                console.log('Early return - container or data missing');
+                return;
+            }
+            
+            const horses = data.Horse_Performance.sort((a, b) => b.wins - a.wins).slice(0, 15);
+            
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Horse Name</th>
+                            <th>Bot</th>
+                            <th>Races</th>
+                            <th>Wins</th>
+                            <th>Win %</th>
+                            <th>Avg Pos</th>
+                            <th>Rating</th>
+                            <th>Top 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+            
+            horses.forEach(horse => {
+                const winRate = (horse.wins / horse.total_races * 100).toFixed(1);
+                html += `
+                    <tr>
+                        <td><strong>${horse.horse_name}</strong></td>
+                        <td>${botNames[horse.user_id] || horse.user_id}</td>
+                        <td>${horse.total_races}</td>
+                        <td>${horse.wins}</td>
+                        <td>${winRate}%</td>
+                        <td>${horse.avg_finish_position.toFixed(2)}</td>
+                        <td>${horse.avg_rating.toFixed(1)}</td>
+                        <td>${horse.top_3_finishes}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+        
+        function displayDistanceSpecialization(data) {
+            console.log('displayDistanceSpecialization called with data:', data);
+            console.log('All_Horses_Distance_Performance:', data.All_Horses_Distance_Performance);
+            if (!data.All_Horses_Distance_Performance) {
+                console.log('No distance performance data found');
+                return;
+            }
+            
+            const distData = data.All_Horses_Distance_Performance;
+            const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+            
+            // Group by distance category and bot
+            const categoryData = {};
+            distData.forEach(item => {
+                const key = `${item.user_id}_${item.distance_category}`;
+                if (!categoryData[key]) {
+                    categoryData[key] = {
+                        bot: botNames[item.user_id],
+                        category: item.distance_category,
+                        races: 0,
+                        total_pos: 0,
+                        wins: 0
+                    };
+                }
+                categoryData[key].races += item.races_at_distance;
+                categoryData[key].total_pos += item.avg_position * item.races_at_distance;
+                categoryData[key].wins += item.wins;
+            });
+            
+            // Prepare chart data
+            const categories = ['Sprint', 'Mile', 'Marathon'];
+            const bots = Object.keys(botNames).map(id => botNames[id]);
+            
+            const traces = categories.map(cat => {
+                const y = bots.map(bot => {
+                    const key = Object.keys(categoryData).find(k => 
+                        categoryData[k].bot === bot && categoryData[k].category === cat
+                    );
+                    return key ? categoryData[key].races : 0;
+                });
+                
+                return {
+                    x: bots,
+                    y: y,
+                    name: cat,
+                    type: 'bar'
+                };
+            });
+            
+            Plotly.newPlot('distanceSpecializationChart', traces, {
+                title: 'Race Distribution by Distance Category',
+                xaxis: { title: 'Bot' },
+                yaxis: { title: 'Number of Races' },
+                barmode: 'group'
+            });
+        }
+        
+        function displaySurfacePerformance(data) {
+            if (!data.All_Horses_Surface_Performance) return;
+            
+            const surfData = data.All_Horses_Surface_Performance;
+            const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+            
+            // Group by surface and bot
+            const surfaceData = {};
+            surfData.forEach(item => {
+                const key = `${item.user_id}_${item.surface_name}`;
+                if (!surfaceData[key]) {
+                    surfaceData[key] = {
+                        bot: botNames[item.user_id],
+                        surface: item.surface_name,
+                        races: 0,
+                        total_pos: 0,
+                        wins: 0
+                    };
+                }
+                surfaceData[key].races += item.races;
+                surfaceData[key].total_pos += item.avg_position * item.races;
+                surfaceData[key].wins += item.wins;
+            });
+            
+            // Calculate average positions
+            Object.values(surfaceData).forEach(item => {
+                item.avg_position = item.total_pos / item.races;
+            });
+            
+            // Prepare chart data - show average position by surface
+            const surfaces = ['Dirt', 'Turf', 'Unknown'];
+            const bots = Object.keys(botNames).map(id => botNames[id]);
+            
+            const traces = surfaces.map(surf => {
+                const y = bots.map(bot => {
+                    const key = Object.keys(surfaceData).find(k => 
+                        surfaceData[k].bot === bot && surfaceData[k].surface === surf
+                    );
+                    return key ? surfaceData[key].avg_position : null;
+                });
+                
+                return {
+                    x: bots,
+                    y: y,
+                    name: surf,
+                    type: 'bar'
+                };
+            });
+            
+            Plotly.newPlot('surfacePerformanceChart', traces, {
+                title: 'Average Position by Surface Type (Lower is Better)',
+                xaxis: { title: 'Bot' },
+                yaxis: { title: 'Average Finish Position', autorange: 'reversed' },
+                barmode: 'group'
+            });
+        }
+        
+        function populateHorseSelector(data) {
+            console.log('populateHorseSelector called with data:', data);
+            const select = document.getElementById('horseSelect');
+            console.log('Select found:', select);
+            console.log('Horse_Performance data:', data.Horse_Performance);
+            if (!select || !data.Horse_Performance) {
+                console.log('Early return - select or data missing');
+                return;
+            }
+            
+            const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+            
+            // Clear existing options except first
+            select.innerHTML = '<option value="">-- Select a horse --</option>';
+            
+            // Add all horses
+            data.Horse_Performance.forEach(horse => {
+                const option = document.createElement('option');
+                option.value = horse.user_horse_id;
+                option.textContent = `${horse.horse_name} (${botNames[horse.user_id]}) - ${horse.total_races} races, ${horse.wins} wins`;
+                select.appendChild(option);
+            });
+        }
+        
+        function displayHorseDetails() {
+            const select = document.getElementById('horseSelect');
+            const container = document.getElementById('horseDetailsContainer');
+            
+            if (!select.value) {
+                container.classList.add('hidden');
+                return;
+            }
+            
+            container.classList.remove('hidden');
+            
+            const horseId = parseInt(select.value);
+            
+            // Get horse distance data
+            const distData = currentData.All_Horses_Distance_Performance?.filter(h => h.user_horse_id === horseId) || [];
+            
+            if (distData.length > 0) {
+                // Distance chart
+                const distTrace = {
+                    x: distData.map(d => d.distance_name),
+                    y: distData.map(d => d.avg_position),
+                    type: 'bar',
+                    marker: { color: distData.map(d => d.wins > 0 ? '#4ecdc4' : '#ff6b6b') },
+                    text: distData.map(d => `${d.races_at_distance} races, ${d.wins} wins`),
+                    textposition: 'auto'
+                };
+                
+                Plotly.newPlot('horseDistanceChart', [distTrace], {
+                    title: 'Performance by Distance (Lower is Better)',
+                    xaxis: { title: 'Distance' },
+                    yaxis: { title: 'Average Position', autorange: 'reversed' }
+                });
+            }
+            
+            // Get horse surface data
+            const surfData = currentData.All_Horses_Surface_Performance?.filter(h => h.user_horse_id === horseId) || [];
+            
+            if (surfData.length > 0) {
+                // Group by surface
+                const surfGroups = {};
+                surfData.forEach(item => {
+                    if (!surfGroups[item.surface_name]) {
+                        surfGroups[item.surface_name] = { races: 0, total_pos: 0, wins: 0 };
+                    }
+                    surfGroups[item.surface_name].races += item.races;
+                    surfGroups[item.surface_name].total_pos += item.avg_position * item.races;
+                    surfGroups[item.surface_name].wins += item.wins;
+                });
+                
+                const surfNames = Object.keys(surfGroups);
+                const surfAvgPos = surfNames.map(s => surfGroups[s].total_pos / surfGroups[s].races);
+                const surfWins = surfNames.map(s => surfGroups[s].wins);
+                
+                const surfTrace = {
+                    x: surfNames,
+                    y: surfAvgPos,
+                    type: 'bar',
+                    marker: { color: surfWins.map(w => w > 0 ? '#4ecdc4' : '#ff6b6b') },
+                    text: surfNames.map(s => `${surfGroups[s].races} races, ${surfGroups[s].wins} wins`),
+                    textposition: 'auto'
+                };
+                
+                Plotly.newPlot('horseSurfaceChart', [surfTrace], {
+                    title: 'Performance by Surface (Lower is Better)',
+                    xaxis: { title: 'Surface Type' },
+                    yaxis: { title: 'Average Position', autorange: 'reversed' }
+                });
+            }
+            
+            // Display stats table
+            const horsePerf = currentData.Horse_Performance?.find(h => h.user_horse_id === horseId);
+            const statsContainer = document.getElementById('horseStatsTable');
+            
+            if (horsePerf && statsContainer) {
+                const winRate = (horsePerf.wins / horsePerf.total_races * 100).toFixed(1);
+                const top3Rate = (horsePerf.top_3_finishes / horsePerf.total_races * 100).toFixed(1);
+                
+                statsContainer.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr><th colspan="2">Horse Statistics</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Total Races</td><td>${horsePerf.total_races}</td></tr>
+                            <tr><td>Wins</td><td>${horsePerf.wins} (${winRate}%)</td></tr>
+                            <tr><td>Top 3 Finishes</td><td>${horsePerf.top_3_finishes} (${top3Rate}%)</td></tr>
+                            <tr><td>Average Position</td><td>${horsePerf.avg_finish_position.toFixed(2)}</td></tr>
+                            <tr><td>Average Rating</td><td>${horsePerf.avg_rating.toFixed(1)}</td></tr>
+                            <tr><td>Speed</td><td>${horsePerf.avg_speed.toFixed(1)}</td></tr>
+                            <tr><td>Stamina</td><td>${horsePerf.avg_stamina.toFixed(1)}</td></tr>
+                            <tr><td>Acceleration</td><td>${horsePerf.avg_acceleration.toFixed(1)}</td></tr>
+                        </tbody>
+                    </table>
+                `;
+            }
+        }
+
         function exportData(format) {
             if (!currentData) {
                 alert('No data available to export');
@@ -1096,6 +1451,20 @@
             } else if (format === 'json') {
                 const jsonContent = JSON.stringify(currentData, null, 2);
                 downloadFile(jsonContent, `bot_data_${timestamp}.json`, 'application/json');
+            } else if (format === 'horse_csv') {
+                // Export horse-level data
+                let csvContent = 'Horse Name,Bot,Total Races,Wins,Win Rate,Avg Position,Rating,Speed,Stamina,Acceleration\n';
+                
+                if (currentData.Horse_Performance) {
+                    const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+                    
+                    currentData.Horse_Performance.forEach(horse => {
+                        const winRate = (horse.wins / horse.total_races * 100).toFixed(1);
+                        csvContent += `${horse.horse_name},${botNames[horse.user_id]},${horse.total_races},${horse.wins},${winRate}%,${horse.avg_finish_position.toFixed(2)},${horse.avg_rating.toFixed(1)},${horse.avg_speed.toFixed(1)},${horse.avg_stamina.toFixed(1)},${horse.avg_acceleration.toFixed(1)}\n`;
+                    });
+                }
+                
+                downloadFile(csvContent, `horse_performance_${timestamp}.csv`, 'text/csv');
             }
         }
 

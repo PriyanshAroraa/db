@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bot Dashboard - Choose Version</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            text-align: center;
+        }
+        .card h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🐴 Bot Performance Dashboard</h1>
+        <p>Choose how you want to view the dashboard:</p>
+        
+        <div class="status success">
+            ✅ Dashboard deployed on Vercel with horse-level analytics
+        </div>
+        
+        <h2>🚀 Main Dashboard (Recommended)</h2>
+        <p>Full-featured dashboard with all horse-level analytics</p>
+        <a href="/dashboard" class="btn btn-success">🐴 Open Main Dashboard</a>
+        <a href="/standalone" class="btn">📄 Standalone Version</a>
+        
+        <h2>Data Files</h2>
+        <p>Direct access to the data files</p>
+        <a href="bot_data.json" class="btn">📊 View Raw Data (JSON)</a>
+        <a href="bot_performance_report_20251008_163956.txt" class="btn">📋 View Report</a>
+    </div>
+    
+    <div class="card">
+        <h2>📋 Quick Stats</h2>
+        <p><strong>Data Updated:</strong> 10/8/2025, 4:39:56 PM</p>
+        <p><strong>Total Records:</strong> 54 horses, 273 distance records, 247 surface records</p>
+        <p><strong>File Size:</strong> 1.1MB JSON data</p>
+    </div>
+</body>
+</html>

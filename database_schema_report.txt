@@ -1,0 +1,2900 @@
+DATABASE SCHEMA REPORT
+================================================================================
+
+Total Tables: 172
+
+--------------------------------------------------------------------------------
+TABLE: CPU_daily_SR
+--------------------------------------------------------------------------------
+Columns (4):
+  - cpu_horse_id                   INTEGER              NULL
+  - sr                             DECIMAL(10, 2)       NULL
+  - create_date                    TIMESTAMP            NULL
+  - zone                           VARCHAR(100)         NULL
+
+--------------------------------------------------------------------------------
+TABLE: contest
+--------------------------------------------------------------------------------
+Columns (13):
+  - _id                            INTEGER              NOT NULL
+  - contest_code                   VARCHAR(10) COLLATE "utf8mb4_general_ci" NOT NULL
+  - description                    VARCHAR(100) COLLATE "utf8mb4_general_ci" NOT NULL
+  - start_date                     DATE                 NOT NULL
+  - end_date                       DATE                 NOT NULL
+  - max_daily_points               INTEGER              NOT NULL
+  - base_point_multiplier          INTEGER              NOT NULL
+  - bonus_point_multipliers        TEXT COLLATE "utf8mb4_general_ci" NULL
+  - included_zones                 VARCHAR(100) COLLATE "utf8mb4_general_ci" NOT NULL
+  - included_tracks                VARCHAR(100) COLLATE "utf8mb4_general_ci" NOT NULL
+  - included_distances             VARCHAR(100) COLLATE "utf8mb4_general_ci" NOT NULL
+  - included_surfaces              VARCHAR(100) COLLATE "utf8mb4_general_ci" NOT NULL
+  - playoff_end_date               DATE                 NULL
+
+--------------------------------------------------------------------------------
+TABLE: contest_leaderboard
+--------------------------------------------------------------------------------
+Columns (20):
+  - contest_code                   VARCHAR(10) COLLATE "utf8mb4_general_ci" NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - total_race_count               INTEGER              NOT NULL
+  - total_actual_base_points       INTEGER              NOT NULL
+  - total_actual_bonus_points      INTEGER              NOT NULL
+  - total_contest_points           INTEGER              NOT NULL
+  - leaderboard_rank               INTEGER              NOT NULL
+  - email                          VARCHAR(128) COLLATE "utf8mb4_general_ci" NOT NULL
+  - displayname                    VARCHAR(128) COLLATE "utf8mb4_general_ci" NULL
+  - last_sign_in                   DATETIME             NULL
+  - last_refresh_on                DATETIME             NULL
+  - first_name                     VARCHAR(50) COLLATE "utf8mb4_general_ci" NULL
+  - last_name                      VARCHAR(50) COLLATE "utf8mb4_general_ci" NULL
+  - date_of_birth                  DATE                 NULL
+  - modified_utc                   DATETIME             NOT NULL
+  - playoff_race_count             INTEGER              NULL
+  - playoff_actual_base_points     INTEGER              NULL
+  - playoff_actual_bonus_points    INTEGER              NULL
+  - playoff_contest_points         INTEGER              NULL
+  - playoff_leaderboard_rank       INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: contest_player
+--------------------------------------------------------------------------------
+Columns (3):
+  - contest_code                   VARCHAR(10) COLLATE "utf8mb4_general_ci" NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - joined_on                      DATETIME             NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: cpu_level
+--------------------------------------------------------------------------------
+Columns (3):
+  - cpu_level_id                   TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: cron_job_log
+--------------------------------------------------------------------------------
+Columns (6):
+  - _id                            INTEGER              NOT NULL
+  - job_id                         INTEGER              NOT NULL
+  - created_utc                    DATETIME             NOT NULL
+  - module                         VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - category                       CHAR(1) COLLATE "utf8mb4_general_ci" NOT NULL
+  - message                        TEXT COLLATE "utf8mb4_general_ci" NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: cron_jobs
+--------------------------------------------------------------------------------
+Columns (6):
+  - _id                            INTEGER              NOT NULL
+  - name                           VARCHAR(100) COLLATE "utf8mb4_general_ci" NOT NULL
+  - finished_ts                    DATETIME             NULL
+  - status                         TINYINT              NOT NULL
+  - terminate                      TINYINT              NOT NULL
+  - config_data                    TEXT COLLATE "utf8mb4_general_ci" NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: entity_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - entity_type_id                 TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: event_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - event_type_id                  TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: firebase_user
+--------------------------------------------------------------------------------
+Columns (21):
+  - fuid                           VARCHAR(128) COLLATE "utf8mb4_general_ci" NOT NULL
+  - guild_id                       TINYINT              NOT NULL
+  - email                          VARCHAR(128) COLLATE "utf8mb4_general_ci" NOT NULL
+  - displayname                    VARCHAR(128) COLLATE "utf8mb4_general_ci" NULL
+  - user_id                        INTEGER              NULL
+  - email_verified                 TINYINT              NOT NULL
+  - status                         TINYINT              NOT NULL
+  - created_on                     DATETIME             NULL
+  - last_sign_in                   DATETIME             NULL
+  - last_refresh_on                DATETIME             NULL
+  - completed_on                   DATETIME             NULL
+  - modified_utc                   DATETIME             NULL
+  - phone                          VARCHAR(45) COLLATE "utf8mb4_general_ci" NULL
+  - photo_url                      VARCHAR(1000) COLLATE "utf8mb4_general_ci" NULL
+  - first_name                     VARCHAR(50) COLLATE "utf8mb4_general_ci" NULL
+  - last_name                      VARCHAR(50) COLLATE "utf8mb4_general_ci" NULL
+  - date_of_birth                  DATE                 NULL
+  - comm_opt_in                    TINYINT              NULL
+  - pp_toc_agree                   TINYINT              NOT NULL
+  - solana_pass                    INTEGER              NOT NULL
+  - level                          INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_firebase_user
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - fuid                           VARCHAR(128)         NOT NULL
+  - guild_id                       TINYINT              NOT NULL
+  - guild_task_completed           TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_game_flag
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - bucket                         SMALLINT             NOT NULL
+  - name                           CHAR(20)             NOT NULL
+  - value                          VARBINARY(512)       NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_game_variable
+--------------------------------------------------------------------------------
+Columns (8):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - bucket                         SMALLINT             NOT NULL
+  - name                           CHAR(50)             NOT NULL
+  - value                          VARBINARY(4096)      NOT NULL
+  - deleted                        TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_horse_name_registry
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - bucket                         SMALLINT             NOT NULL
+  - name                           CHAR(50)             NOT NULL
+  - value                          TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_migrations
+--------------------------------------------------------------------------------
+Columns (5):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            VARCHAR(100)         NOT NULL
+  - ts                             INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_nft_horse
+--------------------------------------------------------------------------------
+Columns (117):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - bucket                         SMALLINT             NOT NULL
+  - owner_id                       BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - gen                            INTEGER              NOT NULL
+  - texture_id                     TINYINT              NOT NULL
+  - face_mark_id                   TINYINT              NOT NULL
+  - leg_mark_id                    TINYINT              NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - name                           VARCHAR(25)          NOT NULL
+  - gender                         TINYINT              NOT NULL
+  - age                            SMALLINT             NOT NULL
+  - energy                         TINYINT              NOT NULL
+  - happiness                      TINYINT              NOT NULL
+  - conditioning                   TINYINT              NOT NULL
+  - grade                          TINYINT              NOT NULL
+  - bloodline                      TINYINT              NOT NULL
+  - race_tokens_x                  BINARY(20)           NOT NULL
+  - skill_points_x                 SMALLINT             NOT NULL
+  - train_points                   SMALLINT             NOT NULL
+  - train_points_free              SMALLINT             NOT NULL
+  - train_points_coins             SMALLINT             NOT NULL
+  - train_points_ices              SMALLINT             NOT NULL
+  - min_speed                      SMALLINT             NOT NULL
+  - norm_speed                     SMALLINT             NOT NULL
+  - inc_speed                      TINYINT              NOT NULL
+  - over_inc_speed                 FLOAT                NOT NULL
+  - tpoints_speed                  SMALLINT             NOT NULL
+  - min_stamina                    SMALLINT             NOT NULL
+  - norm_stamina                   SMALLINT             NOT NULL
+  - inc_stamina                    TINYINT              NOT NULL
+  - over_inc_stamina               FLOAT                NOT NULL
+  - tpoints_stamina                SMALLINT             NOT NULL
+  - min_acceleration               SMALLINT             NOT NULL
+  - norm_acceleration              SMALLINT             NOT NULL
+  - inc_acceleration               TINYINT              NOT NULL
+  - over_inc_acceleration          FLOAT                NOT NULL
+  - tpoints_acceleration           SMALLINT             NOT NULL
+  - skill_first_out                TINYINT              NOT NULL
+  - skill_front                    TINYINT              NOT NULL
+  - skill_rail                     TINYINT              NOT NULL
+  - skill_breezing                 TINYINT              NOT NULL
+  - skill_working                  TINYINT              NOT NULL
+  - skill_drafting                 TINYINT              NOT NULL
+  - skill_turning                  TINYINT              NOT NULL
+  - skill_dueling                  TINYINT              NOT NULL
+  - skill_overtaking               TINYINT              NOT NULL
+  - skill_final_kick               TINYINT              NOT NULL
+  - skill_closing                  TINYINT              NOT NULL
+  - speed_traits                   BIGINT               NOT NULL
+  - stamina_traits                 BIGINT               NOT NULL
+  - acceleration_traits            BIGINT               NOT NULL
+  - sire_ghuid                     BIGINT               NOT NULL
+  - dam_ghuid                      BIGINT               NOT NULL
+  - trait_small_size               TINYINT              NOT NULL
+  - trait_avg_size                 TINYINT              NOT NULL
+  - trait_big_size                 TINYINT              NOT NULL
+  - trait_colossus_size            TINYINT              NOT NULL
+  - trait_high_stride              TINYINT              NOT NULL
+  - trait_pony_strider             TINYINT              NOT NULL
+  - trait_silky_stride             TINYINT              NOT NULL
+  - trait_long_strider             TINYINT              NOT NULL
+  - trait_rip_quarters             TINYINT              NOT NULL
+  - trait_muscular                 TINYINT              NOT NULL
+  - trait_athletic_build           TINYINT              NOT NULL
+  - trait_plenty_of_bone           TINYINT              NOT NULL
+  - trait_turf_lover               TINYINT              NOT NULL
+  - trait_dirt_digger              TINYINT              NOT NULL
+  - trait_comp_driver              TINYINT              NOT NULL
+  - trait_turner                   TINYINT              NOT NULL
+  - trait_comf_runner              TINYINT              NOT NULL
+  - trait_quick_speed              TINYINT              NOT NULL
+  - trait_sprinter                 TINYINT              NOT NULL
+  - trait_miler                    TINYINT              NOT NULL
+  - trait_marathoner               TINYINT              NOT NULL
+  - trait_muddy_runner             TINYINT              NOT NULL
+  - trait_nice_and_hot             TINYINT              NOT NULL
+  - trait_cold_killer              TINYINT              NOT NULL
+  - trait_wet_winner               TINYINT              NOT NULL
+  - trait_leader                   TINYINT              NOT NULL
+  - trait_hunter                   TINYINT              NOT NULL
+  - trait_del_motivation           TINYINT              NOT NULL
+  - trait_starter                  TINYINT              NOT NULL
+  - trait_jockeying                TINYINT              NOT NULL
+  - trait_finisher                 TINYINT              NOT NULL
+  - trait_learner                  TINYINT              NOT NULL
+  - locus_ext                      TINYINT              NOT NULL
+  - locus_gray                     TINYINT              NOT NULL
+  - locus_kit                      TINYINT              NOT NULL
+  - train_user_xp_reward           SMALLINT             NOT NULL
+  - overtrain_user_xp_reward       SMALLINT             NOT NULL
+  - train_user_coins_cost          SMALLINT             NOT NULL
+  - train_user_ices_cost           SMALLINT             NOT NULL
+  - train_horse_energy_cost        TINYINT              NOT NULL
+  - train_horse_conditioning_gain  TINYINT              NOT NULL
+  - train_horse_happiness_gain     TINYINT              NOT NULL
+  - train_horse_happiness_drop     TINYINT              NOT NULL
+  - train_points_pool              SMALLINT             NOT NULL
+  - train_points_free_pool         TINYINT              NOT NULL
+  - train_points_coins_pool        TINYINT              NOT NULL
+  - train_points_ices_pool         TINYINT              NOT NULL
+  - train_point_free_cooldown      INTEGER              NOT NULL
+  - train_point_coins_cooldown     INTEGER              NOT NULL
+  - train_point_ices_cooldown      INTEGER              NOT NULL
+  - energy_repl_interval           SMALLINT             NOT NULL
+  - energy_repl_amount             TINYINT              NOT NULL
+  - feeding_cooldown               SMALLINT             NOT NULL
+  - caring_cooldown                SMALLINT             NOT NULL
+  - tiredness_cooldown             SMALLINT             NOT NULL
+  - tiredness_horse_happiness_drop TINYINT              NOT NULL
+  - skill_points_pool              SMALLINT             NOT NULL
+  - race_tokens_pool               TINYINT              NOT NULL
+  - nft_token_id                   CHAR(78)             NOT NULL
+  - flags                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_pedigree_horse
+--------------------------------------------------------------------------------
+Columns (114):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - match_idx                      INTEGER              NOT NULL
+  - gen                            INTEGER              NOT NULL
+  - texture_id                     TINYINT              NOT NULL
+  - face_mark_id                   TINYINT              NOT NULL
+  - leg_mark_id                    TINYINT              NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - name                           VARCHAR(25)          NOT NULL
+  - gender                         TINYINT              NOT NULL
+  - age                            SMALLINT             NOT NULL
+  - energy                         TINYINT              NOT NULL
+  - happiness                      TINYINT              NOT NULL
+  - conditioning                   TINYINT              NOT NULL
+  - grade                          TINYINT              NOT NULL
+  - bloodline                      TINYINT              NOT NULL
+  - race_tokens_x                  BINARY(20)           NOT NULL
+  - skill_points_x                 SMALLINT             NOT NULL
+  - train_points                   SMALLINT             NOT NULL
+  - train_points_free              SMALLINT             NOT NULL
+  - train_points_coins             SMALLINT             NOT NULL
+  - train_points_ices              SMALLINT             NOT NULL
+  - min_speed                      SMALLINT             NOT NULL
+  - norm_speed                     SMALLINT             NOT NULL
+  - inc_speed                      TINYINT              NOT NULL
+  - over_inc_speed                 FLOAT                NOT NULL
+  - tpoints_speed                  SMALLINT             NOT NULL
+  - min_stamina                    SMALLINT             NOT NULL
+  - norm_stamina                   SMALLINT             NOT NULL
+  - inc_stamina                    TINYINT              NOT NULL
+  - over_inc_stamina               FLOAT                NOT NULL
+  - tpoints_stamina                SMALLINT             NOT NULL
+  - min_acceleration               SMALLINT             NOT NULL
+  - norm_acceleration              SMALLINT             NOT NULL
+  - inc_acceleration               TINYINT              NOT NULL
+  - over_inc_acceleration          FLOAT                NOT NULL
+  - tpoints_acceleration           SMALLINT             NOT NULL
+  - skill_first_out                TINYINT              NOT NULL
+  - skill_front                    TINYINT              NOT NULL
+  - skill_rail                     TINYINT              NOT NULL
+  - skill_breezing                 TINYINT              NOT NULL
+  - skill_working                  TINYINT              NOT NULL
+  - skill_drafting                 TINYINT              NOT NULL
+  - skill_turning                  TINYINT              NOT NULL
+  - skill_dueling                  TINYINT              NOT NULL
+  - skill_overtaking               TINYINT              NOT NULL
+  - skill_final_kick               TINYINT              NOT NULL
+  - skill_closing                  TINYINT              NOT NULL
+  - speed_traits                   BIGINT               NOT NULL
+  - stamina_traits                 BIGINT               NOT NULL
+  - acceleration_traits            BIGINT               NOT NULL
+  - sire_ghuid                     BIGINT               NOT NULL
+  - dam_ghuid                      BIGINT               NOT NULL
+  - trait_small_size               TINYINT              NOT NULL
+  - trait_avg_size                 TINYINT              NOT NULL
+  - trait_big_size                 TINYINT              NOT NULL
+  - trait_colossus_size            TINYINT              NOT NULL
+  - trait_high_stride              TINYINT              NOT NULL
+  - trait_pony_strider             TINYINT              NOT NULL
+  - trait_silky_stride             TINYINT              NOT NULL
+  - trait_long_strider             TINYINT              NOT NULL
+  - trait_rip_quarters             TINYINT              NOT NULL
+  - trait_muscular                 TINYINT              NOT NULL
+  - trait_athletic_build           TINYINT              NOT NULL
+  - trait_plenty_of_bone           TINYINT              NOT NULL
+  - trait_turf_lover               TINYINT              NOT NULL
+  - trait_dirt_digger              TINYINT              NOT NULL
+  - trait_comp_driver              TINYINT              NOT NULL
+  - trait_turner                   TINYINT              NOT NULL
+  - trait_comf_runner              TINYINT              NOT NULL
+  - trait_quick_speed              TINYINT              NOT NULL
+  - trait_sprinter                 TINYINT              NOT NULL
+  - trait_miler                    TINYINT              NOT NULL
+  - trait_marathoner               TINYINT              NOT NULL
+  - trait_muddy_runner             TINYINT              NOT NULL
+  - trait_nice_and_hot             TINYINT              NOT NULL
+  - trait_cold_killer              TINYINT              NOT NULL
+  - trait_wet_winner               TINYINT              NOT NULL
+  - trait_leader                   TINYINT              NOT NULL
+  - trait_hunter                   TINYINT              NOT NULL
+  - trait_del_motivation           TINYINT              NOT NULL
+  - trait_starter                  TINYINT              NOT NULL
+  - trait_jockeying                TINYINT              NOT NULL
+  - trait_finisher                 TINYINT              NOT NULL
+  - trait_learner                  TINYINT              NOT NULL
+  - locus_ext                      TINYINT              NOT NULL
+  - locus_gray                     TINYINT              NOT NULL
+  - locus_kit                      TINYINT              NOT NULL
+  - train_user_xp_reward           SMALLINT             NOT NULL
+  - overtrain_user_xp_reward       SMALLINT             NOT NULL
+  - train_user_coins_cost          SMALLINT             NOT NULL
+  - train_user_ices_cost           SMALLINT             NOT NULL
+  - train_horse_energy_cost        TINYINT              NOT NULL
+  - train_horse_conditioning_gain  TINYINT              NOT NULL
+  - train_horse_happiness_gain     TINYINT              NOT NULL
+  - train_horse_happiness_drop     TINYINT              NOT NULL
+  - train_points_pool              SMALLINT             NOT NULL
+  - train_points_free_pool         TINYINT              NOT NULL
+  - train_points_coins_pool        TINYINT              NOT NULL
+  - train_points_ices_pool         TINYINT              NOT NULL
+  - train_point_free_cooldown      INTEGER              NOT NULL
+  - train_point_coins_cooldown     INTEGER              NOT NULL
+  - train_point_ices_cooldown      INTEGER              NOT NULL
+  - energy_repl_interval           SMALLINT             NOT NULL
+  - energy_repl_amount             TINYINT              NOT NULL
+  - feeding_cooldown               SMALLINT             NOT NULL
+  - caring_cooldown                SMALLINT             NOT NULL
+  - tiredness_cooldown             SMALLINT             NOT NULL
+  - tiredness_horse_happiness_drop TINYINT              NOT NULL
+  - skill_points_pool              SMALLINT             NOT NULL
+  - race_tokens_pool               TINYINT              NOT NULL
+  - flags                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user
+--------------------------------------------------------------------------------
+Columns (12):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - coins                          INTEGER              NOT NULL
+  - ices                           INTEGER              NOT NULL
+  - rpoints                        INTEGER              NOT NULL
+  - xp                             INTEGER              NOT NULL
+  - rnd_counter                    INTEGER              NOT NULL
+  - stable_count                   TINYINT              NOT NULL
+  - jti                            INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_apple_inapp_purchase
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - product_id                     SMALLINT             NOT NULL
+  - transaction_id                 CHAR(200)            NOT NULL
+  - created_at                     INTEGER              NOT NULL
+  - updated_at                     INTEGER              NOT NULL
+  - state                          TINYINT              NOT NULL
+  - ack                            TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_boost
+--------------------------------------------------------------------------------
+Columns (8):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - static_id                      INTEGER              NOT NULL
+  - created_at                     INTEGER              NOT NULL
+  - action_count                   SMALLINT             NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_caring_item
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - static_id                      INTEGER              NOT NULL
+  - count                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_daily_quest
+--------------------------------------------------------------------------------
+Columns (16):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - static_id                      SMALLINT             NOT NULL
+  - quests_chain_id                SMALLINT             NOT NULL
+  - rnd_seed                       INTEGER              NOT NULL
+  - day_num                        TINYINT              NOT NULL
+  - quest_num                      TINYINT              NOT NULL
+  - progress                       INTEGER              NOT NULL
+  - status                         TINYINT              NOT NULL
+  - used_quests                    BINARY(70)           NOT NULL
+  - time_zone                      SMALLINT             NOT NULL
+  - expired_at                     INTEGER              NOT NULL
+  - new_chain_at                   INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_equipment
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - static_id                      INTEGER              NOT NULL
+  - count                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_event
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - type                           TINYINT              NOT NULL
+  - ts                             BIGINT               NOT NULL
+  - processed                      TINYINT              NOT NULL
+  - payload                        VARBINARY(4096)      NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_food
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - static_id                      INTEGER              NOT NULL
+  - count                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_google_inapp_purch
+--------------------------------------------------------------------------------
+Columns (15):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - product_id                     SMALLINT             NOT NULL
+  - transaction_id                 CHAR(200)            NOT NULL
+  - order_id                       CHAR(100)            NOT NULL
+  - token                          CHAR(200)            NOT NULL
+  - created_at                     INTEGER              NOT NULL
+  - updated_at                     INTEGER              NOT NULL
+  - state                          TINYINT              NOT NULL
+  - ack                            TINYINT              NOT NULL
+  - sku_price                      INTEGER              NOT NULL
+  - sku_currency_code              CHAR(3)              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_horse
+--------------------------------------------------------------------------------
+Columns (68):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - user_horse_economy_id          BIGINT               NOT NULL
+  - user_horse_genome_id           BIGINT               NOT NULL
+  - orig_ghuid                     BIGINT               NOT NULL
+  - gen                            INTEGER              NOT NULL
+  - grade                          TINYINT              NOT NULL
+  - bloodline                      TINYINT              NOT NULL
+  - texture_id                     TINYINT              NOT NULL
+  - face_mark_id                   TINYINT              NOT NULL
+  - leg_mark_id                    TINYINT              NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - name                           VARCHAR(20)          NOT NULL
+  - gender                         TINYINT              NOT NULL
+  - age                            SMALLINT             NOT NULL
+  - energy                         TINYINT              NOT NULL
+  - happiness                      TINYINT              NOT NULL
+  - conditioning                   TINYINT              NOT NULL
+  - min_speed                      SMALLINT             NOT NULL
+  - norm_speed                     SMALLINT             NOT NULL
+  - inc_speed                      TINYINT              NOT NULL
+  - over_inc_speed                 FLOAT                NOT NULL
+  - tpoints_speed                  SMALLINT             NOT NULL
+  - min_stamina                    SMALLINT             NOT NULL
+  - norm_stamina                   SMALLINT             NOT NULL
+  - inc_stamina                    TINYINT              NOT NULL
+  - over_inc_stamina               FLOAT                NOT NULL
+  - tpoints_stamina                SMALLINT             NOT NULL
+  - min_acceleration               SMALLINT             NOT NULL
+  - norm_acceleration              SMALLINT             NOT NULL
+  - inc_acceleration               TINYINT              NOT NULL
+  - over_inc_acceleration          FLOAT                NOT NULL
+  - tpoints_acceleration           SMALLINT             NOT NULL
+  - race_tokens_x                  BINARY(20)           NOT NULL
+  - train_points                   SMALLINT             NOT NULL
+  - train_points_free              SMALLINT             NOT NULL
+  - train_points_coins             SMALLINT             NOT NULL
+  - train_points_ices              SMALLINT             NOT NULL
+  - train_points_free_last_upd     INTEGER              NOT NULL
+  - train_points_coins_last_upd    INTEGER              NOT NULL
+  - train_points_ices_last_upd     INTEGER              NOT NULL
+  - skill_points_x                 SMALLINT             NOT NULL
+  - skill_first_out                TINYINT              NOT NULL
+  - skill_front                    TINYINT              NOT NULL
+  - skill_rail                     TINYINT              NOT NULL
+  - skill_breezing                 TINYINT              NOT NULL
+  - skill_working                  TINYINT              NOT NULL
+  - skill_drafting                 TINYINT              NOT NULL
+  - skill_turning                  TINYINT              NOT NULL
+  - skill_dueling                  TINYINT              NOT NULL
+  - skill_overtaking               TINYINT              NOT NULL
+  - skill_final_kick               TINYINT              NOT NULL
+  - skill_closing                  TINYINT              NOT NULL
+  - speed_traits                   BIGINT               NOT NULL
+  - stamina_traits                 BIGINT               NOT NULL
+  - acceleration_traits            BIGINT               NOT NULL
+  - sire_ghuid                     BIGINT               NOT NULL
+  - dam_ghuid                      BIGINT               NOT NULL
+  - last_feed_time                 INTEGER              NOT NULL
+  - last_care_time                 INTEGER              NOT NULL
+  - last_race_time                 INTEGER              NOT NULL
+  - last_train_time                INTEGER              NOT NULL
+  - last_energy_upd_ts             INTEGER              NOT NULL
+  - flags                          INTEGER              NOT NULL
+  - status                         TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_horse_buff
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - static_id                      INTEGER              NOT NULL
+  - created_at                     INTEGER              NOT NULL
+  - action_count                   INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_horse_economy
+--------------------------------------------------------------------------------
+Columns (29):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - train_user_xp_reward           SMALLINT             NOT NULL
+  - overtrain_user_xp_reward       SMALLINT             NOT NULL
+  - train_user_coins_cost          SMALLINT             NOT NULL
+  - train_user_ices_cost           SMALLINT             NOT NULL
+  - train_horse_energy_cost        TINYINT              NOT NULL
+  - train_horse_conditioning_gain  TINYINT              NOT NULL
+  - train_horse_happiness_gain     TINYINT              NOT NULL
+  - train_horse_happiness_drop     TINYINT              NOT NULL
+  - train_points_pool              SMALLINT             NOT NULL
+  - train_points_free_pool         TINYINT              NOT NULL
+  - train_points_coins_pool        TINYINT              NOT NULL
+  - train_points_ices_pool         TINYINT              NOT NULL
+  - train_point_free_cooldown      INTEGER              NOT NULL
+  - train_point_coins_cooldown     INTEGER              NOT NULL
+  - train_point_ices_cooldown      INTEGER              NOT NULL
+  - energy_repl_interval           SMALLINT             NOT NULL
+  - energy_repl_amount             TINYINT              NOT NULL
+  - feeding_cooldown               SMALLINT             NOT NULL
+  - caring_cooldown                SMALLINT             NOT NULL
+  - tiredness_cooldown             SMALLINT             NOT NULL
+  - tiredness_horse_happiness_drop TINYINT              NOT NULL
+  - skill_points_pool              SMALLINT             NOT NULL
+  - race_tokens_pool               TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_horse_gen
+--------------------------------------------------------------------------------
+Columns (116):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - owner_id                       BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - gen                            INTEGER              NOT NULL
+  - grade                          TINYINT              NOT NULL
+  - bloodline                      TINYINT              NOT NULL
+  - texture_id                     TINYINT              NOT NULL
+  - face_mark_id                   TINYINT              NOT NULL
+  - leg_mark_id                    TINYINT              NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - name                           VARCHAR(20)          NOT NULL
+  - gender                         TINYINT              NOT NULL
+  - age                            SMALLINT             NOT NULL
+  - energy                         TINYINT              NOT NULL
+  - happiness                      TINYINT              NOT NULL
+  - conditioning                   TINYINT              NOT NULL
+  - race_tokens_x                  BINARY(20)           NOT NULL
+  - skill_points_x                 SMALLINT             NOT NULL
+  - train_points                   SMALLINT             NOT NULL
+  - train_points_free              SMALLINT             NOT NULL
+  - train_points_coins             SMALLINT             NOT NULL
+  - train_points_ices              SMALLINT             NOT NULL
+  - min_speed                      SMALLINT             NOT NULL
+  - norm_speed                     SMALLINT             NOT NULL
+  - inc_speed                      TINYINT              NOT NULL
+  - over_inc_speed                 FLOAT                NOT NULL
+  - tpoints_speed                  SMALLINT             NOT NULL
+  - min_stamina                    SMALLINT             NOT NULL
+  - norm_stamina                   SMALLINT             NOT NULL
+  - inc_stamina                    TINYINT              NOT NULL
+  - over_inc_stamina               FLOAT                NOT NULL
+  - tpoints_stamina                SMALLINT             NOT NULL
+  - min_acceleration               SMALLINT             NOT NULL
+  - norm_acceleration              SMALLINT             NOT NULL
+  - inc_acceleration               TINYINT              NOT NULL
+  - over_inc_acceleration          FLOAT                NOT NULL
+  - tpoints_acceleration           SMALLINT             NOT NULL
+  - skill_first_out                TINYINT              NOT NULL
+  - skill_front                    TINYINT              NOT NULL
+  - skill_rail                     TINYINT              NOT NULL
+  - skill_breezing                 TINYINT              NOT NULL
+  - skill_working                  TINYINT              NOT NULL
+  - skill_drafting                 TINYINT              NOT NULL
+  - skill_turning                  TINYINT              NOT NULL
+  - skill_dueling                  TINYINT              NOT NULL
+  - skill_overtaking               TINYINT              NOT NULL
+  - skill_final_kick               TINYINT              NOT NULL
+  - skill_closing                  TINYINT              NOT NULL
+  - speed_traits                   BIGINT               NOT NULL
+  - stamina_traits                 BIGINT               NOT NULL
+  - acceleration_traits            BIGINT               NOT NULL
+  - sire_ghuid                     BIGINT               NOT NULL
+  - dam_ghuid                      BIGINT               NOT NULL
+  - trait_small_size               TINYINT              NOT NULL
+  - trait_avg_size                 TINYINT              NOT NULL
+  - trait_big_size                 TINYINT              NOT NULL
+  - trait_colossus_size            TINYINT              NOT NULL
+  - trait_high_stride              TINYINT              NOT NULL
+  - trait_pony_strider             TINYINT              NOT NULL
+  - trait_silky_stride             TINYINT              NOT NULL
+  - trait_long_strider             TINYINT              NOT NULL
+  - trait_rip_quarters             TINYINT              NOT NULL
+  - trait_muscular                 TINYINT              NOT NULL
+  - trait_athletic_build           TINYINT              NOT NULL
+  - trait_plenty_of_bone           TINYINT              NOT NULL
+  - trait_turf_lover               TINYINT              NOT NULL
+  - trait_dirt_digger              TINYINT              NOT NULL
+  - trait_comp_driver              TINYINT              NOT NULL
+  - trait_turner                   TINYINT              NOT NULL
+  - trait_comf_runner              TINYINT              NOT NULL
+  - trait_quick_speed              TINYINT              NOT NULL
+  - trait_sprinter                 TINYINT              NOT NULL
+  - trait_miler                    TINYINT              NOT NULL
+  - trait_marathoner               TINYINT              NOT NULL
+  - trait_muddy_runner             TINYINT              NOT NULL
+  - trait_nice_and_hot             TINYINT              NOT NULL
+  - trait_cold_killer              TINYINT              NOT NULL
+  - trait_wet_winner               TINYINT              NOT NULL
+  - trait_leader                   TINYINT              NOT NULL
+  - trait_hunter                   TINYINT              NOT NULL
+  - trait_del_motivation           TINYINT              NOT NULL
+  - trait_starter                  TINYINT              NOT NULL
+  - trait_jockeying                TINYINT              NOT NULL
+  - trait_finisher                 TINYINT              NOT NULL
+  - trait_learner                  TINYINT              NOT NULL
+  - locus_ext                      TINYINT              NOT NULL
+  - locus_gray                     TINYINT              NOT NULL
+  - locus_kit                      TINYINT              NOT NULL
+  - train_user_xp_reward           SMALLINT             NOT NULL
+  - overtrain_user_xp_reward       SMALLINT             NOT NULL
+  - train_user_coins_cost          SMALLINT             NOT NULL
+  - train_user_ices_cost           SMALLINT             NOT NULL
+  - train_horse_energy_cost        TINYINT              NOT NULL
+  - train_horse_conditioning_gain  TINYINT              NOT NULL
+  - train_horse_happiness_gain     TINYINT              NOT NULL
+  - train_horse_happiness_drop     TINYINT              NOT NULL
+  - train_points_pool              SMALLINT             NOT NULL
+  - train_points_free_pool         TINYINT              NOT NULL
+  - train_points_coins_pool        TINYINT              NOT NULL
+  - train_points_ices_pool         TINYINT              NOT NULL
+  - train_point_free_cooldown      INTEGER              NOT NULL
+  - train_point_coins_cooldown     INTEGER              NOT NULL
+  - train_point_ices_cooldown      INTEGER              NOT NULL
+  - energy_repl_interval           SMALLINT             NOT NULL
+  - energy_repl_amount             TINYINT              NOT NULL
+  - feeding_cooldown               SMALLINT             NOT NULL
+  - caring_cooldown                SMALLINT             NOT NULL
+  - tiredness_cooldown             SMALLINT             NOT NULL
+  - tiredness_horse_happiness_drop TINYINT              NOT NULL
+  - skill_points_pool              SMALLINT             NOT NULL
+  - race_tokens_pool               TINYINT              NOT NULL
+  - flags                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_horse_genome
+--------------------------------------------------------------------------------
+Columns (53):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - min_speed                      SMALLINT             NOT NULL
+  - norm_speed                     SMALLINT             NOT NULL
+  - inc_speed                      TINYINT              NOT NULL
+  - over_inc_speed                 FLOAT                NOT NULL
+  - min_stamina                    SMALLINT             NOT NULL
+  - norm_stamina                   SMALLINT             NOT NULL
+  - inc_stamina                    TINYINT              NOT NULL
+  - over_inc_stamina               FLOAT                NOT NULL
+  - min_acceleration               SMALLINT             NOT NULL
+  - norm_acceleration              SMALLINT             NOT NULL
+  - inc_acceleration               TINYINT              NOT NULL
+  - over_inc_acceleration          FLOAT                NOT NULL
+  - trait_small_size               TINYINT              NOT NULL
+  - trait_avg_size                 TINYINT              NOT NULL
+  - trait_big_size                 TINYINT              NOT NULL
+  - trait_colossus_size            TINYINT              NOT NULL
+  - trait_high_stride              TINYINT              NOT NULL
+  - trait_pony_strider             TINYINT              NOT NULL
+  - trait_silky_stride             TINYINT              NOT NULL
+  - trait_long_strider             TINYINT              NOT NULL
+  - trait_rip_quarters             TINYINT              NOT NULL
+  - trait_muscular                 TINYINT              NOT NULL
+  - trait_athletic_build           TINYINT              NOT NULL
+  - trait_plenty_of_bone           TINYINT              NOT NULL
+  - trait_turf_lover               TINYINT              NOT NULL
+  - trait_dirt_digger              TINYINT              NOT NULL
+  - trait_comp_driver              TINYINT              NOT NULL
+  - trait_turner                   TINYINT              NOT NULL
+  - trait_comf_runner              TINYINT              NOT NULL
+  - trait_quick_speed              TINYINT              NOT NULL
+  - trait_sprinter                 TINYINT              NOT NULL
+  - trait_miler                    TINYINT              NOT NULL
+  - trait_marathoner               TINYINT              NOT NULL
+  - trait_muddy_runner             TINYINT              NOT NULL
+  - trait_nice_and_hot             TINYINT              NOT NULL
+  - trait_cold_killer              TINYINT              NOT NULL
+  - trait_wet_winner               TINYINT              NOT NULL
+  - trait_leader                   TINYINT              NOT NULL
+  - trait_hunter                   TINYINT              NOT NULL
+  - trait_del_motivation           TINYINT              NOT NULL
+  - trait_starter                  TINYINT              NOT NULL
+  - trait_jockeying                TINYINT              NOT NULL
+  - trait_finisher                 TINYINT              NOT NULL
+  - trait_learner                  TINYINT              NOT NULL
+  - locus_ext                      TINYINT              NOT NULL
+  - locus_gray                     TINYINT              NOT NULL
+  - locus_kit                      TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_horse_lb
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - lb                             TINYINT              NOT NULL
+  - expired_at                     INTEGER              NOT NULL
+  - scores                         BIGINT               NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_horse_race_progress
+--------------------------------------------------------------------------------
+Columns (19):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - vs_count                       INTEGER              NOT NULL
+  - vs_coins                       INTEGER              NOT NULL
+  - vs_first                       INTEGER              NOT NULL
+  - vs_second                      INTEGER              NOT NULL
+  - vs_third                       INTEGER              NOT NULL
+  - wc_entries                     INTEGER              NOT NULL
+  - wc_count                       INTEGER              NOT NULL
+  - wc_coins                       INTEGER              NOT NULL
+  - wc_first                       INTEGER              NOT NULL
+  - wc_second                      INTEGER              NOT NULL
+  - wc_third                       INTEGER              NOT NULL
+  - wc_trend                       TINYINT              NOT NULL
+  - wc_last_position               TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_horse_race_stats
+--------------------------------------------------------------------------------
+Columns (12):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - track_id                       INTEGER              NOT NULL
+  - weather                        TINYINT              NOT NULL
+  - condition                      TINYINT              NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - completed_at                   INTEGER              NOT NULL
+  - place                          TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_lb
+--------------------------------------------------------------------------------
+Columns (8):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - lb                             TINYINT              NOT NULL
+  - expired_at                     INTEGER              NOT NULL
+  - scores                         BIGINT               NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_profile
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - display_name                   VARCHAR(50)          NOT NULL
+  - color_1                        INTEGER              NOT NULL
+  - color_2                        INTEGER              NOT NULL
+  - texture_id                     INTEGER              NOT NULL
+  - face_id                        INTEGER              NOT NULL
+  - time_zone                      SMALLINT             NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_progress
+--------------------------------------------------------------------------------
+Columns (26):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - vs_race_count                  INTEGER              NOT NULL
+  - vs_race_coins                  INTEGER              NOT NULL
+  - vs_race_first                  INTEGER              NOT NULL
+  - vs_race_second                 INTEGER              NOT NULL
+  - vs_race_third                  INTEGER              NOT NULL
+  - wc_race_count                  INTEGER              NOT NULL
+  - wc_race_coins                  INTEGER              NOT NULL
+  - wc_race_first                  INTEGER              NOT NULL
+  - wc_race_second                 INTEGER              NOT NULL
+  - wc_race_third                  INTEGER              NOT NULL
+  - wc_race_last_ts                INTEGER              NOT NULL
+  - wc_race_last_id                BIGINT               NOT NULL
+  - wc_race_last_site_id           TINYINT              NOT NULL
+  - wager_coins                    INTEGER              NOT NULL
+  - lb_prev_rank                   BIGINT               NOT NULL
+  - lb_rank                        BIGINT               NOT NULL
+  - lb_id                          INTEGER              NOT NULL
+  - lb_league_prev_league          TINYINT              NOT NULL
+  - lb_league_prev_rank            BIGINT               NOT NULL
+  - wager_last_bet_ts              INTEGER              NOT NULL
+  - wager_last_bet_id              BIGINT               NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_training_booster
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - static_id                      INTEGER              NOT NULL
+  - count                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_OC_user_transaction
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - type                           TINYINT              NOT NULL
+  - subtype                        TINYINT              NOT NULL
+  - currency                       TINYINT              NOT NULL
+  - amount                         BIGINT               NOT NULL
+  - created_at                     INTEGER              NOT NULL
+  - payload                        BINARY(128)          NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_common_user_statistic
+--------------------------------------------------------------------------------
+Columns (8):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - wager_total_earnings_coin      BIGINT               NOT NULL
+  - wager_total_earnings_cash      BIGINT               NOT NULL
+  - horses_acquired                INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_idempotence_guard
+--------------------------------------------------------------------------------
+Columns (6):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - race_id                        BIGINT               NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_vs_horse_condition_stats
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - condition                      TINYINT              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_vs_horse_distance_stats
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_vs_horse_race_stats
+--------------------------------------------------------------------------------
+Columns (25):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - race_id                        BIGINT               NOT NULL
+  - start_at                       INTEGER              NOT NULL
+  - entrants_count                 TINYINT              NOT NULL
+  - track_id                       SMALLINT             NOT NULL
+  - track_name                     VARCHAR(50)          NOT NULL
+  - track_short_name               VARCHAR(20)          NOT NULL
+  - weather                        TINYINT              NOT NULL
+  - surface                        TINYINT              NOT NULL
+  - condition                      TINYINT              NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - distance_fur                   SMALLINT             NOT NULL
+  - place                          TINYINT              NOT NULL
+  - finish_time                    INTEGER              NOT NULL
+  - stall                          TINYINT              NOT NULL
+  - splits                         BIGINT               NOT NULL
+  - morning_odds                   CHAR(5)              NOT NULL
+  - sr                             FLOAT                NOT NULL
+  - earnings_coin                  BIGINT               NOT NULL
+  - earnings_cash                  BIGINT               NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_vs_horse_statistic
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - total_earnings_coin            BIGINT               NOT NULL
+  - total_earnings_cash            BIGINT               NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_vs_horse_surface_stats
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - surface                        TINYINT              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_vs_horse_track_statistic
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - track_id                       SMALLINT             NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_vs_horse_weather_stats
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - weather                        TINYINT              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_vs_track_time
+--------------------------------------------------------------------------------
+Columns (13):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - track_id                       SMALLINT             NOT NULL
+  - surface                        TINYINT              NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - best_finish_time               INTEGER              NOT NULL
+  - worst_finish_time              INTEGER              NOT NULL
+  - best_finish_time_live          BIGINT               NOT NULL
+  - worst_finish_time_live         BIGINT               NOT NULL
+  - race_cnt                       BIGINT               NOT NULL
+  - last_updated_ts                INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_horse_condition_stats
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - condition                      TINYINT              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_horse_distance_stats
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_horse_race_stats
+--------------------------------------------------------------------------------
+Columns (28):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - event_id                       INTEGER              NOT NULL
+  - event_number                   SMALLINT             NOT NULL
+  - jockey_id                      INTEGER              NOT NULL
+  - start_at                       INTEGER              NOT NULL
+  - entrants_count                 TINYINT              NOT NULL
+  - track_id                       SMALLINT             NOT NULL
+  - track_name                     CHAR(50)             NOT NULL
+  - track_short_name               CHAR(20)             NOT NULL
+  - weather                        TINYINT              NOT NULL
+  - surface                        TINYINT              NOT NULL
+  - condition                      TINYINT              NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - distance_fur                   SMALLINT             NOT NULL
+  - place                          TINYINT              NOT NULL
+  - finish_time                    INTEGER              NOT NULL
+  - stall                          TINYINT              NOT NULL
+  - splits                         BIGINT               NOT NULL
+  - morning_odds                   CHAR(5)              NOT NULL
+  - sr                             FLOAT                NOT NULL
+  - earnings_coin                  BIGINT               NOT NULL
+  - earnings_cash                  BIGINT               NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_horse_race_surf_stats
+--------------------------------------------------------------------------------
+Columns (28):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - event_id                       INTEGER              NOT NULL
+  - event_number                   SMALLINT             NOT NULL
+  - jockey_id                      INTEGER              NOT NULL
+  - start_at                       INTEGER              NOT NULL
+  - entrants_count                 TINYINT              NOT NULL
+  - track_id                       SMALLINT             NOT NULL
+  - track_name                     CHAR(50)             NOT NULL
+  - track_short_name               CHAR(20)             NOT NULL
+  - weather                        TINYINT              NOT NULL
+  - surface                        TINYINT              NOT NULL
+  - condition                      TINYINT              NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - distance_fur                   SMALLINT             NOT NULL
+  - place                          TINYINT              NOT NULL
+  - finish_time                    INTEGER              NOT NULL
+  - stall                          TINYINT              NOT NULL
+  - splits                         BIGINT               NOT NULL
+  - morning_odds                   CHAR(5)              NOT NULL
+  - sr                             FLOAT                NOT NULL
+  - earnings_coin                  BIGINT               NOT NULL
+  - earnings_cash                  BIGINT               NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_horse_statistic
+--------------------------------------------------------------------------------
+Columns (12):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - total_earnings_coin            BIGINT               NOT NULL
+  - total_earnings_cash            BIGINT               NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_horse_surface_stats
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - surface                        TINYINT              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_horse_track_statistic
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - track_id                       SMALLINT             NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_horse_weather_stats
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - ghuid                          BIGINT               NOT NULL
+  - weather                        TINYINT              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_jockey_statistic
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - jockey_id                      INTEGER              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_track_statistic
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - track_id                       SMALLINT             NOT NULL
+  - stall                          TINYINT              NOT NULL
+  - starts                         BIGINT               NOT NULL
+  - first                          BIGINT               NOT NULL
+  - second                         BIGINT               NOT NULL
+  - third                          BIGINT               NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_track_time
+--------------------------------------------------------------------------------
+Columns (14):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - track_id                       SMALLINT             NOT NULL
+  - surface                        TINYINT              NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - best_finish_time               INTEGER              NOT NULL
+  - worst_finish_time              INTEGER              NOT NULL
+  - best_finish_time_live          BIGINT               NOT NULL
+  - worst_finish_time_live         BIGINT               NOT NULL
+  - race_cnt                       BIGINT               NOT NULL
+  - last_updated_ts                INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_trainer_statistic
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - starts                         INTEGER              NOT NULL
+  - first                          INTEGER              NOT NULL
+  - second                         INTEGER              NOT NULL
+  - third                          INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_PP_wc_user_statistic
+--------------------------------------------------------------------------------
+Columns (12):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            BIGINT               NOT NULL
+  - wc_site_id                     SMALLINT             NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - total_earnings_coin            BIGINT               NOT NULL
+  - total_earnings_cash            BIGINT               NOT NULL
+  - starts                         BIGINT               NOT NULL
+  - first                          BIGINT               NOT NULL
+  - second                         BIGINT               NOT NULL
+  - third                          BIGINT               NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_admin_user
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - user_name                      VARCHAR(45)          NOT NULL
+  - status                         TINYINT              NOT NULL
+  - passwd                         CHAR(32)             NOT NULL
+  - role                           TINYINT              NOT NULL
+  - auth_key                       CHAR(32)             NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_breeding
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - sire_id                        INTEGER              NOT NULL
+  - dam_id                         INTEGER              NOT NULL
+  - foal_id                        INTEGER              NOT NULL
+  - ts                             INTEGER              NOT NULL
+  - foal_bloodline                 TEXT                 NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_console_log
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - id                             BIGINT               NOT NULL
+  - level                          INTEGER              NULL
+  - category                       VARCHAR(255) COLLATE "utf8mb3_unicode_ci" NULL
+  - log_time                       DOUBLE               NULL
+  - prefix                         TEXT COLLATE "utf8mb3_unicode_ci" NULL
+  - message                        TEXT COLLATE "utf8mb3_unicode_ci" NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_cpu_horse
+--------------------------------------------------------------------------------
+Columns (41):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - name                           VARCHAR(25)          NOT NULL
+  - sire                           VARCHAR(25)          NOT NULL
+  - dam                            VARCHAR(25)          NOT NULL
+  - cpu_owner_id                   INTEGER              NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - stamina                        INTEGER              NOT NULL
+  - speed                          INTEGER              NOT NULL
+  - acceleration                   INTEGER              NOT NULL
+  - consistency                    INTEGER              NOT NULL
+  - finishing_ability              INTEGER              NOT NULL
+  - starting_ability               INTEGER              NOT NULL
+  - pacing_ability                 INTEGER              NOT NULL
+  - tactic                         BINARY(2)            NOT NULL
+  - happiness                      TINYINT              NOT NULL
+  - rating                         INTEGER              NOT NULL
+  - texture_id                     INTEGER              NOT NULL
+  - face_mark_id                   TINYINT              NOT NULL
+  - leg_mark_id                    TINYINT              NOT NULL
+  - age                            INTEGER              NOT NULL
+  - career_earnings                INTEGER              NOT NULL
+  - size                           INTEGER              NOT NULL
+  - wins                           INTEGER              NOT NULL
+  - realtime_wins                  INTEGER              NOT NULL
+  - shows                          INTEGER              NOT NULL
+  - realtime_shows                 INTEGER              NOT NULL
+  - place                          INTEGER              NOT NULL
+  - realtime_place                 INTEGER              NOT NULL
+  - gender                         TINYINT              NOT NULL
+  - hair_color                     TINYINT              NOT NULL
+  - finishes                       CHAR(14)             NOT NULL
+  - birth_ts                       INTEGER              NOT NULL
+  - status                         TINYINT              NOT NULL
+  - generation                     TINYINT              NOT NULL
+  - foals_count                    INTEGER              NOT NULL
+  - race_cnt                       INTEGER              NOT NULL
+  - script_race_cnt                INTEGER              NOT NULL
+  - event_type                     INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_cpu_owner
+--------------------------------------------------------------------------------
+Columns (6):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - name                           VARCHAR(50)          NOT NULL
+  - sex                            TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_cpu_stable
+--------------------------------------------------------------------------------
+Columns (8):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - cpu_owner_id                   INTEGER              NOT NULL
+  - silk_1_color                   INTEGER              NOT NULL
+  - silk_2_color                   INTEGER              NOT NULL
+  - texture_id                     INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_cron_jobs
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - finished_ts                    INTEGER              NOT NULL
+  - status                         TINYINT              NOT NULL
+  - data                           TEXT                 NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_entrant
+--------------------------------------------------------------------------------
+Columns (25):
+  - _id                            INTEGER              NOT NULL
+  - event_id                       INTEGER              NOT NULL
+  - stall                          TINYINT              NOT NULL
+  - jockey_id                      INTEGER              NOT NULL
+  - horse_snapshot_id              INTEGER              NOT NULL
+  - stable_snapshot_id             INTEGER              NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - win_odds                       CHAR(5) COLLATE "utf8mb3_general_ci" NOT NULL
+  - show_odds                      CHAR(5) COLLATE "utf8mb3_general_ci" NOT NULL
+  - place_odds                     CHAR(5) COLLATE "utf8mb3_general_ci" NOT NULL
+  - win_price                      FLOAT                NOT NULL
+  - place_price                    FLOAT                NOT NULL
+  - show_price                     FLOAT                NOT NULL
+  - first_probs                    FLOAT                NOT NULL
+  - second_probs                   FLOAT                NOT NULL
+  - third_probs                    FLOAT                NOT NULL
+  - probs_ifactor                  FLOAT                NOT NULL
+  - probs_ijfactors                CHAR(255) COLLATE "utf8mb3_general_ci" NOT NULL
+  - input_sr                       FLOAT                NOT NULL
+  - input_sr_type                  TINYINT              NOT NULL
+  - sr                             FLOAT                NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+  - primary_tactic                 INTEGER              NULL
+  - secondary_tactic               INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_event
+--------------------------------------------------------------------------------
+Columns (30):
+  - _id                            INTEGER              NOT NULL
+  - track_id                       INTEGER              NOT NULL
+  - asset_id                       INTEGER              NOT NULL
+  - track_day_time_mode            TINYINT              NOT NULL
+  - track_name                     VARCHAR(50) COLLATE "utf8mb3_general_ci" NOT NULL
+  - name                           VARCHAR(50) COLLATE "utf8mb3_general_ci" NOT NULL
+  - purse                          INTEGER              NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - weather                        TINYINT              NOT NULL
+  - surface                        TINYINT              NOT NULL
+  - condition                      TINYINT              NOT NULL
+  - status                         TINYINT              NOT NULL
+  - entrant_count                  TINYINT              NOT NULL
+  - desired_result                 VARCHAR(30) COLLATE "utf8mb3_general_ci" NOT NULL
+  - rng                            VARCHAR(800) COLLATE "utf8mb3_general_ci" NOT NULL
+  - result_id                      INTEGER              NOT NULL
+  - number                         INTEGER              NOT NULL
+  - tote_hash_key                  CHAR(32) COLLATE "utf8mb3_general_ci" NOT NULL
+  - type                           INTEGER              NOT NULL
+  - result_type                    TINYINT              NOT NULL
+  - deleted                        TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+  - created_at                     DATETIME             NULL
+  - start_at                       DATETIME             NULL
+  - multi_player_uuid              CHAR(36)             NULL
+  - instant_race_identifier        VARCHAR(50)          NULL
+  - grade_flags                    BIGINT               NULL
+  - esr_min                        INTEGER              NULL
+  - esr_max                        INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_event_script
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - entrants_cnt                   TINYINT              NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - surface                        TINYINT              NOT NULL
+  - first                          TINYINT              NOT NULL
+  - second                         TINYINT              NOT NULL
+  - third                          TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_finish_shot
+--------------------------------------------------------------------------------
+Columns (8):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - event_id                       INTEGER              NOT NULL
+  - first_place                    VARCHAR(255)         NOT NULL
+  - second_place                   VARCHAR(255)         NOT NULL
+  - third_place                    VARCHAR(255)         NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_grades
+--------------------------------------------------------------------------------
+Columns (12):
+  - _id                            INTEGER              NOT NULL
+  - name                           VARCHAR(100) COLLATE "utf8mb3_general_ci" NOT NULL
+  - sr_min                         INTEGER              NOT NULL
+  - sr_max                         INTEGER              NOT NULL
+  - purse                          INTEGER              NOT NULL
+  - sex                            INTEGER              NOT NULL
+  - distance                       INTEGER              NOT NULL
+  - horse_ids                      TEXT COLLATE "utf8mb3_general_ci" NOT NULL
+  - public                         INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+  - grade_code                     CHAR(1)              NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_horse_snapshot
+--------------------------------------------------------------------------------
+Columns (92):
+  - _id                            INTEGER              NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - cpu_horse_id                   INTEGER              NOT NULL
+  - owner_snapshot_id              INTEGER              NOT NULL
+  - source                         SMALLINT             NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - name                           VARCHAR(25) COLLATE "latin1_swedish_ci" NOT NULL
+  - sire                           VARCHAR(25) COLLATE "latin1_swedish_ci" NOT NULL
+  - dam                            VARCHAR(25) COLLATE "latin1_swedish_ci" NOT NULL
+  - stamina                        INTEGER              NOT NULL
+  - speed                          INTEGER              NOT NULL
+  - acceleration                   INTEGER              NOT NULL
+  - consistency                    INTEGER              NOT NULL
+  - finishing_ability              INTEGER              NOT NULL
+  - starting_ability               INTEGER              NOT NULL
+  - pacing_ability                 INTEGER              NOT NULL
+  - tactic                         BLOB                 NULL
+  - happiness                      SMALLINT             NOT NULL
+  - rating                         INTEGER              NOT NULL
+  - texture_id                     INTEGER              NOT NULL
+  - face_mark_id                   TINYINT              NOT NULL
+  - leg_mark_id                    TINYINT              NOT NULL
+  - age                            INTEGER              NOT NULL
+  - career_earnings                INTEGER              NOT NULL
+  - size                           INTEGER              NOT NULL
+  - wins                           INTEGER              NOT NULL
+  - shows                          INTEGER              NOT NULL
+  - place                          INTEGER              NOT NULL
+  - gender                         INTEGER              NOT NULL
+  - hair_color                     SMALLINT             NOT NULL
+  - finishes                       CHAR(14) COLLATE "latin1_swedish_ci" NULL
+  - generation                     INTEGER              NOT NULL
+  - race_cnt                       INTEGER              NOT NULL
+  - trend                          TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+  - birth_ts                       DATETIME             NULL
+  - created_ts                     DATETIME             NULL
+  - final_position                 INTEGER              NULL
+  - finish_time                    INTEGER              NULL
+  - grade                          INTEGER              NULL
+  - raw_sr                         FLOAT                NULL
+  - entity_type                    INTEGER              NULL
+  - conditioning                   FLOAT                NULL
+  - skill_rail                     INTEGER              NULL
+  - skill_front                    INTEGER              NULL
+  - skill_closing                  INTEGER              NULL
+  - skill_dueling                  INTEGER              NULL
+  - skill_turning                  INTEGER              NULL
+  - skill_working                  INTEGER              NULL
+  - skill_breezing                 INTEGER              NULL
+  - skill_drafting                 INTEGER              NULL
+  - skill_first_out                INTEGER              NULL
+  - skill_final_kick               INTEGER              NULL
+  - skill_overtaking               INTEGER              NULL
+  - skill_rail_pwr                 INTEGER              NULL
+  - skill_front_pwr                INTEGER              NULL
+  - skill_closing_pwr              INTEGER              NULL
+  - skill_dueling_pwr              INTEGER              NULL
+  - skill_turning_pwr              INTEGER              NULL
+  - skill_working_pwr              INTEGER              NULL
+  - skill_breezing_pwr             INTEGER              NULL
+  - skill_drafting_pwr             INTEGER              NULL
+  - skill_first_out_pwr            INTEGER              NULL
+  - skill_final_kick_pwr           INTEGER              NULL
+  - skill_overtaking_pwr           INTEGER              NULL
+  - speed_trait_1                  VARCHAR(50)          NULL
+  - speed_trait_2                  VARCHAR(50)          NULL
+  - speed_trait_3                  VARCHAR(50)          NULL
+  - speed_trait_4                  VARCHAR(50)          NULL
+  - speed_trait_1_pwr              INTEGER              NULL
+  - speed_trait_2_pwr              INTEGER              NULL
+  - speed_trait_3_pwr              INTEGER              NULL
+  - speed_trait_4_pwr              INTEGER              NULL
+  - stamina_trait_1                VARCHAR(50)          NULL
+  - stamina_trait_2                VARCHAR(50)          NULL
+  - stamina_trait_3                VARCHAR(50)          NULL
+  - stamina_trait_4                VARCHAR(50)          NULL
+  - stamina_trait_1_pwr            INTEGER              NULL
+  - stamina_trait_2_pwr            INTEGER              NULL
+  - stamina_trait_3_pwr            INTEGER              NULL
+  - stamina_trait_4_pwr            INTEGER              NULL
+  - acceleration_trait_1           VARCHAR(50)          NULL
+  - acceleration_trait_2           VARCHAR(50)          NULL
+  - acceleration_trait_3           VARCHAR(50)          NULL
+  - acceleration_trait_4           VARCHAR(50)          NULL
+  - acceleration_trait_1_pwr       INTEGER              NULL
+  - acceleration_trait_2_pwr       INTEGER              NULL
+  - acceleration_trait_3_pwr       INTEGER              NULL
+  - acceleration_trait_4_pwr       INTEGER              NULL
+  - equipment                      VARCHAR(100)         NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_jockey
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - name                           VARCHAR(50)          NOT NULL
+  - age                            INTEGER              NOT NULL
+  - weight                         TINYINT              NOT NULL
+  - sex                            TINYINT              NOT NULL
+  - skin_id                        TINYINT              NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_lvdc_odds
+--------------------------------------------------------------------------------
+Columns (8):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - event_id                       INTEGER              NOT NULL
+  - stall                          TINYINT              NOT NULL
+  - win_odds                       CHAR(3)              NOT NULL
+  - win_price                      FLOAT                NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_lvdc_payout
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - event_id                       INTEGER              NOT NULL
+  - pool                           CHAR(3)              NOT NULL
+  - type                           TINYINT              NOT NULL
+  - amt                            DOUBLE               NOT NULL
+  - result                         VARCHAR(255)         NOT NULL
+  - num_needed                     TINYINT              NOT NULL
+  - no_race                        TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_owner_snapshot
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - cpu_owner_id                   INTEGER              NOT NULL
+  - name                           VARCHAR(50) COLLATE "utf8mb3_general_ci" NOT NULL
+  - sex                            SMALLINT             NOT NULL
+  - created_ts                     INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_payout_pool_settings
+--------------------------------------------------------------------------------
+Columns (6):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - pool                           CHAR(3)              NOT NULL
+  - options                        INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_remote_app
+--------------------------------------------------------------------------------
+Columns (11):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - client_id                      VARCHAR(32)          NOT NULL
+  - client_name                    VARCHAR(255)         NOT NULL
+  - status                         TINYINT              NOT NULL
+  - version                        CHAR(10)             NOT NULL
+  - client_secret                  VARCHAR(32)          NOT NULL
+  - files                          TEXT                 NOT NULL
+  - white_ips                      TEXT                 NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_remote_app_event_log
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - type                           TINYINT              NOT NULL
+  - client_id                      VARCHAR(32)          NOT NULL
+  - client_name                    VARCHAR(255)         NOT NULL
+  - version                        CHAR(10)             NOT NULL
+  - ip                             VARCHAR(255)         NOT NULL
+  - ts                             INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_rest_log
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - type                           VARCHAR(255)         NOT NULL
+  - code                           INTEGER              NOT NULL
+  - file                           VARCHAR(255)         NULL
+  - line                           INTEGER              NULL
+  - message                        TEXT                 NOT NULL
+  - ts                             INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_result
+--------------------------------------------------------------------------------
+Columns (9):
+  - _id                            INTEGER              NOT NULL
+  - event_id                       INTEGER              NOT NULL
+  - finishers                      TEXT COLLATE "utf8mb3_general_ci" NOT NULL
+  - exacta_odds                    CHAR(5) COLLATE "utf8mb3_general_ci" NOT NULL
+  - trifecta_odds                  CHAR(5) COLLATE "utf8mb3_general_ci" NOT NULL
+  - exacta_decimal                 FLOAT                NOT NULL
+  - trifecta_decimal               FLOAT                NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_retirement
+--------------------------------------------------------------------------------
+Columns (6):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - horse_id                       INTEGER              NOT NULL
+  - ts                             INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_schedule_block
+--------------------------------------------------------------------------------
+Columns (13):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - status                         TINYINT              NOT NULL
+  - schedule_day                   TINYINT              NOT NULL
+  - start_time                     VARCHAR(45)          NOT NULL
+  - end_time                       VARCHAR(45)          NOT NULL
+  - races_interval                 INTEGER              NOT NULL
+  - track_ids                      TEXT                 NOT NULL
+  - horse_count                    INTEGER              NOT NULL
+  - grade_ids                      TEXT                 NOT NULL
+  - result_type                    INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_scheduled_events_for_pdf
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - start_ts                       INTEGER              NOT NULL
+  - end_ts                         INTEGER              NOT NULL
+  - status                         TINYINT              NOT NULL
+  - message                        VARCHAR(400)         NOT NULL
+  - pdf_uri                        VARCHAR(255)         NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_settings
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - type                           SMALLINT             NOT NULL
+  - value                          TEXT                 NULL
+  - group                          SMALLINT             NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_source_application
+--------------------------------------------------------------------------------
+Columns (7):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - name                           VARCHAR(50)          NOT NULL
+  - secret_key                     CHAR(32)             NOT NULL
+  - created_ts                     INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_stable_snapshot
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - owner_snapshot_id              INTEGER              NOT NULL
+  - silk_1_color                   INTEGER              NOT NULL
+  - silk_2_color                   INTEGER              NOT NULL
+  - texture_id                     INTEGER              NOT NULL
+  - created_ts                     INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_tote_display_data_item
+--------------------------------------------------------------------------------
+Columns (8):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - i_race_id                      INTEGER              NOT NULL
+  - header                         TEXT                 NOT NULL
+  - xx_data                        TEXT                 NOT NULL
+  - xx_data_type                   CHAR(7)              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_track
+--------------------------------------------------------------------------------
+Columns (13):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - asset_id                       SMALLINT             NOT NULL
+  - name                           VARCHAR(255)         NOT NULL
+  - turf_distances                 TEXT                 NOT NULL
+  - dirt_distances                 TEXT                 NOT NULL
+  - location                       SMALLINT             NOT NULL
+  - alias_name                     VARCHAR(5)           NOT NULL
+  - restricted_weather             TEXT                 NOT NULL
+  - result_type                    TINYINT              NOT NULL
+  - status                         TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_trainer
+--------------------------------------------------------------------------------
+Columns (6):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - name                           VARCHAR(50)          NOT NULL
+  - sex                            TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_user_event
+--------------------------------------------------------------------------------
+Columns (10):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - event_id                       INTEGER              NOT NULL
+  - entrant_id                     INTEGER              NOT NULL
+  - owner_snapshot_id              INTEGER              NOT NULL
+  - horse_snapshot_id              INTEGER              NOT NULL
+  - stable_snapshot_id             INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_user_event_log
+--------------------------------------------------------------------------------
+Columns (9):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - type                           SMALLINT             NOT NULL
+  - user_id                        INTEGER              NOT NULL
+  - user_name                      VARCHAR(255)         NOT NULL
+  - ip                             VARCHAR(255)         NOT NULL
+  - ts                             INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_wc_admn_migration
+--------------------------------------------------------------------------------
+Columns (5):
+  - a_db_id                        INTEGER              NOT NULL
+  - version                        VARCHAR(180)         NOT NULL
+  - apply_time                     INTEGER              NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_wc_migrations
+--------------------------------------------------------------------------------
+Columns (5):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            VARCHAR(100)         NOT NULL
+  - ts                             INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: full_WC_wcstat_processed_day
+--------------------------------------------------------------------------------
+Columns (5):
+  - a_db_id                        INTEGER              NOT NULL
+  - _id                            INTEGER              NOT NULL
+  - day_ts                         INTEGER              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: game_action
+--------------------------------------------------------------------------------
+Columns (3):
+  - action_id                      TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: game_item_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - game_item_type_id              TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: gaming_application
+--------------------------------------------------------------------------------
+Columns (3):
+  - app_id                         INTEGER              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: guild
+--------------------------------------------------------------------------------
+Columns (3):
+  - guild_id                       TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_bloodline
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_bloodline_id             TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_economy_property
+--------------------------------------------------------------------------------
+Columns (3):
+  - economy_property_id            TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_face_marking
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_face_marking_id          TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_flags
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_flag_id                  TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_gender
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_gender_id                TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_genome_property
+--------------------------------------------------------------------------------
+Columns (3):
+  - genome_property_id             TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_grade
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_grade_id                 TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_leg_marking
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_leg_marking_id           TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_property
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_property_id              TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_quality
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_quality_id               TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_role
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_role_id                  TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_tactic
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_tactic_id                TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_texture
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_texture_id               TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: horse_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - horse_type_id                  TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: jockey_face
+--------------------------------------------------------------------------------
+Columns (3):
+  - jockey_face_id                 TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: jockey_texture
+--------------------------------------------------------------------------------
+Columns (3):
+  - jockey_texture_id              TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_app_data
+--------------------------------------------------------------------------------
+Columns (3):
+  - id                             INTEGER              NULL
+  - value                          JSON                 NULL
+  - label                          VARCHAR(100)         NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_class
+--------------------------------------------------------------------------------
+Columns (2):
+  - _id                            INTEGER              NULL
+  - description                    VARCHAR(100)         NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_config
+--------------------------------------------------------------------------------
+Columns (16):
+  - id                             INTEGER              NULL
+  - name                           VARCHAR(255)         NULL
+  - start_date                     DATETIME             NULL
+  - end_date                       DATETIME             NULL
+  - target_table                   VARCHAR(255)         NULL
+  - timestamp                      DATETIME             NULL
+  - class_id                       INTEGER              NULL
+  - last_run                       DATETIME             NULL
+  - periodicity                    INTEGER              NULL
+  - grade_flags                    VARCHAR(255)         NULL
+  - board_type                     INTEGER              NULL
+  - horse_grade                    INTEGER              NULL
+  - target_board_id                INTEGER              NULL
+  - rookie_vet                     INTEGER              NULL
+  - solana_pass                    INTEGER              NULL
+  - point_cap                      INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_horse_lifetime_coins
+--------------------------------------------------------------------------------
+Columns (12):
+  - horseid                        BIGINT               NULL
+  - amount                         BIGINT               NULL
+  - horse_name                     VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - user_name                      VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - grade                          INTEGER              NULL
+  - user_id                        BIGINT               NULL
+  - orig_ghuid                     VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - start_date                     DATETIME             NULL
+  - end_date                       DATETIME             NULL
+  - timestamp                      DATETIME             NULL
+  - shows                          INTEGER              NULL
+  - entries                        INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_horse_panama_weekly_coins
+--------------------------------------------------------------------------------
+Columns (12):
+  - horseid                        BIGINT               NULL
+  - amount                         BIGINT               NULL
+  - horse_name                     VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - user_name                      VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - grade                          INTEGER              NULL
+  - user_id                        BIGINT               NULL
+  - orig_ghuid                     VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - start_date                     DATETIME             NULL
+  - end_date                       DATETIME             NULL
+  - timestamp                      DATETIME             NULL
+  - shows                          INTEGER              NULL
+  - entries                        INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_horse_weekly_coins
+--------------------------------------------------------------------------------
+Columns (12):
+  - horseid                        BIGINT               NULL
+  - amount                         BIGINT               NULL
+  - horse_name                     VARCHAR(255)         NULL
+  - user_name                      VARCHAR(255)         NULL
+  - grade                          INTEGER              NULL
+  - user_id                        BIGINT               NULL
+  - orig_ghuid                     VARCHAR(255)         NULL
+  - start_date                     DATETIME             NULL
+  - end_date                       DATETIME             NULL
+  - timestamp                      DATETIME             NULL
+  - shows                          INTEGER              NULL
+  - entries                        INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_horse_weekly_coins_test
+--------------------------------------------------------------------------------
+Columns (12):
+  - horseid                        BIGINT               NULL
+  - amount                         BIGINT               NULL
+  - horse_name                     VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - user_name                      VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - grade                          INTEGER              NULL
+  - user_id                        BIGINT               NULL
+  - orig_ghuid                     VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - start_date                     DATETIME             NULL
+  - end_date                       DATETIME             NULL
+  - timestamp                      DATETIME             NULL
+  - shows                          INTEGER              NULL
+  - entries                        INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_player_lifetime_coins
+--------------------------------------------------------------------------------
+Columns (8):
+  - user_id                        BIGINT               NOT NULL
+  - display_name                   VARCHAR(255)         NULL
+  - total_currency                 BIGINT               NULL
+  - shows                          INTEGER              NULL
+  - entries                        INTEGER              NULL
+  - start_date                     DATETIME             NULL
+  - end_date                       DATETIME             NULL
+  - timestamp                      DATETIME             NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_player_panama_weekly_coins
+--------------------------------------------------------------------------------
+Columns (8):
+  - user_id                        INTEGER              NOT NULL
+  - display_name                   VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - total_currency                 BIGINT               NULL
+  - shows                          INTEGER              NULL
+  - entries                        INTEGER              NULL
+  - start_date                     DATETIME             NULL
+  - end_date                       DATETIME             NULL
+  - timestamp                      DATETIME             NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_player_weekly_coins
+--------------------------------------------------------------------------------
+Columns (8):
+  - user_id                        INTEGER              NOT NULL
+  - display_name                   VARCHAR(255)         NULL
+  - total_currency                 BIGINT               NULL
+  - shows                          INTEGER              NULL
+  - entries                        INTEGER              NULL
+  - start_date                     DATETIME             NULL
+  - end_date                       DATETIME             NULL
+  - timestamp                      DATETIME             NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_player_weekly_coins_test
+--------------------------------------------------------------------------------
+Columns (8):
+  - user_id                        INTEGER              NOT NULL
+  - display_name                   VARCHAR(255) COLLATE "utf8mb4_0900_ai_ci" NULL
+  - total_currency                 BIGINT               NULL
+  - shows                          INTEGER              NULL
+  - entries                        INTEGER              NULL
+  - start_date                     DATETIME             NULL
+  - end_date                       DATETIME             NULL
+  - timestamp                      DATETIME             NULL
+
+--------------------------------------------------------------------------------
+TABLE: leaderboard_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - leaderboard_type_id            TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: league
+--------------------------------------------------------------------------------
+Columns (3):
+  - league_id                      TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: lobby_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - lobby_type_id                  TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: mc_player_history_profile
+--------------------------------------------------------------------------------
+Columns (8):
+  - user_id                        BIGINT               NULL
+  - type                           INTEGER              NULL
+  - subtype                        INTEGER              NULL
+  - currency                       INTEGER              NULL
+  - amount                         BIGINT               NULL
+  - created_at                     BIGINT               NULL
+  - payload                        BINARY(128)          NULL
+  - query_date                     DATE                 NULL
+
+--------------------------------------------------------------------------------
+TABLE: mc_temp_horse_data
+--------------------------------------------------------------------------------
+Columns (39):
+  - _id                            INTEGER              NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - cpu_horse_id                   INTEGER              NOT NULL
+  - owner_snapshot_id              INTEGER              NOT NULL
+  - source                         SMALLINT             NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - name                           VARCHAR(25) COLLATE "latin1_swedish_ci" NOT NULL
+  - sire                           VARCHAR(25) COLLATE "latin1_swedish_ci" NOT NULL
+  - dam                            VARCHAR(25) COLLATE "latin1_swedish_ci" NOT NULL
+  - stamina                        INTEGER              NOT NULL
+  - speed                          INTEGER              NOT NULL
+  - acceleration                   INTEGER              NOT NULL
+  - consistency                    INTEGER              NOT NULL
+  - finishing_ability              INTEGER              NOT NULL
+  - starting_ability               INTEGER              NOT NULL
+  - pacing_ability                 INTEGER              NOT NULL
+  - tactic                         BLOB                 NULL
+  - happiness                      SMALLINT             NOT NULL
+  - rating                         INTEGER              NOT NULL
+  - texture_id                     INTEGER              NOT NULL
+  - face_mark_id                   TINYINT              NOT NULL
+  - leg_mark_id                    TINYINT              NOT NULL
+  - age                            INTEGER              NOT NULL
+  - birth_ts                       INTEGER              NOT NULL
+  - career_earnings                INTEGER              NOT NULL
+  - size                           INTEGER              NOT NULL
+  - wins                           INTEGER              NOT NULL
+  - shows                          INTEGER              NOT NULL
+  - place                          INTEGER              NOT NULL
+  - gender                         INTEGER              NOT NULL
+  - hair_color                     SMALLINT             NOT NULL
+  - finishes                       CHAR(14) COLLATE "latin1_swedish_ci" NULL
+  - created_ts                     INTEGER              NOT NULL
+  - generation                     INTEGER              NOT NULL
+  - race_cnt                       INTEGER              NOT NULL
+  - trend                          TINYINT              NOT NULL
+  - query_date                     DATETIME             NOT NULL
+  - Zone                           VARCHAR(3)           NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: nft_horse
+--------------------------------------------------------------------------------
+Columns (19):
+  - _id                            BIGINT               NOT NULL
+  - oc_shard                       TINYINT              NOT NULL
+  - bucket                         SMALLINT             NOT NULL
+  - owner_id                       BIGINT               NOT NULL
+  - user_horse_id                  BIGINT               NOT NULL
+  - gen                            INTEGER              NOT NULL
+  - texture_id                     TINYINT              NOT NULL
+  - face_mark_id                   TINYINT              NOT NULL
+  - leg_mark_id                    TINYINT              NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - name                           VARCHAR(25) COLLATE "utf8mb4_general_ci" NOT NULL
+  - gender                         TINYINT              NOT NULL
+  - age                            SMALLINT             NOT NULL
+  - grade                          TINYINT              NOT NULL
+  - bloodline                      TINYINT              NOT NULL
+  - sire_ghuid                     BIGINT               NOT NULL
+  - dam_ghuid                      BIGINT               NOT NULL
+  - nft_token_id                   CHAR(78) COLLATE "utf8mb4_general_ci" NOT NULL
+  - modified_utc                   DATETIME             NULL
+
+--------------------------------------------------------------------------------
+TABLE: platform
+--------------------------------------------------------------------------------
+Columns (3):
+  - platform_id                    TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_daily_SR
+--------------------------------------------------------------------------------
+Columns (6):
+  - user_horse_id                  INTEGER              NULL
+  - name                           VARCHAR(100)         NULL
+  - sr                             DECIMAL(10, 2)       NULL
+  - input_sr                       DECIMAL(10, 2)       NULL
+  - grade                          INTEGER              NULL
+  - create_date                    TIMESTAMP            NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_daily_fact
+--------------------------------------------------------------------------------
+Columns (11):
+  - user_id                        BIGINT               NOT NULL
+  - gaming_date                    DATE                 NOT NULL
+  - fb_login                       TINYINT              NOT NULL
+  - currency_0_total               BIGINT               NOT NULL
+  - currency_1_total               BIGINT               NOT NULL
+  - currency_2_total               BIGINT               NOT NULL
+  - modified_utc                   DATETIME             NOT NULL
+  - wc_race_count                  INTEGER              NULL
+  - ir_race_count                  INTEGER              NULL
+  - mp_race_count                  INTEGER              NULL
+  - currency_3_total               BIGINT               NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_daily_fact_distance
+--------------------------------------------------------------------------------
+Columns (6):
+  - user_id                        BIGINT               NOT NULL
+  - gaming_date                    DATE                 NOT NULL
+  - Zone                           VARCHAR(3) COLLATE "utf8mb4_general_ci" NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - count                          INTEGER              NULL
+  - modified_utc                   DATETIME             NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_daily_fact_grade
+--------------------------------------------------------------------------------
+Columns (6):
+  - user_id                        BIGINT               NOT NULL
+  - gaming_date                    DATE                 NOT NULL
+  - Zone                           VARCHAR(3) COLLATE "utf8mb4_general_ci" NOT NULL
+  - grade                          INTEGER              NOT NULL
+  - count                          INTEGER              NULL
+  - modified_utc                   DATETIME             NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_daily_fact_race_type
+--------------------------------------------------------------------------------
+Columns (6):
+  - user_id                        BIGINT               NOT NULL
+  - gaming_date                    DATE                 NOT NULL
+  - Zone                           VARCHAR(3) COLLATE "utf8mb4_general_ci" NOT NULL
+  - race_type                      INTEGER              NOT NULL
+  - count                          INTEGER              NULL
+  - modified_utc                   DATETIME             NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_daily_fact_track
+--------------------------------------------------------------------------------
+Columns (6):
+  - user_id                        BIGINT               NOT NULL
+  - gaming_date                    DATE                 NOT NULL
+  - Zone                           VARCHAR(3) COLLATE "utf8mb4_general_ci" NOT NULL
+  - track_id                       INTEGER              NOT NULL
+  - count                          INTEGER              NULL
+  - modified_utc                   DATETIME             NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_daily_resource_stats
+--------------------------------------------------------------------------------
+Columns (5):
+  - item_id                        INTEGER              NULL
+  - total                          INTEGER              NULL
+  - average_per_user               INTEGER              NULL
+  - query_date                     DATE                 NULL
+  - table_ref                      VARCHAR(100)         NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_daily_transaction
+--------------------------------------------------------------------------------
+Columns (7):
+  - user_id                        BIGINT               NOT NULL
+  - gaming_date                    DATE                 NOT NULL
+  - transaction_type_id            TINYINT              NOT NULL
+  - transaction_sub_type_id        TINYINT              NOT NULL
+  - transaction_currency_id        TINYINT              NOT NULL
+  - total_amount                   BIGINT               NOT NULL
+  - modified_utc                   DATETIME             NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_detail
+--------------------------------------------------------------------------------
+Columns (18):
+  - user_id                        BIGINT               NOT NULL
+  - date_of_birth                  DATE                 NULL
+  - addr1                          VARCHAR(128) COLLATE "utf8mb4_general_ci" NULL
+  - addr2                          VARCHAR(128) COLLATE "utf8mb4_general_ci" NULL
+  - city                           VARCHAR(128) COLLATE "utf8mb4_general_ci" NULL
+  - state_province                 CHAR(2) COLLATE "utf8mb4_general_ci" NULL
+  - zip_code                       VARCHAR(10) COLLATE "utf8mb4_general_ci" NULL
+  - country_code                   VARCHAR(3) COLLATE "utf8mb4_general_ci" NULL
+  - gender                         CHAR(1) COLLATE "utf8mb4_general_ci" NULL
+  - player_type                    TINYINT              NULL
+  - email                          VARCHAR(100) COLLATE "utf8mb4_general_ci" NULL
+  - phone                          VARCHAR(20) COLLATE "utf8mb4_general_ci" NULL
+  - display_name                   VARCHAR(200) COLLATE "utf8mb4_general_ci" NULL
+  - time_zone_id                   TINYINT              NULL
+  - oc_shard                       TINYINT              NULL
+  - modified_utc                   DATETIME             NULL
+  - coins                          INTEGER              NULL
+  - ices                           INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_firebase
+--------------------------------------------------------------------------------
+Columns (6):
+  - fuid                           VARCHAR(128) COLLATE "utf8mb4_general_ci" NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - guild_id                       TINYINT              NULL
+  - guild_task_completed           TINYINT              NULL
+  - modified_utc                   DATETIME             NULL
+  - duplicate                      TINYINT              NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_history_profile
+--------------------------------------------------------------------------------
+Columns (8):
+  - user_id                        BIGINT               NULL
+  - type                           INTEGER              NULL
+  - subtype                        INTEGER              NULL
+  - currency                       INTEGER              NULL
+  - amount                         BIGINT               NULL
+  - created_at                     BIGINT               NULL
+  - payload                        BINARY(128)          NULL
+  - query_date                     DATE                 NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_horse
+--------------------------------------------------------------------------------
+Columns (18):
+  - _id                            BIGINT               NOT NULL
+  - oc_shard                       TINYINT              NOT NULL
+  - user_id                        BIGINT               NOT NULL
+  - status                         TINYINT              NOT NULL
+  - user_horse_economy_id          BIGINT               NOT NULL
+  - user_horse_genome_id           BIGINT               NOT NULL
+  - orig_ghuid                     BIGINT               NOT NULL
+  - gen                            INTEGER              NOT NULL
+  - grade                          TINYINT              NOT NULL
+  - bloodline                      TINYINT              NOT NULL
+  - trainer_id                     INTEGER              NOT NULL
+  - name                           VARCHAR(20) COLLATE "utf8mb4_general_ci" NOT NULL
+  - gender                         TINYINT              NOT NULL
+  - age                            SMALLINT             NOT NULL
+  - sire_ghuid                     BIGINT               NOT NULL
+  - dam_ghuid                      BIGINT               NOT NULL
+  - modified_utc                   DATETIME             NULL
+  - horse_type_id                  SMALLINT             NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_property
+--------------------------------------------------------------------------------
+Columns (3):
+  - player_property_id             TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_token_account
+--------------------------------------------------------------------------------
+Columns (5):
+  - _id                            BIGINT               NOT NULL
+  - user_id                        BIGINT               NULL
+  - amount                         BIGINT               NULL
+  - zone                           BIGINT               NOT NULL
+  - updated_at                     DATETIME             NULL
+
+--------------------------------------------------------------------------------
+TABLE: player_token_transaction
+--------------------------------------------------------------------------------
+Columns (16):
+  - _id                            INTEGER              NOT NULL
+  - user_id                        BIGINT               NULL
+  - amount                         DECIMAL(22, 0)       NULL
+  - state                          SMALLINT             NULL
+  - source                         SMALLINT             NULL
+  - source_trx_id                  BIGINT               NULL
+  - ctx_type                       SMALLINT             NULL
+  - ctx                            VARBINARY(8192)      NULL
+  - created_at                     BIGINT               NULL
+  - terminated_at                  BIGINT               NULL
+  - sol_trx_id                     VARCHAR(128)         NULL
+  - sol_wlt_addr_from              VARCHAR(64)          NULL
+  - sol_wlt_addr_to                VARCHAR(64)          NULL
+  - desc                           VARCHAR(255)         NULL
+  - zone                           INTEGER              NULL
+  - updated_at                     DATETIME             NULL
+
+--------------------------------------------------------------------------------
+TABLE: process
+--------------------------------------------------------------------------------
+Columns (5):
+  - id                             INTEGER              NOT NULL
+  - timestamp                      DATETIME             NULL
+  - name                           VARCHAR(100)         NULL
+  - args                           VARCHAR(100)         NULL
+  - status                         INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: quest_difficulty
+--------------------------------------------------------------------------------
+Columns (3):
+  - quest_difficulty_id            TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: quest_reward_category
+--------------------------------------------------------------------------------
+Columns (3):
+  - quest_reward_category_id       TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: quest_status
+--------------------------------------------------------------------------------
+Columns (3):
+  - quest_status_id                TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: race_grade
+--------------------------------------------------------------------------------
+Columns (3):
+  - race_grade_id                  TINYINT              NOT NULL
+  - description                    VARCHAR(100) COLLATE "utf8mb4_general_ci" NOT NULL
+  - grade_code                     CHAR(1) COLLATE "utf8mb4_general_ci" NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: race_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - race_type_id                   TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: resource_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - resource_type_id               TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: temp_regression_output
+--------------------------------------------------------------------------------
+Columns (22):
+  - _id                            INTEGER              NOT NULL
+  - event_id                       VARCHAR(50) COLLATE "utf8mb4_general_ci" NOT NULL
+  - track_name                     VARCHAR(50) COLLATE "utf8mb4_general_ci" NOT NULL
+  - number                         INTEGER              NOT NULL
+  - distance                       TINYINT              NOT NULL
+  - entrant_count                  TINYINT              NOT NULL
+  - stall                          TINYINT              NOT NULL
+  - name                           VARCHAR(25) COLLATE "utf8mb4_general_ci" NOT NULL
+  - speed                          INTEGER              NOT NULL
+  - stamina                        INTEGER              NOT NULL
+  - acceleration                   INTEGER              NOT NULL
+  - starting_ability               INTEGER              NOT NULL
+  - pacing_ability                 INTEGER              NOT NULL
+  - finishing_ability              INTEGER              NOT NULL
+  - consistency                    INTEGER              NOT NULL
+  - rating                         INTEGER              NOT NULL
+  - input_sr                       FLOAT                NOT NULL
+  - sr                             FLOAT                NOT NULL
+  - horse_snapshot_id              VARCHAR(50) COLLATE "utf8mb4_general_ci" NOT NULL
+  - final_position                 INTEGER              NOT NULL
+  - primary_tactic                 INTEGER              NOT NULL
+  - finish_time                    INTEGER              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: time_zone
+--------------------------------------------------------------------------------
+Columns (3):
+  - time_zone_id                   TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: track
+--------------------------------------------------------------------------------
+Columns (3):
+  - track_id                       TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: track_condition
+--------------------------------------------------------------------------------
+Columns (3):
+  - track_condition_id             TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: track_daily_fact
+--------------------------------------------------------------------------------
+Columns (17):
+  - track_id                       INTEGER              NOT NULL
+  - race_date                      DATE                 NOT NULL
+  - total_purse                    INTEGER              NULL
+  - race_count                     INTEGER              NULL
+  - entrant_count                  INTEGER              NULL
+  - cpu_count                      INTEGER              NULL
+  - 8_stall_count                  INTEGER              NULL
+  - 10_stall_count                 INTEGER              NULL
+  - 12_stall_count                 INTEGER              NULL
+  - other_stall_count              INTEGER              NULL
+  - grade_a_count                  INTEGER              NULL
+  - grade_b_count                  INTEGER              NULL
+  - grade_c_count                  INTEGER              NULL
+  - grade_x_count                  INTEGER              NULL
+  - modified_utc                   DATETIME             NULL
+  - mp_race_count                  INTEGER              NULL
+  - instant_race_count             INTEGER              NULL
+
+--------------------------------------------------------------------------------
+TABLE: track_distance
+--------------------------------------------------------------------------------
+Columns (2):
+  - id                             INTEGER              NULL
+  - distance                       VARCHAR(100)         NULL
+
+--------------------------------------------------------------------------------
+TABLE: track_surface
+--------------------------------------------------------------------------------
+Columns (3):
+  - track_surface_id               TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: track_weather
+--------------------------------------------------------------------------------
+Columns (3):
+  - track_weather_id               TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: trainer
+--------------------------------------------------------------------------------
+Columns (3):
+  - trainer_id                     TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: transaction_currency
+--------------------------------------------------------------------------------
+Columns (3):
+  - transaction_currency_id        TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: transaction_sub_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - transaction_sub_type_id        TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: transaction_type
+--------------------------------------------------------------------------------
+Columns (3):
+  - transaction_type_id            TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: user_identifier
+--------------------------------------------------------------------------------
+Columns (3):
+  - user_identifier_id             TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+
+--------------------------------------------------------------------------------
+TABLE: wc_event_status
+--------------------------------------------------------------------------------
+Columns (3):
+  - wc_event_status_id             TINYINT              NOT NULL
+  - description                    VARCHAR(200) COLLATE "utf8mb4_general_ci" NOT NULL
+  - active                         TINYINT              NOT NULL
+

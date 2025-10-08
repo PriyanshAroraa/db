@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Performance Dashboard - Standalone</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .metric-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        .success {
+            background: #efe;
+            color: #363;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐴 Bot Performance Dashboard</h1>
+            <p>Granular Analytics: Individual horse tracking with distance & surface specialization</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <h2>Loading data...</h2>
+            <p>Please wait while we fetch the latest bot performance data.</p>
+        </div>
+
+        <div id="error" class="error" style="display: none;">
+            <h3>❌ Error Loading Data</h3>
+            <p id="errorMessage"></p>
+        </div>
+
+        <div id="dashboard" style="display: none;">
+            <!-- Summary Metrics -->
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value" id="totalPnl">-</div>
+                    <div class="metric-label">Total P&L (IGGT)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="totalReserve">-</div>
+                    <div class="metric-label">Total Reserve (IGGT)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="totalInPlay">-</div>
+                    <div class="metric-label">Total In-Play (IGGT)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="totalRaces">-</div>
+                    <div class="metric-label">Total Races</div>
+                </div>
+            </div>
+
+            <!-- Horse Performance Table -->
+            <div class="section">
+                <h2>🐴 Top Performing Horses</h2>
+                <div id="horseTable"></div>
+            </div>
+
+            <!-- Distance Specialization -->
+            <div class="section">
+                <h2>📏 Distance Specialization Analysis</h2>
+                <div id="distanceChart"></div>
+            </div>
+
+            <!-- Surface Performance -->
+            <div class="section">
+                <h2>🏟️ Surface Performance (Dirt vs Turf)</h2>
+                <div id="surfaceChart"></div>
+            </div>
+
+            <!-- Individual Horse Details -->
+            <div class="section">
+                <h2>🔍 Individual Horse Details</h2>
+                <div style="margin-bottom: 1rem;">
+                    <label for="horseSelect">Select Horse: </label>
+                    <select id="horseSelect" onchange="displayIndividualHorse()" style="padding: 0.5rem; min-width: 200px;">
+                        <option value="">-- Select a horse --</option>
+                    </select>
+                </div>
+                <div id="individualHorseDetails"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Embedded data - we'll load this from bot_data.json
+        let BOT_DATA = null;
+
+        async function loadData() {
+            try {
+                // Try to load from JSON file first
+                const response = await fetch('./bot_data.json');
+                if (response.ok) {
+                    BOT_DATA = await response.json();
+                    console.log('Data loaded from JSON file');
+                } else {
+                    throw new Error('Could not load bot_data.json');
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 
+                    'Could not load data. Please make sure bot_data.json is in the same folder as this HTML file.';
+                document.getElementById('loading').style.display = 'none';
+                return;
+            }
+
+            // Display the dashboard
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            
+            displayDashboard();
+        }
+
+        function displayDashboard() {
+            if (!BOT_DATA) return;
+
+            // Display summary metrics
+            const totalPnL = BOT_DATA.Total_PnL?.reduce((sum, item) => sum + (item.total_pnl_IGGT || 0), 0) || 0;
+            const totalReserve = BOT_DATA.Reserve_Balance?.reduce((sum, item) => sum + (item.reserve_balance_IGGT || 0), 0) || 0;
+            const totalInPlay = BOT_DATA.In_Play_Balance?.reduce((sum, item) => sum + (item.in_play_balance_IGGT || 0), 0) || 0;
+            const totalRaces = BOT_DATA.Races_Entered?.reduce((sum, item) => sum + (item.races_entered || 0), 0) || 0;
+
+            document.getElementById('totalPnl').textContent = totalPnL.toLocaleString();
+            document.getElementById('totalReserve').textContent = totalReserve.toLocaleString();
+            document.getElementById('totalInPlay').textContent = totalInPlay.toLocaleString();
+            document.getElementById('totalRaces').textContent = totalRaces.toLocaleString();
+
+            // Display horse performance table
+            displayHorseTable();
+            
+            // Display charts
+            displayDistanceChart();
+            displaySurfaceChart();
+            
+            // Populate horse selector
+            populateHorseSelector();
+        }
+
+        function displayHorseTable() {
+            if (!BOT_DATA.Horse_Performance) return;
+
+            const horses = BOT_DATA.Horse_Performance.sort((a, b) => b.wins - a.wins).slice(0, 15);
+            const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Horse Name</th>
+                            <th>Bot</th>
+                            <th>Races</th>
+                            <th>Wins</th>
+                            <th>Win %</th>
+                            <th>Avg Position</th>
+                            <th>Rating</th>
+                            <th>Top 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            horses.forEach(horse => {
+                const winRate = ((horse.wins / horse.total_races) * 100).toFixed(1);
+                tableHTML += `
+                    <tr>
+                        <td><strong>${horse.horse_name}</strong></td>
+                        <td>${botNames[horse.user_id] || horse.user_id}</td>
+                        <td>${horse.total_races}</td>
+                        <td>${horse.wins}</td>
+                        <td>${winRate}%</td>
+                        <td>${horse.avg_finish_position.toFixed(2)}</td>
+                        <td>${horse.avg_rating.toFixed(1)}</td>
+                        <td>${horse.top_3_finishes}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += '</tbody></table>';
+            document.getElementById('horseTable').innerHTML = tableHTML;
+        }
+
+        function displayDistanceChart() {
+            if (!BOT_DATA.All_Horses_Distance_Performance) return;
+
+            const distData = BOT_DATA.All_Horses_Distance_Performance;
+            const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+
+            // Group by distance category and bot
+            const grouped = {};
+            distData.forEach(record => {
+                const bot = botNames[record.user_id] || record.user_id;
+                const category = record.distance_category;
+                
+                if (!grouped[bot]) grouped[bot] = {};
+                if (!grouped[bot][category]) grouped[bot][category] = 0;
+                grouped[bot][category] += record.races_at_distance;
+            });
+
+            const categories = ['Sprint', 'Mile', 'Marathon'];
+            const traces = [];
+
+            Object.keys(grouped).forEach(bot => {
+                const data = categories.map(cat => grouped[bot][cat] || 0);
+                traces.push({
+                    x: categories,
+                    y: data,
+                    name: bot,
+                    type: 'bar'
+                });
+            });
+
+            Plotly.newPlot('distanceChart', traces, {
+                title: 'Races by Distance Category',
+                xaxis: { title: 'Distance Category' },
+                yaxis: { title: 'Number of Races' },
+                barmode: 'group'
+            });
+        }
+
+        function displaySurfaceChart() {
+            if (!BOT_DATA.All_Horses_Surface_Performance) return;
+
+            const surfaceData = BOT_DATA.All_Horses_Surface_Performance;
+            const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+
+            // Group by surface and bot
+            const grouped = {};
+            surfaceData.forEach(record => {
+                const bot = botNames[record.user_id] || record.user_id;
+                const surface = record.surface_type;
+                
+                if (!grouped[bot]) grouped[bot] = {};
+                if (!grouped[bot][surface]) grouped[bot][surface] = { total: 0, positions: 0 };
+                grouped[bot][surface].total += record.races_on_surface;
+                grouped[bot][surface].positions += record.avg_position * record.races_on_surface;
+            });
+
+            const surfaces = ['Dirt', 'Turf'];
+            const traces = [];
+
+            Object.keys(grouped).forEach(bot => {
+                const data = surfaces.map(surface => {
+                    if (grouped[bot][surface] && grouped[bot][surface].total > 0) {
+                        return grouped[bot][surface].positions / grouped[bot][surface].total;
+                    }
+                    return 0;
+                });
+                traces.push({
+                    x: surfaces,
+                    y: data,
+                    name: bot,
+                    type: 'bar'
+                });
+            });
+
+            Plotly.newPlot('surfaceChart', traces, {
+                title: 'Average Finish Position by Surface',
+                xaxis: { title: 'Surface Type' },
+                yaxis: { title: 'Average Finish Position', autorange: 'reversed' },
+                barmode: 'group'
+            });
+        }
+
+        function populateHorseSelector() {
+            if (!BOT_DATA.Horse_Performance) return;
+
+            const select = document.getElementById('horseSelect');
+            const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+
+            // Clear existing options except first
+            select.innerHTML = '<option value="">-- Select a horse --</option>';
+
+            // Add all horses
+            BOT_DATA.Horse_Performance.forEach(horse => {
+                const bot = botNames[horse.user_id] || horse.user_id;
+                const option = document.createElement('option');
+                option.value = horse.user_horse_id;
+                option.textContent = `${horse.horse_name} (${bot})`;
+                select.appendChild(option);
+            });
+        }
+
+        function displayIndividualHorse() {
+            const select = document.getElementById('horseSelect');
+            const horseId = select.value;
+            
+            if (!horseId || !BOT_DATA.Horse_Performance) {
+                document.getElementById('individualHorseDetails').innerHTML = '';
+                return;
+            }
+
+            const horse = BOT_DATA.Horse_Performance.find(h => h.user_horse_id == horseId);
+            if (!horse) return;
+
+            const botNames = {10111491: 'Alba', 10211493: 'Eirean', 10411491: 'Kernow', 10711491: 'Cymru', 11011491: 'Albion'};
+            const bot = botNames[horse.user_id] || horse.user_id;
+
+            let html = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px;">
+                        <strong>Total Races:</strong><br>${horse.total_races}
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px;">
+                        <strong>Wins:</strong><br>${horse.wins}
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px;">
+                        <strong>Win Rate:</strong><br>${((horse.wins / horse.total_races) * 100).toFixed(1)}%
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px;">
+                        <strong>Avg Position:</strong><br>${horse.avg_finish_position.toFixed(2)}
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px;">
+                        <strong>Avg Rating:</strong><br>${horse.avg_rating.toFixed(1)}
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px;">
+                        <strong>Top 3 Finishes:</strong><br>${horse.top_3_finishes}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('individualHorseDetails').innerHTML = html;
+        }
+
+        // Load data when page loads
+        loadData();
+    </script>
+</body>
+</html>

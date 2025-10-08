@@ -8,6 +8,14 @@
     {
       "src": "bot_data.json",
       "use": "@vercel/static"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "dashboard_standalone.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -16,8 +24,16 @@
       "dest": "/bot_data.json"
     },
     {
-      "src": "/",
+      "src": "/dashboard",
       "dest": "/static_dashboard.html"
+    },
+    {
+      "src": "/standalone",
+      "dest": "/dashboard_standalone.html"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }
