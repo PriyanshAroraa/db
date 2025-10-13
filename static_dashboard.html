@@ -303,6 +303,396 @@
                 flex-direction: column;
             }
         }
+        /* Bot Stable Styles */
+        .bot-stable-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .bot-stable-section h3 {
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .bot-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .bot-selector label {
+            font-weight: 600;
+            color: white;
+        }
+
+        .bot-selector select {
+            padding: 8px 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            min-width: 150px;
+        }
+
+        .bot-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .bot-stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .bot-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .bot-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            color: white;
+        }
+
+        /* Horse Tabs Styles */
+        .horse-tabs {
+            display: flex;
+            gap: 5px;
+            margin: 1rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            border-radius: 8px;
+        }
+
+        .horse-tab {
+            flex: 1;
+            padding: 10px 15px;
+            background: transparent;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .horse-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .horse-tab.active {
+            background: white;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .horse-tab-content {
+            display: none;
+        }
+
+        .horse-tab-content.active {
+            display: block;
+        }
+
+        .horses-section {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+
+        .horses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 1rem;
+        }
+
+        .horse-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid #ff6b6b;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .horse-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-left-color: #4ecdc4;
+        }
+
+        .horse-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .horse-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .horse-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .horse-stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .horse-stat-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            margin-top: 3px;
+        }
+
+        .win-rate.good {
+            color: #28a745;
+        }
+
+        .win-rate.average {
+            color: #ffc107;
+        }
+
+        .win-rate.poor {
+            color: #dc3545;
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .performance-badge.excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .performance-badge.good {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .performance-badge.average {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .performance-badge.poor {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .horse-profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .profile-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .profile-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trait-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .trait-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .trait-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .trait-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-top: 3px;
+        }
+
+        .race-history {
+            grid-column: 1 / -1;
+        }
+
+        .race-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .race-table th,
+        .race-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .race-table th {
+            background-color: #ff6b6b;
+            color: white;
+            font-weight: 600;
+        }
+
+        .race-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .position-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .position-1 {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .position-2 {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .position-3 {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .position-other {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -364,6 +754,53 @@
                 <h1>🤖 Bot Performance Dashboard</h1>
                 <p>Real-time trading bot analytics and performance metrics</p>
                 <button onclick="logout()" style="position: absolute; top: 1rem; right: 1rem; padding: 0.5rem 1rem; background: #666; color: white; border: none; border-radius: 0.25rem; cursor: pointer;">🚪 Logout</button>
+                
+                <!-- Bot Stable Selector -->
+                <div class="bot-stable-section">
+                    <h3>🏇 Bot Stable Management</h3>
+                    <div class="bot-selector">
+                        <label for="botSelect">Select Bot:</label>
+                        <select id="botSelect" onchange="displayBotStable()">
+                            <option value="">-- Choose a Bot --</option>
+                        </select>
+                    </div>
+                    <div id="botStats" class="bot-stats" style="display: none;"></div>
+                    
+                    <!-- Horse Tabs -->
+                    <div id="horseTabs" class="horse-tabs" style="display: none;">
+                        <button class="horse-tab active" onclick="switchHorseTab('all')">🐴 All Horses</button>
+                        <button class="horse-tab" onclick="switchHorseTab('top')">🏆 Top Performers</button>
+                        <button class="horse-tab" onclick="switchHorseTab('recent')">⚡ Recent Races</button>
+                        <button class="horse-tab" onclick="switchHorseTab('distance')">📏 Distance Specialists</button>
+                        <button class="horse-tab" onclick="switchHorseTab('surface')">🏟️ Surface Experts</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Horses Section -->
+            <div id="horsesSection" class="horses-section" style="display: none;">
+                <h2 id="stableTitle">🏇 Horses in Stable</h2>
+                
+                <!-- Tab Content Areas -->
+                <div id="allHorsesContent" class="horse-tab-content active">
+                    <div id="horsesGrid" class="horses-grid"></div>
+                </div>
+                
+                <div id="topPerformersContent" class="horse-tab-content">
+                    <div id="topPerformersGrid" class="horses-grid"></div>
+                </div>
+                
+                <div id="recentRacesContent" class="horse-tab-content">
+                    <div id="recentRacesGrid" class="horses-grid"></div>
+                </div>
+                
+                <div id="distanceSpecialistsContent" class="horse-tab-content">
+                    <div id="distanceSpecialistsGrid" class="horses-grid"></div>
+                </div>
+                
+                <div id="surfaceExpertsContent" class="horse-tab-content">
+                    <div id="surfaceExpertsGrid" class="horses-grid"></div>
+                </div>
             </div>
 
             <!-- Loading State -->
@@ -542,6 +979,47 @@
                     </div>
                     <div class="stColumn">
                         <button class="stButton" onclick="exportData('horse_csv')">🐴 Download Horse Data CSV</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Horse Profile Modal -->
+    <div id="horseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalHorseName">🐴 Horse Profile</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="horse-profile-grid">
+                    <div class="profile-section">
+                        <h3>🏃‍♂️ Horse Traits</h3>
+                        <div class="trait-grid" id="horseTraits"></div>
+                    </div>
+                    <div class="profile-section">
+                        <h3>📊 Performance Stats</h3>
+                        <div class="trait-grid" id="performanceStats"></div>
+                    </div>
+                    <div class="profile-section race-history">
+                        <h3>🏁 Recent Race History</h3>
+                        <table class="race-table" id="raceHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Position</th>
+                                    <th>Rating</th>
+                                    <th>Speed</th>
+                                    <th>Stamina</th>
+                                    <th>Acceleration</th>
+                                    <th>Grade</th>
+                                    <th>Earnings</th>
+                                </tr>
+                            </thead>
+                            <tbody id="raceHistoryBody"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -773,6 +1251,9 @@
             displayDistanceSpecialization(data);
             displaySurfacePerformance(data);
             populateHorseSelector(data);
+            
+            // Initialize bot stable selector
+            populateBotSelector();
             
             console.log('displayDashboard completed');
         }
@@ -1478,6 +1959,397 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        }
+
+        // ========================================
+        // BOT STABLE MANAGEMENT FUNCTIONS
+        // ========================================
+        
+        let BOT_DATA = null;
+        
+        function populateBotSelector() {
+            const botSelect = document.getElementById('botSelect');
+            if (!botSelect) return;
+            
+            // Clear existing options
+            botSelect.innerHTML = '<option value="">-- Choose a Bot --</option>';
+            
+            // Add bot options
+            const botNames = {
+                10111491: 'Alba',
+                10211493: 'Eirean', 
+                10411491: 'Kernow',
+                10711491: 'Cymru',
+                11011491: 'Albion'
+            };
+            
+            Object.entries(botNames).forEach(([id, name]) => {
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = name;
+                botSelect.appendChild(option);
+            });
+        }
+        
+        function displayBotStable() {
+            const botSelect = document.getElementById('botSelect');
+            const horsesSection = document.getElementById('horsesSection');
+            const stableTitle = document.getElementById('stableTitle');
+            const horseTabs = document.getElementById('horseTabs');
+            
+            if (!botSelect || !horsesSection || !stableTitle || !horseTabs) return;
+            
+            const selectedBotId = botSelect.value;
+            
+            if (!selectedBotId) {
+                horsesSection.style.display = 'none';
+                horseTabs.style.display = 'none';
+                document.getElementById('botStats').style.display = 'none';
+                return;
+            }
+            
+            // Show bot stats
+            displayBotStats(selectedBotId);
+            
+            // Show horses section and tabs
+            const botNames = {
+                10111491: 'Alba',
+                10211493: 'Eirean', 
+                10411491: 'Kernow',
+                10711491: 'Cymru',
+                11011491: 'Albion'
+            };
+            
+            stableTitle.textContent = `🏇 Horses in ${botNames[selectedBotId]}'s Stable`;
+            horsesSection.style.display = 'block';
+            horseTabs.style.display = 'flex';
+            
+            // Display horses for selected bot (default to 'all' tab)
+            switchHorseTab('all');
+        }
+        
+        function displayBotStats(botId) {
+            const botStats = document.getElementById('botStats');
+            if (!botStats || !currentData) return;
+            
+            const botNames = {
+                10111491: 'Alba',
+                10211493: 'Eirean', 
+                10411491: 'Kernow',
+                10711491: 'Cymru',
+                11011491: 'Albion'
+            };
+            
+            const botName = botNames[botId] || 'Unknown Bot';
+            
+            // Get bot data
+            const totalPnL = currentData.Total_PnL?.find(p => p.user_id == botId)?.total_pnl_IGGT || 0;
+            const reserveBalance = currentData.Reserve_Balance?.find(r => r.user_id == botId)?.reserve_balance_IGGT || 0;
+            const inPlayBalance = currentData.In_Play_Balance?.find(i => i.user_id == botId)?.in_play_balance_IGGT || 0;
+            const racesEntered = currentData.Races_Entered?.find(r => r.user_id == botId)?.races_entered || 0;
+            
+            botStats.innerHTML = `
+                <div class="bot-stat-card">
+                    <div class="bot-stat-value">${botName}</div>
+                    <div class="bot-stat-label">Bot Name</div>
+                </div>
+                <div class="bot-stat-card">
+                    <div class="bot-stat-value">${totalPnL.toFixed(2)}</div>
+                    <div class="bot-stat-label">Total P&L</div>
+                </div>
+                <div class="bot-stat-card">
+                    <div class="bot-stat-value">${reserveBalance.toFixed(2)}</div>
+                    <div class="bot-stat-label">Reserve Balance</div>
+                </div>
+                <div class="bot-stat-card">
+                    <div class="bot-stat-value">${inPlayBalance.toFixed(2)}</div>
+                    <div class="bot-stat-label">In Play Balance</div>
+                </div>
+                <div class="bot-stat-card">
+                    <div class="bot-stat-value">${racesEntered}</div>
+                    <div class="bot-stat-label">Races Entered</div>
+                </div>
+            `;
+            
+            botStats.style.display = 'grid';
+        }
+        
+        function switchHorseTab(tabType) {
+            // Update tab buttons
+            document.querySelectorAll('.horse-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.horse-tab-content').forEach(content => content.classList.remove('active'));
+            
+            const selectedBotId = document.getElementById('botSelect').value;
+            if (!selectedBotId) return;
+            
+            // Display horses based on tab type
+            switch(tabType) {
+                case 'all':
+                    document.getElementById('allHorsesContent').classList.add('active');
+                    displayHorses(selectedBotId, 'all');
+                    break;
+                case 'top':
+                    document.getElementById('topPerformersContent').classList.add('active');
+                    displayHorses(selectedBotId, 'top');
+                    break;
+                case 'recent':
+                    document.getElementById('recentRacesContent').classList.add('active');
+                    displayHorses(selectedBotId, 'recent');
+                    break;
+                case 'distance':
+                    document.getElementById('distanceSpecialistsContent').classList.add('active');
+                    displayHorses(selectedBotId, 'distance');
+                    break;
+                case 'surface':
+                    document.getElementById('surfaceExpertsContent').classList.add('active');
+                    displayHorses(selectedBotId, 'surface');
+                    break;
+            }
+        }
+        
+        function displayHorses(botId, tabType = 'all') {
+            const gridId = tabType === 'all' ? 'horsesGrid' : 
+                          tabType === 'top' ? 'topPerformersGrid' :
+                          tabType === 'recent' ? 'recentRacesGrid' :
+                          tabType === 'distance' ? 'distanceSpecialistsGrid' :
+                          tabType === 'surface' ? 'surfaceExpertsGrid' : 'horsesGrid';
+            
+            const horsesGrid = document.getElementById(gridId);
+            if (!horsesGrid || !currentData?.Horse_Performance) return;
+            
+            // Filter horses for selected bot
+            let botHorses = currentData.Horse_Performance.filter(horse => horse.user_id == botId);
+            
+            if (botHorses.length === 0) {
+                horsesGrid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1 / -1;">No horses found for this bot.</p>';
+                return;
+            }
+            
+            // Sort and filter horses based on tab type
+            let sortedHorses = [];
+            switch(tabType) {
+                case 'all':
+                    sortedHorses = botHorses.sort((a, b) => b.wins - a.wins);
+                    break;
+                case 'top':
+                    sortedHorses = botHorses.filter(h => h.wins > 0).sort((a, b) => {
+                        const aWinRate = a.total_races > 0 ? (a.wins / a.total_races) : 0;
+                        const bWinRate = b.total_races > 0 ? (b.wins / b.total_races) : 0;
+                        return bWinRate - aWinRate;
+                    });
+                    break;
+                case 'recent':
+                    // Sort by most recent races (assuming more races = more recent activity)
+                    sortedHorses = botHorses.sort((a, b) => b.total_races - a.total_races);
+                    break;
+                case 'distance':
+                    // Sort by best average position (distance specialists)
+                    sortedHorses = botHorses.sort((a, b) => a.avg_finish_position - b.avg_finish_position);
+                    break;
+                case 'surface':
+                    // Sort by rating (surface experts)
+                    sortedHorses = botHorses.sort((a, b) => b.avg_rating - a.avg_rating);
+                    break;
+                default:
+                    sortedHorses = botHorses.sort((a, b) => b.wins - a.wins);
+            }
+            
+            horsesGrid.innerHTML = sortedHorses.map(horse => {
+                const winRate = horse.total_races > 0 ? (horse.wins / horse.total_races * 100).toFixed(1) : 0;
+                const winRateClass = winRate >= 20 ? 'good' : winRate >= 10 ? 'average' : 'poor';
+                const performanceClass = horse.avg_rating >= 80 ? 'excellent' : horse.avg_rating >= 70 ? 'good' : horse.avg_rating >= 60 ? 'average' : 'poor';
+                
+                // Add tab-specific indicators
+                let tabIndicator = '';
+                switch(tabType) {
+                    case 'top':
+                        tabIndicator = winRate > 0 ? '<div style="position: absolute; top: 5px; right: 5px; background: #ffd700; color: #333; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; font-weight: bold;">🏆</div>' : '';
+                        break;
+                    case 'recent':
+                        tabIndicator = '<div style="position: absolute; top: 5px; right: 5px; background: #4ecdc4; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; font-weight: bold;">⚡</div>';
+                        break;
+                    case 'distance':
+                        tabIndicator = '<div style="position: absolute; top: 5px; right: 5px; background: #ff6b6b; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; font-weight: bold;">📏</div>';
+                        break;
+                    case 'surface':
+                        tabIndicator = '<div style="position: absolute; top: 5px; right: 5px; background: #95a5a6; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; font-weight: bold;">🏟️</div>';
+                        break;
+                }
+                
+                return `
+                    <div class="horse-card" onclick="showHorseProfile(${JSON.stringify(horse).replace(/"/g, '&quot;')})" style="position: relative;">
+                        ${tabIndicator}
+                        <div class="horse-name">${horse.horse_name}</div>
+                        <div class="horse-stats">
+                            <div class="horse-stat">
+                                <div class="horse-stat-label">Races</div>
+                                <div class="horse-stat-value">${horse.total_races}</div>
+                            </div>
+                            <div class="horse-stat">
+                                <div class="horse-stat-label">Wins</div>
+                                <div class="horse-stat-value">${horse.wins}</div>
+                            </div>
+                            <div class="horse-stat">
+                                <div class="horse-stat-label">Win Rate</div>
+                                <div class="horse-stat-value win-rate ${winRateClass}">${winRate}%</div>
+                            </div>
+                            <div class="horse-stat">
+                                <div class="horse-stat-label">Avg Position</div>
+                                <div class="horse-stat-value">${horse.avg_finish_position.toFixed(1)}</div>
+                            </div>
+                            <div class="horse-stat">
+                                <div class="horse-stat-label">Rating</div>
+                                <div class="horse-stat-value">${horse.avg_rating.toFixed(1)}</div>
+                            </div>
+                            <div class="horse-stat">
+                                <div class="horse-stat-label">Speed</div>
+                                <div class="horse-stat-value">${horse.avg_speed.toFixed(1)}</div>
+                            </div>
+                        </div>
+                        <div class="performance-badge ${performanceClass}">
+                            ${performanceClass.charAt(0).toUpperCase() + performanceClass.slice(1)} Performance
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function showHorseProfile(horse) {
+            const modal = document.getElementById('horseModal');
+            const modalHorseName = document.getElementById('modalHorseName');
+            
+            if (!modal || !modalHorseName) return;
+            
+            modalHorseName.textContent = `🐴 ${horse.horse_name}`;
+            
+            // Display horse traits
+            displayHorseTraits(horse);
+            
+            // Display performance stats
+            displayPerformanceStats(horse);
+            
+            // Display race history
+            displayPerformanceData(horse);
+            
+            modal.style.display = 'block';
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('horseModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        function displayHorseTraits(horse) {
+            const horseTraits = document.getElementById('horseTraits');
+            if (!horseTraits) return;
+            
+            horseTraits.innerHTML = `
+                <div class="trait-item">
+                    <div class="trait-label">Speed</div>
+                    <div class="trait-value">${horse.avg_speed.toFixed(1)}</div>
+                </div>
+                <div class="trait-item">
+                    <div class="trait-label">Stamina</div>
+                    <div class="trait-value">${horse.avg_stamina.toFixed(1)}</div>
+                </div>
+                <div class="trait-item">
+                    <div class="trait-label">Acceleration</div>
+                    <div class="trait-value">${horse.avg_acceleration.toFixed(1)}</div>
+                </div>
+                <div class="trait-item">
+                    <div class="trait-label">Rating</div>
+                    <div class="trait-value">${horse.avg_rating.toFixed(1)}</div>
+                </div>
+            `;
+        }
+        
+        function displayPerformanceStats(horse) {
+            const performanceStats = document.getElementById('performanceStats');
+            if (!performanceStats) return;
+            
+            const winRate = horse.total_races > 0 ? (horse.wins / horse.total_races * 100).toFixed(1) : 0;
+            const top3Rate = horse.total_races > 0 ? (horse.top_3_finishes / horse.total_races * 100).toFixed(1) : 0;
+            
+            performanceStats.innerHTML = `
+                <div class="trait-item">
+                    <div class="trait-label">Total Races</div>
+                    <div class="trait-value">${horse.total_races}</div>
+                </div>
+                <div class="trait-item">
+                    <div class="trait-label">Wins</div>
+                    <div class="trait-value">${horse.wins}</div>
+                </div>
+                <div class="trait-item">
+                    <div class="trait-label">Win Rate</div>
+                    <div class="trait-value">${winRate}%</div>
+                </div>
+                <div class="trait-item">
+                    <div class="trait-label">Top 3 Finishes</div>
+                    <div class="trait-value">${horse.top_3_finishes}</div>
+                </div>
+                <div class="trait-item">
+                    <div class="trait-label">Top 3 Rate</div>
+                    <div class="trait-value">${top3Rate}%</div>
+                </div>
+                <div class="trait-item">
+                    <div class="trait-label">Avg Position</div>
+                    <div class="trait-value">${horse.avg_finish_position.toFixed(1)}</div>
+                </div>
+            `;
+        }
+        
+        function displayPerformanceData(horse) {
+            console.log('Displaying data for horse:', horse.user_horse_id);
+            console.log('Available data keys:', Object.keys(currentData || {}));
+
+            const raceHistory = currentData?.Recent_Race_Performance?.filter(r => r.user_horse_id == horse.user_horse_id) || [];
+            console.log('Race history found:', raceHistory.length, 'races');
+
+            const raceHistoryBody = document.getElementById('raceHistoryBody');
+            const recentRaces = raceHistory.slice(0, 15);
+
+            if (recentRaces.length === 0) {
+                raceHistoryBody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #666;">No race history data available</td></tr>';
+            } else {
+                raceHistoryBody.innerHTML = recentRaces.map(race => {
+                    const positionClass = race.final_position === 1 ? 'position-1' :
+                                        race.final_position === 2 ? 'position-2' :
+                                        race.final_position === 3 ? 'position-3' : 'position-other';
+
+                    let raceDate = 'Recent';
+                    if (race.race_date && race.race_date !== '1970-01-01 00:00:00') {
+                        raceDate = new Date(race.race_date).toLocaleDateString();
+                    } else {
+                        raceDate = `Race #${race.snapshot_id}`;
+                    }
+
+                    return `
+                        <tr>
+                            <td>${raceDate}</td>
+                            <td><span class="position-badge ${positionClass}">${race.final_position}</span></td>
+                            <td>${race.rating}</td>
+                            <td>${race.speed}</td>
+                            <td>${race.stamina}</td>
+                            <td>${race.acceleration}</td>
+                            <td>${race.grade || 'N/A'}</td>
+                            <td>${race.career_earnings_IGGT.toFixed(2)}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('horseModal');
+            if (event.target === modal) {
+                closeModal();
+            }
         }
 
         // Check authentication when page loads
